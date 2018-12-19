@@ -9,6 +9,7 @@ set -o pipefail
 
 CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
 CHART_TESTING_TAG="v2.0.1"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
 WORKDIR="/workdir"
 
 
