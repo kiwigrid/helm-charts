@@ -9,17 +9,10 @@ set -o pipefail
 
 CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
 CHART_TESTING_TAG="v2.0.1"
-INSTALL="no"
 KIND_DOCKER_NAME="kind-1-control-plane"
 KUBERNETES_VERSIONS=('v1.11.3' 'v1.12.2')
-LINT="yes"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 WORKDIR="/workdir"
-
-
-lint() {
-  docker run -it --rm -v "${REPO_ROOT}:${WORKDIR}" --workdir "${WORKDIR}" "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct lint --config="${WORKDIR}/.ci/ct-config.yaml" --lint-conf="${WORKDIR}/.ci/lint-conf.yaml" --chart-yaml-schema="${WORKDIR}/.ci/chart-schema.yaml"
-}
 
 run_kind() {
 
@@ -111,13 +104,7 @@ main() {
     echo "Done Testing!"
 }
 
-if [ "${LINT}" == "yes" ]; then
-  lint
-fi
-
-if [ "${INSTALL}" == "yes" ]; then
-  for K8S_VERSION in "${KUBERNETES_VERSIONS[@]}"; do
-    echo -e "\nTesting in Kubernetes ${K8S_VERSION}\n"
-    main
-  done
-fi
+for K8S_VERSION in "${KUBERNETES_VERSIONS[@]}"; do
+  echo -e "\nTesting in Kubernetes ${K8S_VERSION}\n"
+  main
+done

@@ -7,8 +7,18 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -o Dpkg::Options::="--force-confnew" -y install docker-ce shellcheck
 install: true
-script:
-  - set -e
-  - shellcheck -x .ci/build.sh
-  - cd .ci
-  - sudo ./build.sh
+jobs:
+  include:
+    - stage: lint
+      script:
+        - set -e
+        - shellcheck -x .ci/lint.sh
+        - cd .ci
+        - sudo ./lint.sh
+    - stage: test-deployment
+      if: branch = master
+      script:
+        - set -e
+        - shellcheck -x .ci/build.sh
+        - cd .ci
+        - sudo ./build.sh
