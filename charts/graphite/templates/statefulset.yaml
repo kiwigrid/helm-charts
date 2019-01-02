@@ -3,17 +3,17 @@ kind: StatefulSet
 metadata:
   name: {{ template "graphite.fullname" . }}
   labels:
-    app: {{ template "graphite.name" . }}
-    chart: {{ template "graphite.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "graphite.name" . }}
+    helm.sh/chart: {{ include "graphite.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: {{ template "graphite.name" . }}
-      release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "graphite.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
   serviceName: {{ template "graphite.name" . }}
   template:
     metadata:
