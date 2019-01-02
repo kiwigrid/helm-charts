@@ -13,5 +13,4 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 WORKDIR="/workdir"
 
 
-docker run -it --rm -v "${REPO_ROOT}:${WORKDIR}" --workdir "${WORKDIR}" "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct lint --config="${WORKDIR}/.ci/ct-config.yaml" --lint-conf="${WORKDIR}/.ci/lint-conf.yaml" --chart-yaml-schema="${WORKDIR}/.ci/chart-schema.yaml"
-
+docker run -it --rm -v "${REPO_ROOT}:${WORKDIR}" --workdir "${WORKDIR}" "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct lint --config="${WORKDIR}/.ci/ct-config.yaml" --lint-conf="${WORKDIR}/.ci/lint-config.yaml" --chart-yaml-schema="${WORKDIR}/.ci/chart-schema.yaml"
