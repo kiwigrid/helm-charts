@@ -1,32 +1,26 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ template "graphite.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "graphite.name" . }}
-    helm.sh/chart: {{ include "graphite.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ template "graphite.name" . }}
+    chart: {{ template "graphite.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-  strategy:
-    type: Recreate
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "graphite.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ template "graphite.name" . }}
+      release: {{ .Release.Name }}
+  serviceName: {{ template "graphite.name" . }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "graphite.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: {{ template "graphite.name" . }}
+        release: {{ .Release.Name }}
     spec:
-      initContainers:
-      - name: create-syncdb
-        image: {{ .Values.image.repository }}
-        command: [ "sh", "-c", "test -f /opt/graphite/storage/graphite.db || /usr/bin/expect /usr/local/bin/django_admin_init.exp"]
-        volumeMounts:
-          - name: {{ template "graphite.fullname" . }}-pvc
-            mountPath: /opt/graphite/storage/
       containers:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         name: {{ .Chart.Name }}

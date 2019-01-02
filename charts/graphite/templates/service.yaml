@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ template "graphite.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "graphite.name" . }}
-    helm.sh/chart: {{ include "graphite.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ template "graphite.name" . }}
+    chart: {{ template "graphite.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 {{- if .Values.service.labels }}
 {{ toYaml .Values.service.labels | indent 4 }}
 {{- end }}
