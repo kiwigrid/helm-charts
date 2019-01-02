@@ -7,9 +7,7 @@ jobs:
       - checkout
       - run:
           name: lint-scripts
-          command: |
-            ls -al .circleci
-            .circleci/lint-scripts.sh
+          command: bash .circleci/lint-scripts.sh      
   lint-chart:
     docker:
       - image: quay.io/helmpack/chart-testing:v2.0.1
