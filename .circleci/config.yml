@@ -1,0 +1,55 @@
+version: 2
+jobs:
+  lint-scripts:
+    docker:
+      - image: koalaman/shellcheck-alpine
+    steps:
+      - checkout
+      - run:
+          name: lint-scripts
+          command: .circleci/lint-scripts.sh
+  lint-chart:
+    docker:
+      - image: quay.io/helmpack/chart-testing:v2.0.1
+    steps:
+      - checkout
+      - run:
+          name: lint-charts
+          command: .circleci/lint-charts.sh
+  install-chart:
+    machine: true
+    environment:
+      CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
+      CHART_TESTING_TAG: v2.0.1
+      CHARTS_REPO: https://github.com/kiwigrid/helm-charts
+    steps:
+      - checkout
+      - run:
+          name: install
+          command: .circleci/install.sh
+          no_output_timeout: 3600
+  deploy-charts:
+    docker:
+      - image: kiwigrid/gcloud-kubectl-helm:2.12.0-228.0.0
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "44:8d:8f:81:03:9c:b4:57:e9:52:60:ce:94:55:a0:e2"
+      - checkout
+      - run:
+          name: deploy
+          command: .circleci/deploy.sh
+workflows:
+  version: 2
+  lint_install_deploy:
+    jobs:
+      - lint-scripts
+      - lint-chart:
+          requires:
+            - lint-scripts
+      - install-chart:
+          requires:
+            - lint-chart
+      - deploy-charts:
+          requires:
+            - install-chart
