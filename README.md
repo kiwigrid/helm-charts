@@ -1,5 +1,7 @@
 # Helm Charts
 
-[![Build Status](https://travis-ci.com/kiwigrid/helm-charts.svg?branch=master)](https://travis-ci.com/kiwigrid/helm-charts)
+CircleCI build status: [![CircleCI](https://circleci.com/gh/kiwigrid/helm-charts.svg?style=svg)](https://circleci.com/gh/kiwigrid/helm-charts)
 
-This repository contains [Helm](https://helm.sh) charts.
+This repositorys contain our Helm charts:
+* https://hub.helm.sh
+* https://kiwigrid.github.io
