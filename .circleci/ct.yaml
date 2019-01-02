@@ -1,3 +1,2 @@
-all: true
 helm-extra-args: --timeout 3600
 check-version-increment: true
