@@ -1,23 +1,19 @@
 #!/usr/bin/env bash
 #
-# ci with chart-testing & kind
+# install charts in kubernetes kind
 #
 
 set -o errexit
-set -o nounset
 set -o pipefail
 
-CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
-CHART_TESTING_TAG="v2.0.1"
 KIND_DOCKER_NAME="kind-1-control-plane"
-KUBERNETES_VERSIONS=('v1.11.3' 'v1.12.2')
+KUBERNETES_VERSIONS=('v1.11.3' 'v1.12.3')
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 WORKDIR="/workdir"
 
 run_kind() {
-
     echo "Get kind binary..."
-    docker run --rm -it -v "$(pwd)":/go/bin golang go get sigs.k8s.io/kind && chmod +x kind && sudo mv kind /usr/local/bin/
+    docker run --rm -it -v "$(pwd)":/go/bin golang go get sigs.k8s.io/kind && sudo chmod +x kind && sudo mv kind /usr/local/bin/
 
     echo "Download kubectl..."
     curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/"${K8S_VERSION}"/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
@@ -53,7 +49,7 @@ install_tiller() {
     echo
 }
 
-install_hostpath_provisioner() {
+install_hostpath-provisioner() {
      # kind doesn't support Dynamic PVC provisioning yet, this one of ways to get it working
      # https://github.com/rimusz/charts/tree/master/stable/hostpath-provisioner
 
@@ -96,15 +92,19 @@ main() {
     install_tiller
 
     # Install hostpath-provisioner for Dynammic PVC provisioning
-    install_hostpath_provisioner
+    install_hostpath-provisioner
 
     # shellcheck disable=SC2086
-    docker exec "$config_container_id" ct install --config=${WORKDIR}/.ci/ct-config.yaml
+    docker exec "$config_container_id" ct install --config=${WORKDIR}/.circleci/ct.yaml
 
     echo "Done Testing!"
 }
 
-for K8S_VERSION in "${KUBERNETES_VERSIONS[@]}"; do
-  echo -e "\nTesting in Kubernetes ${K8S_VERSION}\n"
-  main
-done
+if [ "${CIRCLECI}" == 'true' ] && [ -n "${CIRCLE_PULL_REQUEST}" ]; then
+  for K8S_VERSION in "${KUBERNETES_VERSIONS[@]}"; do
+    echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
+    main
+  done
+else
+  echo "skipped chart install as its not a pull request..."
+fi
