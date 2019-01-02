@@ -18,8 +18,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "graphite.name" . }}
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "graphite.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
