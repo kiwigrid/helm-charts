@@ -8,6 +8,7 @@ jobs:
       - run:
           name: lint-scripts
           command: |
+            ls -al
             .circleci/lint-scripts.sh
   lint-chart:
     docker:
