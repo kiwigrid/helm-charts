@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: lint-scripts
-          command: .circleci/lint-scripts.sh
+          command: ./.circleci/lint-scripts.sh
   lint-chart:
     docker:
       - image: quay.io/helmpack/chart-testing:v2.0.1
@@ -15,7 +15,7 @@ jobs:
       - checkout
       - run:
           name: lint-charts
-          command: .circleci/lint-charts.sh
+          command: ./.circleci/lint-charts.sh
   install-chart:
     machine: true
     environment:
@@ -26,7 +26,7 @@ jobs:
       - checkout
       - run:
           name: install
-          command: .circleci/install.sh
+          command: ./.circleci/install.sh
           no_output_timeout: 3600
   deploy-chart:
     docker:
@@ -38,7 +38,7 @@ jobs:
       - checkout
       - run:
           name: deploy
-          command: .circleci/deploy.sh
+          command: ./.circleci/deploy.sh
 workflows:
   version: 2
   lint_install_deploy:
