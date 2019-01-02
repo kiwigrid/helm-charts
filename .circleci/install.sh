@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # install charts in kubernetes kind
 #
