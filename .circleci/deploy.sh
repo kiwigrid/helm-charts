@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# deploy kiwigrid chart to kiwigrid.github.io
+# deploy kiwigrid charts to kiwigrid.github.io
 #
 
 set -o errexit

@@ -28,7 +28,7 @@ jobs:
           name: install
           command: .circleci/install.sh
           no_output_timeout: 3600
-  deploy-chart:
+  deploy-charts:
     docker:
       - image: kiwigrid/gcloud-kubectl-helm:2.12.0-228.0.0
     steps:
@@ -50,6 +50,6 @@ workflows:
       - install-chart:
           requires:
             - lint-chart
-      - deploy-chart:
+      - deploy-charts:
           requires:
             - install-chart
