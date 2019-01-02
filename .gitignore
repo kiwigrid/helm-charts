@@ -1,1 +1,4 @@
 *.tgz
+charts/*/charts
+charts/*/index.yaml
+kiwigrid.github.io
