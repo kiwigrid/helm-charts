@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # deploy kiwigrid chart to kiwigrid.github.io
 #
