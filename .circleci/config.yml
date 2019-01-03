@@ -2,7 +2,7 @@ version: 2
 jobs:
   lint-scripts:
     docker:
-      - image: koalaman/shellcheck-alpine
+      - image: koalaman/shellcheck
     steps:
       - checkout
       - run:
