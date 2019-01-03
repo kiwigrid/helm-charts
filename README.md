@@ -8,7 +8,6 @@ CircleCI build status: [![CircleCI](https://circleci.com/gh/kiwigrid/helm-charts
 $ helm repo add kiwigrid https://kiwigrid.github.io
 ```
 
-
 ##  Support
 
 Please don't write mails directly to the maintainers. 
