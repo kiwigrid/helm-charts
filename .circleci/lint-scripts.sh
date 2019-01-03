@@ -1,10 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 #
 # lint bash scripts
 #
 
 set -o errexit
-set -o pipefail
 
 CONFIG_DIR="./.circleci"
 
