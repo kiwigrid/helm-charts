@@ -2,6 +2,13 @@
 
 CircleCI build status: [![CircleCI](https://circleci.com/gh/kiwigrid/helm-charts.svg?style=svg)](https://circleci.com/gh/kiwigrid/helm-charts)
 
-This repositorys contain our Helm charts:
-* https://hub.helm.sh
-* https://kiwigrid.github.io
+## Add Repo
+
+```console
+$ helm repo add kiwigrid https://kiwigrid.github.io
+```
+
+##  Support
+
+Please don't write mails directly to the maintainers. 
+Use The Github issue tracker instead.
