@@ -20,7 +20,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   # build helm dependencies & chart
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \; -exec helm package {} --destination "${REPO_ROOT}"/"${REPO_DIR}" \;
 
-  helm repo index --merge "${REPO_ROOT}"/"${REPO_DIR}"/index.yaml --url https://${REPO_DIR} "${REPO_ROOT}"/"${REPO_DIR}"
+  helm repo index --merge "${REPO_ROOT}"/"${REPO_DIR}"/index.yaml --url https://"${REPO_DIR}" "${REPO_ROOT}"/"${REPO_DIR}"
 
   # push changes to github
   cd "${REPO_ROOT}"/"${REPO_DIR}"
