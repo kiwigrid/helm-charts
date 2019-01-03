@@ -11,4 +11,4 @@ $ helm repo add kiwigrid https://kiwigrid.github.io
 ##  Support
 
 Please don't write mails directly to the maintainers. 
-Use The Github issue tracker instead.
+Use the Github issue tracker instead.
