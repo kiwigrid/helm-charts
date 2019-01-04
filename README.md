@@ -15,4 +15,5 @@ $ helm repo add kiwigrid https://kiwigrid.github.io
 
 ## Adding charts
 
+* Use a fork of this repo
 * Follow Helm best practices: [https://docs.helm.sh/chart_best_practices](https://docs.helm.sh/chart_best_practices)
