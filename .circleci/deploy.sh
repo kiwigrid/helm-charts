@@ -37,7 +37,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \; -exec helm package {} --destination "${REPO_ROOT}"/"${REPO_DIR}" \;
 
   # build repo index
-  helm repo index --merge "${REPO_ROOT}"/"${TMP_DIR}"/index.yaml  --url https://"${REPO_DIR}" "${REPO_ROOT}"/"${REPO_DIR}"
+  helm repo index --merge "${REPO_ROOT}"/"${TMP_DIR}"/index.yaml --url https://"${REPO_DIR}" "${REPO_ROOT}"/"${REPO_DIR}"
 
   # move old charts back into git repo
   mv "${REPO_ROOT}"/"${TMP_DIR}"/*.tgz "${REPO_ROOT}"/"${REPO_DIR}"
