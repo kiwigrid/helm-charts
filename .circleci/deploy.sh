@@ -17,6 +17,16 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   test -d "${REPO_ROOT}"/"${REPO_DIR}" && rm -rf "${REPO_ROOT:=?}"/"${REPO_DIR:=?}"
   git clone "${CHART_REPO}" "${REPO_ROOT}"/"${REPO_DIR}"
 
+  # set original file dates
+  (
+  cd "${REPO_ROOT}"/"${REPO_DIR}" || exit
+  while read -r FILE; do
+    ORG_FILE_TIME=$(git log --pretty=format:%cd -n 1 --date=format:'%y%m%d%H%M' "${FILE}")
+    echo "set original time ${ORG_FILE_TIME} to ${FILE}"
+    touch -c -t "${ORG_FILE_TIME}" -m "${FILE}"
+  done < <(git ls-files)
+  )
+
   # build helm dependencies & chart
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \; -exec helm package {} --destination "${REPO_ROOT}"/"${REPO_DIR}" \;
 
