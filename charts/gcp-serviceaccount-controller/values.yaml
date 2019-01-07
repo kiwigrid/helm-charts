@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: kiwigrid/gcp-serviceaccount-controller
+  tag: 24
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+gcpCredentials: ""
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 30Mi
+#  requests:
+#    cpu: 100m
+#    memory: 20Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
