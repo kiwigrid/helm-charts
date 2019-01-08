@@ -19,5 +19,5 @@ ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
 
 if grep -q 'No chart changes detected' < "${TMP_FILE}"; then
   echo "No chart changes detected... no build needed... exiting..."
-  exit 1
+  exit 0
 fi
