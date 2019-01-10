@@ -16,8 +16,3 @@ git fetch k8s master
 ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
   --lint-conf="${REPO_ROOT}/${CONFIG_DIR}"/lintconf.yaml \
   --chart-yaml-schema="${REPO_ROOT}/${CONFIG_DIR}"/chart_schema.yaml | tee "${TMP_FILE}"
-
-if grep -q 'No chart changes detected' < "${TMP_FILE}"; then
-  echo "No chart changes detected... no build needed... exiting..."
-  exit 0
-fi
