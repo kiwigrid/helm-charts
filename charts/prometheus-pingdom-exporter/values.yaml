@@ -5,8 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: bunix42/prometheus-pingdom-exporter
-  tag: 0.1.1
+  # we use camptocamp/prometheus-pingdom-exporter image as giantswarm did not publish recent versions after 0.1.1
+  repository: camptocamp/prometheus-pingdom-exporter
+  tag: 20180821-1
   pullPolicy: IfNotPresent
 
 nameOverride: ""
