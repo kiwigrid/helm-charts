@@ -1,0 +1,14 @@
+apiVersion: v1
+name: prometheus-pingdom-exporter
+version: 0.1.1
+appVersion: 0.1.0 (20180821-1)
+home: https://github.com/giantswarm/prometheus-pingdom-exporter
+description: A Helm chart for Prometheus Pingdom Exporter
+keywords:
+- prometheus
+- pingdom
+sources:
+- https://github.com/giantswarm/prometheus-pingdom-exporter
+maintainers:
+- name: bunix42
+  email: hanjo.meinhardt@kiwigrid.com
