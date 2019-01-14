@@ -30,7 +30,7 @@ jobs:
           no_output_timeout: 3600
   deploy-charts:
     docker:
-      - image: kiwigrid/gcloud-kubectl-helm:2.12.1-228.0.0-74
+      - image: kiwigrid/gcloud-kubectl-helm:2.12.2-228.0.0-78
     steps:
       - add_ssh_keys:
           fingerprints:
