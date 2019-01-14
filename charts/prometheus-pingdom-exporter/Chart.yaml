@@ -13,4 +13,4 @@ sources:
 maintainers:
 - name: bunix42
   email: hanjo.meinhardt@kiwigrid.com
-icon: https://github.com/cncf/artwork/blob/master/prometheus/icon/color/prometheus-icon-color.png
+icon: https://raw.githubusercontent.com/cncf/artwork/master/prometheus/icon/color/prometheus-icon-color.svg
