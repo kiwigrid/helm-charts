@@ -1,3 +1,5 @@
+# this file contains 2 resources because both need the generated cert
+# please don't split the resources
 {{- $cn := printf "%s.%s.svc" ( include "kubernetes-policy-controller.fullname" . ) .Release.Namespace }}
 {{- $ca := genCA "opa-admission-ca" 3650 -}}
 {{- $cert := genSignedCert $cn nil nil 3650 $ca -}}
