@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Release.Name }}-configmap-modifier
+roleRef:
+  kind: Role
+  name: {{ .Release.Name }}-configmap-modifier
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: system:serviceaccounts:{{ .Release.Namespace }}
+  apiGroup: rbac.authorization.k8s.io

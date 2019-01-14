@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kubernetes-policy-controller.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    helm.sh/chart: {{ include "kubernetes-policy-controller.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:  
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+  selector:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
