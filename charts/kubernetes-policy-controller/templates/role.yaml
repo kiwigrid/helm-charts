@@ -1,0 +1,14 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Release.Name }}-configmap-modifier
+  labels:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    helm.sh/chart: {{ include "kubernetes-policy-controller.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["update", "patch"]

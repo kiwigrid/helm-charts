@@ -1,0 +1,49 @@
+# this file contains 2 resources because both need the generated cert
+# please don't split the resources
+{{- $cn := printf "%s.%s.svc" ( include "kubernetes-policy-controller.fullname" . ) .Release.Namespace }}
+{{- $ca := genCA "opa-admission-ca" 3650 -}}
+{{- $cert := genSignedCert $cn nil nil 3650 $ca }}
+kind: {{ .Values.admissionControllerKind }}
+apiVersion: admissionregistration.k8s.io/v1beta1
+metadata:
+  name: {{ template "kubernetes-policy-controller.fullname" . }}  
+  labels:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    helm.sh/chart: {{ include "kubernetes-policy-controller.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+webhooks:
+  - name: mutating.webhook.kubernetes-policy-controller
+    failurePolicy: {{ .Values.admissionControllerFailurePolicy }}
+    rules:
+{{ toYaml .Values.admissionControllerRules | indent 6 }}
+    clientConfig:
+{{ if .Values.generateAdmissionControllerCerts }}
+      caBundle: {{ b64enc $ca.Cert }}
+{{ else }}
+      caBundle: {{ b64enc .Values.admissionControllerCA }}
+{{ end }}
+      service:
+        name: {{ template "kubernetes-policy-controller.fullname" . }}
+        namespace: {{ .Release.Namespace }}
+        path: "/v1/admit"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ template "kubernetes-policy-controller.fullname" . }}-cert
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    helm.sh/chart: {{ include "kubernetes-policy-controller.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+type: Opaque
+data:
+{{ if .Values.generateAdmissionControllerCerts }}
+  tls.crt: {{ b64enc $cert.Cert }}
+  tls.key: {{ b64enc $cert.Key }}
+{{ else }}
+  tls.crt: {{ b64enc .Values.admissionControllerCert }}
+  tls.key: {{ b64enc .Values.admissionControllerKey }}
+{{ end }}

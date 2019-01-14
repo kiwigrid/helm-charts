@@ -1,0 +1,3 @@
+successful setup opa in your cluster.
+Please see https://www.openpolicyagent.org/ for more infos an how to create policies inside your cluster.
+

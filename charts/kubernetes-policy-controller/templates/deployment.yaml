@@ -1,0 +1,72 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "kubernetes-policy-controller.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+    helm.sh/chart: {{ include "kubernetes-policy-controller.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "kubernetes-policy-controller.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/webhookconfiguration.yaml") . | sha256sum }}
+    spec:
+      containers:
+        # WARNING: OPA is NOT running with an authorization policy configured. This
+        # means that clients can read and write policies in OPA. If you are
+        # deploying OPA in an insecure environment, be sure to configure
+        # authentication and authorization on the daemon. See the Security page for
+        # details: https://www.openpolicyagent.org/docs/security.html.
+        - name: opa
+          image: "{{ .Values.image.opa.repository }}:{{ .Values.image.opa.tag }}"
+          imagePullPolicy: {{ .Values.image.opa.pullPolicy }}
+          args:
+            - "run"
+            - "--server"
+            - "--addr=http://127.0.0.1:8181"
+        - name: kube-mgmt
+          image: "{{ .Values.image.kubeMgmt.repository }}:{{ .Values.image.kubeMgmt.tag }}"
+          imagePullPolicy: {{ .Values.image.kubeMgmt.pullPolicy }}
+          args:
+            - "--replicate-cluster=v1/namespaces"
+            - "--replicate=extensions/v1beta1/ingresses"
+            - "--replicate=v1/pods"
+        - name: kubernetes-policy-controller          
+          image: "{{ .Values.image.kubernetesPolicyController.repository }}:{{ .Values.image.kubernetesPolicyController.tag }}"
+          imagePullPolicy: {{ .Values.image.kubernetesPolicyController.pullPolicy }}
+          args:
+            - "--addr=0.0.0.0:443"
+            - "--addr=http://127.0.0.1:7925"
+          volumeMounts:
+            - readOnly: true
+              mountPath: /certs
+              name: opa-server
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: opa-server
+          secret:
+            secretName: {{ template "kubernetes-policy-controller.fullname" . }}-cert
