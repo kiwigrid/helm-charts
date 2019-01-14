@@ -1,6 +1,6 @@
 # Fluentd Elasticsearch
 
-* Installs [Fluentd](https://www.fluentd.org/) log forwarder.
+-   Installs [Fluentd](https://www.fluentd.org/) log forwarder.
 
 ## TL;DR;
 
@@ -16,7 +16,7 @@ The used Docker image also contains Google's detect exceptions (for Java multili
 
 ## Prerequisites
 
-- Kubernetes 1.8+ with Beta APIs enabled
+-   Kubernetes 1.8+ with Beta APIs enabled
 
 ## Installing the Chart
 
@@ -42,47 +42,45 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of the Fluentd elasticsearch chart and their default values.
 
-
-| Parameter                          | Description                                | Default                                                    |
-| ---------------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
-| `annotations`                      | Optional daemonset annotations             | `NULL`                                                     |
-| `podAnnotations`                      | Optional daemonset's pods annotations             | `NULL`                                                     |
-| `configMaps`                       | Fluentd configmaps                         | `default conf files`                                       |
-| `elasticsearch.host`               | Elasticsearch Host                         | `elasticsearch-client`                                     |
-| `elasticsearch.port`               | Elasticsearch Port                         | `9200`                                                     |
-| `elasticsearch.logstash_prefix`    | Elasticsearch Logstash prefix              | `logstash`                                                 |
-| `elasticsearch.buffer_chunk_limit` | Elasticsearch buffer chunk limit           | `2M`                                                       |
-| `elasticsearch.buffer_queue_limit` | Elasticsearch buffer queue limit           | `8`                                                        |
-| `elasticsearch.scheme`             | Elasticsearch scheme setting               | `http`                                                     |
-| `env`                              | List of environment variables that are added to the fluentd pods   | `{}`                               |
-| `secret`                              | List of environment variables that are set from secrets and added to the fluentd pods   | `[]`                               |
-| `extraVolumeMounts`                | Mount an extra volume, required to mount ssl certificates when elasticsearch has tls enabled |          |
-| `extraVolume`                      | Extra volume                               |                                                            |
-| `image.repository`                 | Image                                      | `gcr.io/google-containers/fluentd-elasticsearch`           |
-| `image.tag`                        | Image tag                                  | `v2.3.2`                                                   |
-| `image.pullPolicy`                 | Image pull policy                          | `IfNotPresent`                                             |
-| `livenessProbe.enabled`            | Whether to enable livenessProbe            | `true`                                                     |
-| `nodeSelector`                     | Optional daemonset nodeSelector            | `{}`                                                       |
-| `podSecurityPolicy.annotations`    | Specify pod annotations in the pod security policy | `{}`                                               |
-| `podSecurityPolicy.enabled`        | Specify if a pod security policy must be created   | `false`                                            |
-| `priorityClassName`                | Optional PriorityClass for pods            | `""`                                                       |
-| `rbac.create`                      | RBAC                                       | `true`                                                     |
-| `resources.limits.cpu`             | CPU limit                                  | `100m`                                                     |
-| `resources.limits.memory`          | Memory limit                               | `500Mi`                                                    |
-| `resources.requests.cpu`           | CPU request                                | `100m`                                                     |
-| `resources.requests.memory`        | Memory request                             | `200Mi`                                                    |
-| `service`                          | Service definition                         | `{}`                                                       |
-| `service.type`                     | Service type (ClusterIP/NodePort)          | Not Set                                                    |
-| `service.ports`                    | List of service ports dict [{name:...}...] | Not Set                                                    |
-| `service.ports[].name`             | One of service ports name                  | Not Set                                                    |
-| `service.ports[].port`             | Service port                               | Not Set                                                    |
-| `service.ports[].nodePort`         | NodePort port (when service.type is NodePort) | Not Set                                                 |
-| `service.ports[].protocol`         | Service protocol(optional, can be TCP/UDP) | Not Set                                                    |
-| `serviceAccount.create`            | Specifies whether a service account should be created.| `true`                                          |
-| `serviceAccount.name`              | Name of the service account.               |                                                            |
-| `tolerations`                      | Optional daemonset tolerations             | `{}`                                                       |
-| `updateStrategy`                   | Optional daemonset update strategy         | `type: RollingUpdate`                                      |
-
+| Parameter                          | Description                                                                                  | Default                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| `annotations`                      | Optional daemonset annotations                                                               | `NULL`                                           |
+| `podAnnotations`                   | Optional daemonset's pods annotations                                                        | `NULL`                                           |
+| `configMaps`                       | Fluentd configmaps                                                                           | `default conf files`                             |
+| `elasticsearch.host`               | Elasticsearch Host                                                                           | `elasticsearch-client`                           |
+| `elasticsearch.port`               | Elasticsearch Port                                                                           | `9200`                                           |
+| `elasticsearch.logstash_prefix`    | Elasticsearch Logstash prefix                                                                | `logstash`                                       |
+| `elasticsearch.buffer_chunk_limit` | Elasticsearch buffer chunk limit                                                             | `2M`                                             |
+| `elasticsearch.buffer_queue_limit` | Elasticsearch buffer queue limit                                                             | `8`                                              |
+| `elasticsearch.scheme`             | Elasticsearch scheme setting                                                                 | `http`                                           |
+| `env`                              | List of environment variables that are added to the fluentd pods                             | `{}`                                             |
+| `secret`                           | List of environment variables that are set from secrets and added to the fluentd pods        | `[]`                                             |
+| `extraVolumeMounts`                | Mount an extra volume, required to mount ssl certificates when elasticsearch has tls enabled |                                                  |
+| `extraVolume`                      | Extra volume                                                                                 |                                                  |
+| `image.repository`                 | Image                                                                                        | `gcr.io/google-containers/fluentd-elasticsearch` |
+| `image.tag`                        | Image tag                                                                                    | `v2.4.0`                                         |
+| `image.pullPolicy`                 | Image pull policy                                                                            | `IfNotPresent`                                   |
+| `livenessProbe.enabled`            | Whether to enable livenessProbe                                                              | `true`                                           |
+| `nodeSelector`                     | Optional daemonset nodeSelector                                                              | `{}`                                             |
+| `podSecurityPolicy.annotations`    | Specify pod annotations in the pod security policy                                           | `{}`                                             |
+| `podSecurityPolicy.enabled`        | Specify if a pod security policy must be created                                             | `false`                                          |
+| `priorityClassName`                | Optional PriorityClass for pods                                                              | `""`                                             |
+| `rbac.create`                      | RBAC                                                                                         | `true`                                           |
+| `resources.limits.cpu`             | CPU limit                                                                                    | `100m`                                           |
+| `resources.limits.memory`          | Memory limit                                                                                 | `500Mi`                                          |
+| `resources.requests.cpu`           | CPU request                                                                                  | `100m`                                           |
+| `resources.requests.memory`        | Memory request                                                                               | `200Mi`                                          |
+| `service`                          | Service definition                                                                           | `{}`                                             |
+| `service.type`                     | Service type (ClusterIP/NodePort)                                                            | Not Set                                          |
+| `service.ports`                    | List of service ports dict [{name:...}...]                                                   | Not Set                                          |
+| `service.ports[].name`             | One of service ports name                                                                    | Not Set                                          |
+| `service.ports[].port`             | Service port                                                                                 | Not Set                                          |
+| `service.ports[].nodePort`         | NodePort port (when service.type is NodePort)                                                | Not Set                                          |
+| `service.ports[].protocol`         | Service protocol(optional, can be TCP/UDP)                                                   | Not Set                                          |
+| `serviceAccount.create`            | Specifies whether a service account should be created.                                       | `true`                                           |
+| `serviceAccount.name`              | Name of the service account.                                                                 |                                                  |
+| `tolerations`                      | Optional daemonset tolerations                                                               | `{}`                                             |
+| `updateStrategy`                   | Optional daemonset update strategy                                                           | `type: RollingUpdate`                            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
