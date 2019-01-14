@@ -12,12 +12,12 @@ REPO_DIR="kiwigrid.github.io"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 TMP_DIR="tmp"
 
-if ! git diff --name-only HEAD~1 | grep -q 'charts\/.*\/[Cc]hart.yaml'; then
-  echo "no chart changes... so no chart build and upload needed... exiting..."
-  exit 0
-fi
-
 if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
+
+  if ! git diff --name-only HEAD~1 | grep -q 'charts\/.*\/[Cc]hart.yaml'; then
+    echo "no chart changes... so no chart build and upload needed... exiting..."
+    exit 0
+  fi
 
   # get kiwigrid.github.io
   test -d "${REPO_ROOT}"/"${REPO_DIR}" && rm -rf "${REPO_ROOT:=?}"/"${REPO_DIR:=?}"
@@ -55,5 +55,5 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   git commit -m "push kiwigrid charts via circleci build nr: ${CIRCLE_BUILD_NUM}"
   git push --set-upstream origin master
 else
-  echo "skipped deploy as only master is deployed..."
+  echo "skipped deploy as only merged pr in master is deployed..."
 fi
