@@ -39,5 +39,5 @@ even continue reviewing your changes.
 #### Checklist
 [Place an '[x]' (no spaces) in all applicable fields. Please remove unrelated fields.]
 - [ ] [DCO](https://developercertificate.org) signed
-- [ ] Chart Version bumped
+- [ ] Chart Version bumped (if the pr is an update to an existing chart)
 - [ ] Variables are documented in the README.md
