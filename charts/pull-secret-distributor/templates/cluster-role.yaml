@@ -1,0 +1,19 @@
+{{- if and .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "pull-secret-distributor.fullname" . }}-ca
+  labels:
+    app.kubernetes.io/name: {{ include "pull-secret-distributor.name" . }}
+    helm.sh/chart: {{ include "pull-secret-distributor.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+- apiGroups:
+    - ""
+  resources:
+    - "secrets"
+    - "namespaces"
+  verbs:
+    - "*"
+{{- end -}}
