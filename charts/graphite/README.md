@@ -15,7 +15,7 @@ This chart uses graphiteapp/graphite-statsd container to run Graphite inside Kub
 To install the chart with the release name `graphite`, run the following command:
 
 ```bash
-$ helm install stable/graphite --name graphite
+$ helm install kiwigrid/graphite --name graphite
 ```
 
 ## Uninstalling the Chart
