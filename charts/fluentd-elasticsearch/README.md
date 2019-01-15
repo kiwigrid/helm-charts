@@ -23,7 +23,7 @@ The used Docker image also contains Google's detect exceptions (for Java multili
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install --name my-release stable/fluentd-elasticsearch
+$ helm install --name my-release kiwigrid/fluentd-elasticsearch
 ```
 
 The command deploys fluentd-elasticsearch on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
