@@ -1,0 +1,3 @@
+Deployments successful installed.
+
+you can check if it's working by creating a new namespace. The pull secrets should be populated to the new namespace.
