@@ -27,6 +27,8 @@ spec:
           env:
           - name: PULL_SECRETS
             value: {{ .Values.pullSecrets }}
+          - name: IGNORE_NAMESPACES
+            value: {{ .Values.ignoreNamespaces }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       imagePullSecrets:
