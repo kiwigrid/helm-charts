@@ -4,11 +4,13 @@
 
 image:
   repository: kiwigrid/pull-secret-distributor
-  tag: 10
+  tag: 15
   pullPolicy: IfNotPresent
 # csv list of secrets
 pullSecrets: ""
-# pullSecrets: "secret1,secret2"
+# pullSecrets: "secret1,secret2
+
+ignoreNamespaces: "kube-system,kube-public"
 rbac:
   enabled: true
 

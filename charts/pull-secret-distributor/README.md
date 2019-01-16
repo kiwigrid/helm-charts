@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This chart distibutes pull secrets across namespaces.
+This chart distibutes existing secrets especially pull secrets across namespaces.
 
 ## Installing the Chart
 
@@ -34,10 +34,12 @@ The following table lists the configurable parameters of the chart and their def
 | `image.tag`                        | image tag                      | `10`                                                                                      |
 | `image.pullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
 | `pullSecrets`                           | list of pull secrets                          | empty string                                                        |
+| `ignoreNamespaces`             | namespaces which should be excluded from sync                                     | `kube-system,kube-pulic`               |
 | `resources`                    | Resource limits for pod             | `{}`                                   |
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
 | `tolerations`                  | Tolerations                                  | `[]`                                   |
 | `affinity`                     | Affinity                                     | `{}`                                   |
+
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
