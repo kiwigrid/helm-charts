@@ -1,4 +1,5 @@
 *.tgz
-kiwigrid.github.io
+.circleci/test.sh
 charts/*/charts
+kiwigrid.github.io
 tmp
