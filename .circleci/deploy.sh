@@ -41,7 +41,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   # build helm dependencies for all charts
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \;
 
-  # build only changed charts
+  # package only changed charts
   for CHART in $(git diff --name-only HEAD~1 | grep 'charts\/.*\/[Cc]hart.yaml' | sed -e 's#^charts/##g' -e 's#/Chart.yaml$##g'); do
     echo "building ${CHART} chart..."
     helm package "${REPO_ROOT}"/"${CHART_DIR}"/"${CHART}" --destination "${REPO_ROOT}"/"${REPO_DIR}"
