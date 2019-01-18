@@ -1,0 +1,11 @@
+apiVersion: v1
+appVersion: "v0.6.0"
+description: A Helm chart for Zipkin Stackdriver proxy
+name: zipkin-stackdriver-proxy
+version: 0.1.0
+home: https://github.com/openzipkin/zipkin-gcp
+sources:
+  - https://github.com/openzipkin/zipkin-gcp
+maintainers:
+  - name: rpahli
+    email: rico.pahlisch@kiwigrid.com
