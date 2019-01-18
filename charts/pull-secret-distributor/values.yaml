@@ -4,7 +4,7 @@
 
 image:
   repository: kiwigrid/pull-secret-distributor
-  tag: 15
+  tag: 25
   pullPolicy: IfNotPresent
 # csv list of secrets
 pullSecrets: ""
