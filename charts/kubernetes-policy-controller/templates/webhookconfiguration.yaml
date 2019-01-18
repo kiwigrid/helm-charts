@@ -15,6 +15,9 @@ metadata:
 webhooks:
   - name: mutating.webhook.kubernetes-policy-controller
     failurePolicy: {{ .Values.admissionControllerFailurePolicy }}
+    namespaceSelector:
+      matchLabels:
+        opa-mutation: enabled
     rules:
 {{ toYaml .Values.admissionControllerRules | indent 6 }}
     clientConfig:
