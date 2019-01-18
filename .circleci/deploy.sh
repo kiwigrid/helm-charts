@@ -14,14 +14,25 @@ TMP_DIR="tmp"
 
 if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
 
-  if ! git diff --name-only HEAD~1 | grep -q 'charts\/.*\/[Cc]hart.yaml'; then
-    echo "no chart changes... so no chart build and upload needed... exiting..."
-    exit 0
-  fi
-
   # get kiwigrid.github.io
   test -d "${REPO_ROOT}"/"${REPO_DIR}" && rm -rf "${REPO_ROOT:=?}"/"${REPO_DIR:=?}"
   git clone "${CHART_REPO}" "${REPO_ROOT}"/"${REPO_DIR}"
+
+  # get not builded charts
+  FILES=$(find "${CHART_DIR}" -name Chart.yaml)
+  CHARTS=""
+  for n in $FILES; do
+    echo "check file ${n}"
+    if [ ! -f "${REPO_ROOT}/${REPO_DIR}/$(yq r - name < "${n}")-$(yq r - version < "${n}").tgz" ]; then
+      echo "append chart ${n}"
+      CHARTS="$CHARTS $(yq r - name < "${n}")"
+    fi
+  done
+   
+  if [ -z "$CHARTS" ]; then
+    echo "no chart changes... so no chart build and upload needed... exiting..."
+    exit 0
+  fi
 
   # set original file dates
   (
@@ -35,14 +46,14 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
 
   # preserve dates in index.yaml by moving old charts and index out of the repo before packaging the new version
   mkdir -p "${REPO_ROOT}"/"${TMP_DIR}"
-  mv "${REPO_ROOT}"/"${REPO_DIR}"/index.yaml "${REPO_ROOT}"/"${TMP_DIR}"
+  mv "${REPO_ROOT}"/"${REPO_DIR}"/index.yaml "${REPO_ROOT}"/"${TMP_DIR}" || true
   mv "${REPO_ROOT}"/"${REPO_DIR}"/*.tgz "${REPO_ROOT}"/"${TMP_DIR}"
 
   # build helm dependencies for all charts
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \;
 
   # package only changed charts
-  for CHART in $(git diff --name-only HEAD~1 | grep 'charts\/.*\/[Cc]hart.yaml' | sed -e 's#^charts/##g' -e 's#/Chart.yaml$##g'); do
+  for CHART in $CHARTS; do
     echo "building ${CHART} chart..."
     helm package "${REPO_ROOT}"/"${CHART_DIR}"/"${CHART}" --destination "${REPO_ROOT}"/"${REPO_DIR}"
   done
