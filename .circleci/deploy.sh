@@ -19,7 +19,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   git clone "${CHART_REPO}" "${REPO_ROOT}"/"${REPO_DIR}"
 
   # get not builded charts
-  while read FILE; do
+  while read -r FILE; do
     echo "check file ${FILE}"
     if [ ! -f "$(yq r - name < "${FILE}")-$(yq r - version < "${FILE}").tgz" ]; then
       echo "append chart ${FILE}"
