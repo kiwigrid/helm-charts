@@ -21,7 +21,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   # get not builded charts
   while read -r FILE; do
     echo "check file ${FILE}"
-    if [ ! -f "$(yq r - name < "${FILE}")-$(yq r - version < "${FILE}").tgz" ]; then
+    if [ ! -f "${REPO_ROOT}/${REPO_DIR}/$(yq r - name < "${FILE}")-$(yq r - version < "${FILE}").tgz" ]; then
       echo "append chart ${FILE}"
       CHARTS="${CHARTS} $(yq r - name < "${FILE}")"
     fi
