@@ -19,17 +19,15 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   git clone "${CHART_REPO}" "${REPO_ROOT}"/"${REPO_DIR}"
 
   # get not builded charts
-  FILES=$(find "${CHART_DIR}" -name Chart.yaml)
-  CHARTS=""
-  for n in $FILES; do
-    echo "check file ${n}"
-    if [ ! -f "${REPO_ROOT}/${REPO_DIR}/$(yq r - name < "${n}")-$(yq r - version < "${n}").tgz" ]; then
-      echo "append chart ${n}"
-      CHARTS="$CHARTS $(yq r - name < "${n}")"
+  while read FILE; do
+    echo "check file ${FILE}"
+    if [ ! -f "$(yq r - name < "${FILE}")-$(yq r - version < "${FILE}").tgz" ]; then
+      echo "append chart ${FILE}"
+      CHARTS="${CHARTS} $(yq r - name < "${FILE}")"
     fi
-  done
-   
-  if [ -z "$CHARTS" ]; then
+  done < <(find "${REPO_ROOT}/${CHART_DIR}" -maxdepth 2 -mindepth 2 -type f -name "[Cc]hart.yaml")
+
+  if [ -z "${CHARTS}" ]; then
     echo "no chart changes... so no chart build and upload needed... exiting..."
     exit 0
   fi
@@ -53,7 +51,7 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \;
 
   # package only changed charts
-  for CHART in $CHARTS; do
+  for CHART in ${CHARTS}; do
     echo "building ${CHART} chart..."
     helm package "${REPO_ROOT}"/"${CHART_DIR}"/"${CHART}" --destination "${REPO_ROOT}"/"${REPO_DIR}"
   done
