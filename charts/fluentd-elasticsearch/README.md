@@ -81,6 +81,10 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceAccount.name`              | Name of the service account.                                                                 |                                                  |
 | `tolerations`                      | Optional daemonset tolerations                                                               | `{}`                                             |
 | `updateStrategy`                   | Optional daemonset update strategy                                                           | `type: RollingUpdate`                            |
+| `serviceMonitor.enabled`           | If true, a ServiceMonitor CRD is created for a prometheus operator                           | `false`
+| `serviceMonitor.labels`            | Labels for prometheus operator                                                               | `{}`
+| `serviceMonitor.port`              | Port of monitor agent                                                                        | `24231`
+| `serviceMonitor.path`              | Path of monitor agent                                                                        | `/metrics`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
