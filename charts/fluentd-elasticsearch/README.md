@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```console
-$ helm install stable/fluentd-elasticsearch
+$ helm install kiwigrid/fluentd-elasticsearch
 ```
 
 ## Introduction
@@ -86,11 +86,11 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ```console
 $ helm install --name my-release \
-    stable/fluentd-elasticsearch
+    kiwigrid/fluentd-elasticsearch
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml stable/fluentd-elasticsearch
+$ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
