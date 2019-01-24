@@ -10,7 +10,7 @@ jobs:
           command: .circleci/lint-scripts.sh
   lint-chart:
     docker:
-      - image: quay.io/helmpack/chart-testing:v2.1.0
+      - image: quay.io/helmpack/chart-testing:v2.2.0
     steps:
       - checkout
       - run:
@@ -20,7 +20,7 @@ jobs:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.1.0
+      CHART_TESTING_TAG: v2.2.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
     steps:
       - checkout
