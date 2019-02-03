@@ -5,6 +5,12 @@ image:
 ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
   tag: v2.4.0
   pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistrKeySecretName
 
 # Specify to use specific priorityClass for pods
 # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/

@@ -60,6 +60,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `image.repository`                 | Image                                                                                        | `gcr.io/google-containers/fluentd-elasticsearch` |
 | `image.tag`                        | Image tag                                                                                    | `v2.4.0`                                         |
 | `image.pullPolicy`                 | Image pull policy                                                                            | `IfNotPresent`                                   |
+| `image.pullSecrets`                | Image pull secrets                                                                           |                                                  |
 | `livenessProbe.enabled`            | Whether to enable livenessProbe                                                              | `true`                                           |
 | `nodeSelector`                     | Optional daemonset nodeSelector                                                              | `{}`                                             |
 | `podSecurityPolicy.annotations`    | Specify pod annotations in the pod security policy                                           | `{}`                                             |
