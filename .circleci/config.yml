@@ -19,13 +19,44 @@ jobs:
           name: lint-chart
           command: .circleci/lint-chart.sh
 
-  install-chart:
+  install-chart-k8s-1-11-3:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
       CHART_TESTING_TAG: v2.2.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
       KIND_VERSION: 0.1.0
+      K8S_VERSION: v1.11.3
+    steps:
+      - checkout
+      - run:
+          name: install-chart
+          command: .circleci/install-chart.sh
+          no_output_timeout: 3600
+
+  install-chart-k8s-1-12-3:
+    machine: true
+    environment:
+      CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
+      CHART_TESTING_TAG: v2.2.0
+      CHARTS_REPO: https://github.com/kiwigrid/helm-charts
+      KIND_VERSION: 0.1.0
+      K8S_VERSION: v1.12.3
+    steps:
+      - checkout
+      - run:
+          name: install-chart
+          command: .circleci/install-chart.sh
+          no_output_timeout: 3600
+
+  install-chart-k8s-1-13-2:
+    machine: true
+    environment:
+      CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
+      CHART_TESTING_TAG: v2.2.0
+      CHARTS_REPO: https://github.com/kiwigrid/helm-charts
+      KIND_VERSION: 0.1.0
+      K8S_VERSION: v1.13.2
     steps:
       - checkout
       - run:
@@ -53,9 +84,17 @@ workflows:
       - lint-chart:
           requires:
             - lint-scripts
-      - install-chart:
+      - install-chart-k8s-1-11-3:
+          requires:
+            - lint-chart
+      - install-chart-k8s-1-12-3:
+          requires:
+            - lint-chart
+      - install-chart-k8s-1-13-2:
           requires:
             - lint-chart
       - deploy-chart:
           requires:
-            - install-chart
+            - install-chart-k8s-1-11-3
+            - install-chart-k8s-1-12-3
+            - install-chart-k8s-1-13-2
