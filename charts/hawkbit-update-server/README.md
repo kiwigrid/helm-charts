@@ -41,7 +41,6 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `image.pullPolicy`                         | Docker image pull policy                  | `IfNotPresent`                     |
 | `service.type`                             | Service type                              | `ClusterIP`                        |
 | `service.port`                             | Service port of hawkbit-update-server UI  | `80`                               |
-| `service.annotations`                      | Service annotations                       | `{}`                               |
 | `resources`                                | Resource limits for the pod               | `{}`                               |
 | `ingress.enabled`                          | Ingress enabled                           | `false`                            |
 | `ingress.annotations`                      | Ingress annotations                       | `{}`                               |
