@@ -25,7 +25,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: "SPRING_DATASOURCE_URL"
-              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb" }}
+              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
             - name: "SPRING_DATASOURCE_USERNAME"
               value: "{{ .Values.env.springDatasourceUsername }}"
             - name: "SPRING_DATASOURCE_PASSWORD"
