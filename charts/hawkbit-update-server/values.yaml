@@ -34,6 +34,7 @@ env:
   springDatasourceHost: "hawkbit-update-server-mysql"
   springDatasourceUsername: "hawkbit"
   springDatasourcePassword: "hawkbit"
+  springDatasourceDb: "hawkbit"
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
