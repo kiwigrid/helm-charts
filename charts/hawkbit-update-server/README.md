@@ -42,12 +42,6 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `service.type`                             | Service type                              | `ClusterIP`                        |
 | `service.port`                             | Service port of hawkbit-update-server UI  | `80`                               |
 | `service.annotations`                      | Service annotations                       | `{}`                               |
-| `service.labels`                           | Service labels                            | `{}`                               |
-| `persistence.enabled`                      | Enable config persistence using PVC       | `true`                             |
-| `persistence.storageClass`                 | PVC Storage Class for config volume       | `nil`                              |
-| `persistence.existingClaim`                | Name of an existing PVC to use for config | `nil`                              |
-| `persistence.accessMode`                   | PVC Access Mode for config volume         | `ReadWriteOnce`                    |
-| `persistence.size`                         | PVC Storage Request for config volume     | `10Gi`                             |
 | `resources`                                | Resource limits for the pod               | `{}`                               |
 | `ingress.enabled`                          | Ingress enabled                           | `false`                            |
 | `ingress.annotations`                      | Ingress annotations                       | `{}`                               |
