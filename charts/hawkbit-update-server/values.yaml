@@ -45,6 +45,9 @@ env:
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
+  springSecurityUserName: "admin"
+  # if no password is set a 40 digit random password is created
+  springSecurityUserPassword: ""
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

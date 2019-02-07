@@ -42,6 +42,13 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-rabbitmq-pass"
                   key: "rabbitmq-pass"
+            - name: "SPRING_SECURITY_USER_NAME"
+              value: "{{ .Values.env.springSecurityUserName}}"
+            - name: "SPRING_SECURITY_USER_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-hawkbit-pass"
+                  key: "hawkbit-pass"
           ports:
             - name: http
               containerPort: 8080
