@@ -95,6 +95,6 @@ workflows:
             - lint-chart
       - deploy-chart:
           requires:
-            - install-chart-k8s-1-11-2
+            - install-chart-k8s-1-11-3
             - install-chart-k8s-1-12-3
             - install-chart-k8s-1-13-2
