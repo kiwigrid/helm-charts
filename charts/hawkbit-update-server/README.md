@@ -64,6 +64,8 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springRabbitmqHost`                   | RabbitMq host                             | `"hawkbit-update-server-rabbitmq"` |
 | `env.springRabbitmqUsername`               | RabbitMq user                             | `"hawkbit"`                        |
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"                         |
+| `springSecurityUserName`                   | Hawkbit user                              | `"admin"`                          |
+| `springSecurityUserPassword`               | Hawkbit pass                              | `"admin"`                          |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
