@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```console
-$ helm install stable/fluentd-elasticsearch
+$ helm install kiwigrid/fluentd-elasticsearch
 ```
 
 ## Introduction
@@ -60,6 +60,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `image.repository`                 | Image                                                                                        | `gcr.io/google-containers/fluentd-elasticsearch` |
 | `image.tag`                        | Image tag                                                                                    | `v2.4.0`                                         |
 | `image.pullPolicy`                 | Image pull policy                                                                            | `IfNotPresent`                                   |
+| `image.pullSecrets`                | Image pull secrets                                                                           |                                                  |
 | `livenessProbe.enabled`            | Whether to enable livenessProbe                                                              | `true`                                           |
 | `nodeSelector`                     | Optional daemonset nodeSelector                                                              | `{}`                                             |
 | `podSecurityPolicy.annotations`    | Specify pod annotations in the pod security policy                                           | `{}`                                             |
@@ -90,11 +91,11 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ```console
 $ helm install --name my-release \
-    stable/fluentd-elasticsearch
+    kiwigrid/fluentd-elasticsearch
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml stable/fluentd-elasticsearch
+$ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
