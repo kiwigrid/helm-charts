@@ -84,7 +84,7 @@ workflows:
       - lint-chart:
           requires:
             - lint-scripts
-      - install-chart-k8s-1-11-2:
+      - install-chart-k8s-1-11-3:
           requires:
             - lint-chart
       - install-chart-k8s-1-12-3:
