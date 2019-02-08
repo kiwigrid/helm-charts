@@ -31,7 +31,7 @@ spec:
             - name: "SPRING_DATASOURCE_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-pass"
+                  name: "{{ template "hawkbit-update-server.fullname" . }}-mysql-pass"
                   key: "mysql-pass"
             - name: "SPRING_RABBITMQ_HOST"
               value: "{{ if .Values.useRabbitmq }}{{ .Release.Name }}-rabbitmq{{ else }}{{ .Values.env.springRabbitmqHost }}{{ end }}"
@@ -40,14 +40,14 @@ spec:
             - name: "SPRING_RABBITMQ_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-rabbitmq-pass"
+                  name: "{{ template "hawkbit-update-server.fullname" . }}-rabbitmq-pass"
                   key: "rabbitmq-pass"
             - name: "SPRING_SECURITY_USER_NAME"
               value: "{{ .Values.env.springSecurityUserName}}"
             - name: "SPRING_SECURITY_USER_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-hawkbit-pass"
+                  name: "{{ template "hawkbit-update-server.fullname" . }}-hawkbit-pass"
                   key: "hawkbit-pass"
           ports:
             - name: http
