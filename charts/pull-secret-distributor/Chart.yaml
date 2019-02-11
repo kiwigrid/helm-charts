@@ -6,7 +6,4 @@ version: 0.3.1
 home: https://github.com/kiwigrid/pull-secret-distributor
 sources:
 - https://github.com/kiwigrid/pull-secret-distributor
-maintainers:
-- name: rpahli
-  email: rico.pahlisch@kiwigrid.com
 deprecated: true
