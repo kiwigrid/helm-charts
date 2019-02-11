@@ -1,4 +1,4 @@
-# Pull secret distributor
+# Secret Replicator
 
 - **Source:** https://github.com/kiwigrid/secret-replicator
 
