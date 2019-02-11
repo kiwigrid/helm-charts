@@ -24,6 +24,7 @@ rules:
   - gcp.kiwigrid.com
   resources:
   - gcpserviceaccounts
+  - gcpnamespacerestrictions
   verbs:
   - get
   - list
