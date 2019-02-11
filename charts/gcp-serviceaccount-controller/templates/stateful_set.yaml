@@ -34,6 +34,10 @@ spec:
           value: $(WEBHOOK_SECRET_NAME)
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/credentials.json
+{{- if .Values.disableRestrictionCheck }}
+        - name: DISABLE_RESTRICTION_CHECK
+          value: true
+{{- end }}
         ports:
         - containerPort: 9876
           name: webhook-server
