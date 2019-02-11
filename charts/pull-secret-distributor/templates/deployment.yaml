@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pull-secret-distributor.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "pull-secret-distributor.name" . }}
+    helm.sh/chart: {{ include "pull-secret-distributor.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "pull-secret-distributor.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "pull-secret-distributor.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ template "pull-secret-distributor.fullname" . }}-sa
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: PULL_SECRETS
+            value: {{ .Values.pullSecrets }}
+          - name: IGNORE_NAMESPACES
+            value: {{ .Values.ignoreNamespaces }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      imagePullSecrets:
+      - name: registry-secret
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
