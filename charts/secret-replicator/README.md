@@ -1,6 +1,6 @@
-# Pull secret distributor
+# Secret Replicator
 
-- **Source:** https://github.com/kiwigrid/pull-secret-distributor
+- **Source:** https://github.com/kiwigrid/secret-replicator
 
 ## Introduction
 
@@ -8,18 +8,18 @@ This chart distibutes existing secrets especially pull secrets across namespaces
 
 ## Installing the Chart
 
-Install from remote URL with the release name `pull-secret-distributor` into namespace `default`:
+Install from remote URL with the release name `secret-replicator` into namespace `default`:
 
 ```console
-$ helm upgrade -i pull-secret-distributor kiwigrid/pull-secret-distributor
+$ helm upgrade -i secret-replicator kiwigrid/secret-replicator
 ```
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `pull-secret-distributor` deployment:
+To uninstall/delete the `secret-replicator` deployment:
 
 ```console
-$ helm delete pull-secret-distributor --purge
+$ helm delete secret-replicator --purge
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -30,10 +30,10 @@ The following table lists the configurable parameters of the chart and their def
 
 | Parameter                         | Description                             | Default                                                                                     |
 | --------------------------------- | --------------------------------------  | ---------------------------------------------------------                                   |
-| `image.repository`                           | image name                        | `kiwigrid/pull-secret-distributor`                                                        |
+| `image.repository`                           | image name                        | `kiwigrid/secret-replicator`                                                        |
 | `image.tag`                        | image tag                      | `10`                                                                                      |
 | `image.pullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
-| `pullSecrets`                           | list of pull secrets                          | empty string                                                        |
+| `secretList`                           | list of pull secrets                          | empty string                                                        |
 | `ignoreNamespaces`             | namespaces which should be excluded from sync                                     | `kube-system,kube-pulic`               |
 | `resources`                    | Resource limits for pod             | `{}`                                   |
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
@@ -46,7 +46,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml kiwigrid/pull-secret-distributor
+$ helm install --name my-release -f values.yaml kiwigrid/secret-replicator
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
