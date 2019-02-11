@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: "0.1.0"
+description: A Helm chart to distribute pull secret across namespaces
+name: secret-replicator
+version: 0.4.0
+home: https://github.com/kiwigrid/secret-replicator
+sources:
+- https://github.com/kiwigrid/secret-replicator
+maintainers:
+- name: rpahli
+  email: rico.pahlisch@kiwigrid.com
+
