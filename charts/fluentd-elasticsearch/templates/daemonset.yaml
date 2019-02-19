@@ -63,6 +63,10 @@ spec:
           value: {{ .Values.elasticsearch.host | quote }}
         - name: OUTPUT_PORT
           value: {{ .Values.elasticsearch.port | quote }}
+        - name: OUTPUT_USER
+          value: {{ .Values.elasticsearch.user | quote }}
+        - name: OUTPUT_PASSWORD
+          value: {{ .Values.elasticsearch.password | quote }}
         - name: LOGSTASH_PREFIX
           value: {{ .Values.elasticsearch.logstash_prefix | quote }}
         - name: OUTPUT_SCHEME
