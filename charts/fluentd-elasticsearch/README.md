@@ -49,6 +49,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps`                       | Fluentd configmaps                                                                           | `default conf files`                             |
 | `elasticsearch.host`               | Elasticsearch Host                                                                           | `elasticsearch-client`                           |
 | `elasticsearch.port`               | Elasticsearch Port                                                                           | `9200`                                           |
+| `elasticsearch.user`               | Elasticsearch Auth User                                                                      | `""`                                             |
+| `elasticsearch.password`           | Elasticsearch Auth Password                                                                  | `""`                                             |
 | `elasticsearch.logstash_prefix`    | Elasticsearch Logstash prefix                                                                | `logstash`                                       |
 | `elasticsearch.buffer_chunk_limit` | Elasticsearch buffer chunk limit                                                             | `2M`                                             |
 | `elasticsearch.buffer_queue_limit` | Elasticsearch buffer queue limit                                                             | `8`                                              |

@@ -34,8 +34,8 @@ elasticsearch:
   port: 9200
   scheme: 'http'
   ssl_version: TLSv1_2
-  # user:
-  # password:
+  user: ""
+  password: ""
   buffer_chunk_limit: 2M
   buffer_queue_limit: 8
   logstash_prefix: 'logstash'
