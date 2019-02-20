@@ -34,6 +34,8 @@ elasticsearch:
   port: 9200
   scheme: 'http'
   ssl_version: TLSv1_2
+  user: ""
+  password: ""
   buffer_chunk_limit: 2M
   buffer_queue_limit: 8
   logstash_prefix: 'logstash'
@@ -474,6 +476,8 @@ configMaps:
       port "#{ENV['OUTPUT_PORT']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
+      user "#{ENV['OUTPUT_USER']}"
+      password "#{ENV['OUTPUT_PASSWORD']}"
       logstash_format true
       logstash_prefix "#{ENV['LOGSTASH_PREFIX']}"
       reconnect_on_error true
