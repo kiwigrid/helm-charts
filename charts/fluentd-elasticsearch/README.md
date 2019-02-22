@@ -88,8 +88,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
-$ helm install --name my-release \
-    kiwigrid/fluentd-elasticsearch
+$ helm install --name my-release kiwigrid/fluentd-elasticsearch
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
@@ -97,3 +96,7 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 ```console
 $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
+
+## Upgrading
+
+When you upgrade this chart from a version < 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
