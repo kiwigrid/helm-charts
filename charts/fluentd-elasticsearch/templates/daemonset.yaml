@@ -137,7 +137,7 @@ spec:
             - '-c'
             - >
               LIVENESS_THRESHOLD_SECONDS=${LIVENESS_THRESHOLD_SECONDS:-300};
-              STUCK_THRESHOLD_SECONDS=${LIVENESS_THRESHOLD_SECONDS:-900};
+              STUCK_THRESHOLD_SECONDS=${STUCK_THRESHOLD_SECONDS:-900};
               if [ ! -e /var/log/fluentd-buffers ];
               then
                 exit 1;
