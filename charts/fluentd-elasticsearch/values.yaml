@@ -45,6 +45,8 @@ elasticsearch:
 #     user "#{ENV['OUTPUT_USER']}"
 env:
   # OUTPUT_USER: my_user
+  # LIVENESS_THRESHOLD_SECONDS: 300
+  # STUCK_THRESHOLD_SECONDS: 900
 
 # If you want to add custom environment variables from secrets, use the secret list
 secret:
