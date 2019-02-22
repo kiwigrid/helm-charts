@@ -99,4 +99,4 @@ $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 
 ## Upgrading
 
-When you upgrade this chart from a version < 2.0.0 you have to add the "--force" paramaeter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+When you upgrade this chart from a version < 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
