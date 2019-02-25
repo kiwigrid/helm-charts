@@ -229,6 +229,7 @@ configMaps:
         </pattern>
       </parse>
     </source>
+
     # Detect exceptions in the log output and forward them as one log entry.
     <match raw.kubernetes.**>
       @id raw.kubernetes
@@ -240,6 +241,7 @@ configMaps:
       max_bytes 500000
       max_lines 1000
     </match>
+
     # Concatenate multi-line logs
     <filter **>
       @id filter_concat
@@ -248,11 +250,13 @@ configMaps:
       multiline_end_regexp /\n$/
       separator ""
     </filter>
+
     # Enriches records with Kubernetes metadata
     <filter kubernetes.**>
       @id filter_kubernetes_metadata
       @type kubernetes_metadata
     </filter>
+
     # Fixes json fields in Elasticsearch
     <filter kubernetes.**>
       @id filter_parser
@@ -270,6 +274,7 @@ configMaps:
         </pattern>
       </parse>
     </filter>
+
   system.input.conf: |-
     # Example:
     # 2015-12-21 23:17:22,066 [salt.state       ][INFO    ] Completed state [net.ipv4.ip_forward] at time 23:17:22.066081
@@ -282,6 +287,7 @@ configMaps:
       pos_file /var/log/salt.pos
       tag salt
     </source>
+
     # Example:
     # Dec 21 23:17:22 gke-foo-1-1-4b5cbd14-node-4eoj startupscript: Finished running startup script /var/run/google.startup.script
     <source>
@@ -292,6 +298,7 @@ configMaps:
       pos_file /var/log/startupscript.log.pos
       tag startupscript
     </source>
+
     # Examples:
     # time="2016-02-04T06:51:03.053580605Z" level=info msg="GET /containers/json"
     # time="2016-02-04T07:53:57.505612354Z" level=error msg="HTTP Error" err="No such image: -f" statusCode=404
@@ -304,6 +311,7 @@ configMaps:
       pos_file /var/log/docker.log.pos
       tag docker
     </source>
+
     # Example:
     # 2016/02/04 06:52:38 filePurge: successfully removed file /var/etcd/data/member/wal/00000000000006d0-00000000010a23d1.wal
     <source>
@@ -316,6 +324,7 @@ configMaps:
       pos_file /var/log/etcd.log.pos
       tag etcd
     </source>
+
     # Multi-line parsing is required for all the kube logs because very large log
     # statements, such as those that include entire object bodies, get split into
     # multiple lines by glog.
@@ -333,6 +342,7 @@ configMaps:
       pos_file /var/log/kubelet.log.pos
       tag kubelet
     </source>
+
     # Example:
     # I1118 21:26:53.975789       6 proxier.go:1096] Port "nodePort for kube-system/default-http-backend:http" (:31429/tcp) was open before and is still needed
     <source>
@@ -347,6 +357,7 @@ configMaps:
       pos_file /var/log/kube-proxy.log.pos
       tag kube-proxy
     </source>
+
     # Example:
     # I0204 07:00:19.604280       5 handlers.go:131] GET /api/v1/nodes: (1.624207ms) 200 [[kube-controller-manager/v1.1.3 (linux/amd64) kubernetes/6a81b50] 127.0.0.1:38266]
     <source>
@@ -361,6 +372,7 @@ configMaps:
       pos_file /var/log/kube-apiserver.log.pos
       tag kube-apiserver
     </source>
+
     # Example:
     # I0204 06:55:31.872680       5 servicecontroller.go:277] LB already exists and doesn't need update for service kube-system/kube-ui
     <source>
@@ -375,6 +387,7 @@ configMaps:
       pos_file /var/log/kube-controller-manager.log.pos
       tag kube-controller-manager
     </source>
+
     # Example:
     # W0204 06:49:18.239674       7 reflector.go:245] pkg/scheduler/factory/factory.go:193: watch of *api.Service ended with: 401: The event in requested index is outdated and cleared (the requested history has been cleared [2578313/2577886]) [2579312]
     <source>
@@ -389,6 +402,7 @@ configMaps:
       pos_file /var/log/kube-scheduler.log.pos
       tag kube-scheduler
     </source>
+
     # Example:
     # I0603 15:31:05.793605       6 cluster_manager.go:230] Reading config from path /etc/gce.conf
     <source>
@@ -403,8 +417,9 @@ configMaps:
       pos_file /var/log/glbc.log.pos
       tag glbc
     </source>
+
     # Example:
-    # I0603 15:31:05.793605       6 cluster_manager.go:230] Reading config from path /etc/gce.conf
+    # TODO Add a proper example here.
     <source>
       @id cluster-autoscaler.log
       @type tail
@@ -417,6 +432,7 @@ configMaps:
       pos_file /var/log/cluster-autoscaler.log.pos
       tag cluster-autoscaler
     </source>
+
     # Logs from systemd-journal for interesting services.
     # TODO(random-liu): Remove this after cri container runtime rolls out.
     <source>
@@ -431,6 +447,7 @@ configMaps:
       read_from_head true
       tag docker
     </source>
+
     <source>
       @id journald-container-runtime
       @type systemd
@@ -443,6 +460,7 @@ configMaps:
       read_from_head true
       tag container-runtime
     </source>
+
     <source>
       @id journald-kubelet
       @type systemd
@@ -455,6 +473,7 @@ configMaps:
       read_from_head true
       tag kubelet
     </source>
+
     <source>
       @id journald-node-problem-detector
       @type systemd
@@ -467,6 +486,7 @@ configMaps:
       read_from_head true
       tag node-problem-detector
     </source>
+
     <source>
       @id kernel
       @type systemd
@@ -483,12 +503,14 @@ configMaps:
       read_from_head true
       tag kernel
     </source>
+
   forward.input.conf: |-
     # Takes the messages sent over TCP
     <source>
       @id forward
       @type forward
     </source>
+
   monitoring.conf: |-
     # Prometheus Exporter Plugin
     # input plugin that exports metrics
@@ -524,6 +546,7 @@ configMaps:
         host ${hostname}
       </labels>
     </source>
+
   output.conf: |-
     <match **>
       @id elasticsearch
