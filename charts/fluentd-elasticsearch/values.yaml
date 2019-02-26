@@ -106,6 +106,24 @@ service: {}
   #   - name: "monitor-agent"
   #     port: 24231
 
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: false
+  interval: 10s
+  path: /metrics
+  labels: {}
+
+prometheusRule:
+  ## If true, a PrometheusRule CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: false
+  prometheusNamespace: monitoring
+  labels: {}
+  #  role: alert-rules
+
 configMaps:
   system.conf: |-
     <system>
@@ -518,12 +536,12 @@ configMaps:
       @id prometheus
       @type prometheus
     </source>
-    
+
     <source>
       @id monitor_agent
       @type monitor_agent
     </source>
-    
+
     # input plugin that collects metrics from MonitorAgent
     <source>
       @id prometheus_monitor
@@ -532,7 +550,7 @@ configMaps:
         host ${hostname}
       </labels>
     </source>
-    
+
     # input plugin that collects metrics for output plugin
     <source>
       @id prometheus_output_monitor
@@ -541,7 +559,7 @@ configMaps:
         host ${hostname}
       </labels>
     </source>
-    
+
     # input plugin that collects metrics for in_tail plugin
     <source>
       @id prometheus_tail_monitor
