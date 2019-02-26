@@ -111,6 +111,7 @@ serviceMonitor:
   ## https://github.com/coreos/prometheus-operator
   ##
   enabled: false
+  interval: 10s
   path: /metrics
   labels: {}
 

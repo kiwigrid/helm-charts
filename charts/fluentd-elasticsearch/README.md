@@ -86,6 +86,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceAccount.create`              | Specifies whether a service account should be created.                                       | `true`                                           |
 | `serviceAccount.name`                | Name of the service account.                                                                 |                                                  |
 | `serviceMonitor.enabled`             | Whether to enable Prometheus serviceMonitor                                                  | `false`                                          |
+| `serviceMonitor.interval`            | Interval at which metrics should be scraped                                                  | `10s`                                            |
 | `serviceMonitor.path`                | Path for Metrics                                                                             | `/metrics`                                       |
 | `serviceMonitor.labels`              | Optional labels for serviceMonitor                                                           | `{}`                                             |
 | `tolerations`                        | Optional daemonset tolerations                                                               | `{}`                                             |
