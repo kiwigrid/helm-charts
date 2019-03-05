@@ -1,5 +1,3 @@
-replicaCount: 1
-
 image:
   repository: kiwigrid/gcp-serviceaccount-controller
   tag: 0.2.1
