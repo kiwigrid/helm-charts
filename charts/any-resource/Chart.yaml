@@ -1,0 +1,9 @@
+apiVersion: v1
+appVersion: "0.1.0"
+description: A Helm chart to bring any kind of resources in a k8s cluster
+name: any-resource
+version: 0.1.0
+home: https://github.com/kiwigrid/helm-charts
+maintainers:
+- name: axdotl
+  email: axel.koehler@kiwigrid.com
