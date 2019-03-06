@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     nginx/client_max_body_size: {{ .Values.nginxClientMaxBodySize | quote }}
-  {{ with .Values.ingress.annotations }}
+  {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
