@@ -43,7 +43,7 @@ spec:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-rabbitmq-pass"
                   key: "rabbitmq-pass"
             - name: "SECURITY_USER_NAME"
-              value: "{{ .Values.env.springSecurityUserName}}"
+              value: "{{ .Values.env.securityUserName}}"
             - name: "SECURITY_USER_PASSWORD"
               valueFrom:
                 secretKeyRef:

@@ -64,8 +64,10 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springRabbitmqHost`                   | RabbitMq host                             | `"hawkbit-update-server-rabbitmq"` |
 | `env.springRabbitmqUsername`               | RabbitMq user                             | `"hawkbit"`                        |
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"                         |
-| `springSecurityUserName`                   | Hawkbit user                              | `"admin"`                          |
-| `springSecurityUserPassword`               | Hawkbit pass                              | `"admin"`                          |
+| `env.SecurityUserName`                     | Hawkbit user                              | `"admin"`                          |
+| `env.SecurityUserPassword`                 | Hawkbit pass                              | `""`                               |
+| `nginxClientMaxBodySize`                   | Nginx client_max_body_size annotation     | `200M`                             |
+
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
