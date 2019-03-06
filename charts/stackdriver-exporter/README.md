@@ -30,11 +30,17 @@ The following table lists the configurable parameters of the chart and their def
 
 | Parameter                         | Description                             | Default                                                                                     |
 | --------------------------------- | --------------------------------------  | ---------------------------------------------------------                                   |
-| `image.repository`                           | image name                        | `kiwigrid/stackdriver-exporter`                                                        |
-| `image.tag`                        | image tag                      | `10`                                                                                      |
+| `image.repository`                           | image name                        | `frodenas/stackdriver-exporter`                                                        |
+| `image.tag`                        | image tag                      | `v0.6.0`                                                                                      |
 | `image.pullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
+| `web.port`                    | listen port                          | `9255`                                               |
+| `web.path`                    | Path under which to expose Prometheus metrics                          | `/metrics`                                               |
 | `gcp.projectId`                    | gcp project id                          |                                                        |
 | `gcp.metricsTypePrefixes`          | list of metric prefixes                                     |             |
+| `gcp.metricsInterval`          | Metric's timestamp interval to request from the Google Stackdriver Monitoring Metrics API. Only the most recent data point is used                                     | `5m`            |
+| `gcp.metricsOffset`          | Offset (into the past) for the metric's timestamp interval to request from the Google Stackdriver Monitoring Metrics API, to handle latency in published metrics                                     | `0s`            |
+| `gcpCredentials`          | gcp key file base64 encoded has only be set if `usingGCPController` is `false`                    |             |
+| `usingGCPController`          | if true the secret will be created via a crd (see [Gcp Service Account Controller](https://github.com/kiwigrid/gcp-serviceaccount-controller) for more infos)                                     | `false`             |
 | `resources`                    | Resource limits for pod             | `{}`                                   |
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
 | `tolerations`                  | Tolerations                                  | `[]`                                   |

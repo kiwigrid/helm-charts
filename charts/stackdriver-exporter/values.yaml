@@ -11,13 +11,20 @@ image:
 
 nameOverride: ""
 fullnameOverride: ""
+web:
+  port: 9255
+  path: /metrics
+
 gcp:
   projectId: "DUMMY_PROJECT"
+#  metricsOffset: 0s
+#  metricsInterval: 5m
 #  metricsTypePrefixes:
 #    - dataproc.googleapis.com/
 #    - compute.googleapis.com/instance/cpu
 
 usingGCPController: false
+# has to bae base64 encoded
 gcpCredentials: "RFVNTVlfQ1JFREVOVElBTFMK"
 
 resources: {}

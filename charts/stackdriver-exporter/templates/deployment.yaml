@@ -24,9 +24,9 @@ spec:
 {{ else }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}        
 {{ end }}
-        prometheus.io/port : "9255"
+        prometheus.io/port : "{{ .Values.web.port }}"
         prometheus.io/scrape : "true"
-        prometheus.io/path : "/metrics"
+        prometheus.io/path : "{{ .Values.web.path }}"
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -35,9 +35,17 @@ spec:
           args:
             - --google.project-id={{ required "gcp.projectId has to be set" .Values.gcp.projectId }}
             - --monitoring.metrics-type-prefixes="{{ include "stackdriver-exporter.utils.joinListWithComma" .Values.gcp.metricsTypePrefixes }}"
+            - --web.listen-address=:{{ .Values.web.port }}
+            - --web.telemetry-path={{ .Values.web.path }}
+{{- if .Values.gcp.metricsInterval }}
+            - --monitoring.metrics-interval={{ .Values.gcp.metricsInterval }}
+{{ end }}
+{{- if .Values.gcp.metricsOffset }}
+            - --monitoring.metrics-offset={{ .Values.gcp.metricsOffset }}
+{{ end }}
           ports:
             - name: http
-              containerPort: 9255
+              containerPort: {{ .Values.web.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
