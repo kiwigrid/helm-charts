@@ -1,0 +1,8 @@
+Deployments successful installed.
+
+you can check if it's working by forwarding the port 9255 and visit localhost:9255/metrics
+
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "stackdriver-exporter.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  echo "Visit http://127.0.0.1:9255/metrics to use your application"
+  kubectl port-forward $POD_NAME 9255
+  
