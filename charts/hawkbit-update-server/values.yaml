@@ -36,6 +36,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# value should reflect size of your images
+nginxClientMaxBodySize: 200M
+
 # env vars for configuration
 env:
   springDatasourceHost: "hawkbit-update-server-mysql"
@@ -45,9 +48,9 @@ env:
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
-  springSecurityUserName: "admin"
+  securityUserName: "admin"
   # if no password is set a 40 digit random password is created
-  springSecurityUserPassword: ""
+  securityUserPassword: ""
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
