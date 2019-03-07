@@ -37,7 +37,7 @@ ingress:
   #      - chart-example.local
 
 # value should reflect size of your images
-nginxClientMaxBodySize: 200M
+nginxProxyBodySize: 200M
 
 # env vars for configuration
 env:
