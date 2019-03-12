@@ -36,6 +36,8 @@ The following table lists the configurable parameters of the chart and their def
 | `web.port`                    | listen port                          | `9255`                                               |
 | `web.path`                    | Path under which to expose Prometheus metrics                          | `/metrics`                                               |
 | `gcp.projectId`                    | gcp project id                          |                                                        |
+| `gcp.serviceAccountName`                    | name of service account for gcp                          |                                                        |
+| `gcp.keyfileSecretName`                    | name of secret                          |                                                        |
 | `gcp.metricsTypePrefixes`          | list of metric prefixes                                     |             |
 | `gcp.metricsInterval`          | Metric's timestamp interval to request from the Google Stackdriver Monitoring Metrics API. Only the most recent data point is used                                     | `5m`            |
 | `gcp.metricsOffset`          | Offset (into the past) for the metric's timestamp interval to request from the Google Stackdriver Monitoring Metrics API, to handle latency in published metrics                                     | `0s`            |
