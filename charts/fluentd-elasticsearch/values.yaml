@@ -580,6 +580,7 @@ configMaps:
       port "#{ENV['OUTPUT_PORT']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
+      ssl_verify true
       user "#{ENV['OUTPUT_USER']}"
       password "#{ENV['OUTPUT_PASSWORD']}"
       logstash_format true
