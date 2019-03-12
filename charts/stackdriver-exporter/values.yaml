@@ -17,6 +17,8 @@ web:
 
 gcp:
   projectId: "DUMMY_PROJECT"
+#  serviceAccountName: ""
+#  keyfileSecretName: ""
 #  metricsOffset: 0s
 #  metricsInterval: 5m
 #  metricsTypePrefixes:
@@ -25,7 +27,7 @@ gcp:
 
 usingGCPController: false
 # has to bae base64 encoded
-gcpCredentials: "RFVNTVlfQ1JFREVOVElBTFMK"
+gcpCredentials: "ewogICAidHlwZSI6ICJzZXJ2aWNlX2FjY291bnQiLAogICAicHJvamVjdF9pZCI6ICJkdW1teS1hY2MiLAogICAicHJpdmF0ZV9rZXlfaWQiOiAiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLAogICAicHJpdmF0ZV9rZXkiOiAiIiwKICAgImNsaWVudF9lbWFpbCI6ICJkdW1teUBkdW1teS1hY2MuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICAiY2xpZW50X2lkIjogIjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLAogICAiYXV0aF91cmkiOiAiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vb2F1dGgyL2F1dGgiLAogICAidG9rZW5fdXJpIjogImh0dHBzOi8vb2F1dGgyLmdvb2dsZWFwaXMuY29tL3Rva2VuIiwKICAgImF1dGhfcHJvdmlkZXJfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9vYXV0aDIvdjEvY2VydHMiLAogICAiY2xpZW50X3g1MDlfY2VydF91cmwiOiAiaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vcm9ib3QvdjEvbWV0YWRhdGEveDUwOS9kdW1teSVkdW1teS1hY2MuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iCn0K"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

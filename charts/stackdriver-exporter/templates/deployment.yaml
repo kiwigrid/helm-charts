@@ -55,6 +55,12 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/gcp/credentials.json
+          volumeMounts:          
+          - name: gcp-secret
+            mountPath: /var/secrets/gcp
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -69,3 +75,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      volumes:      
+      - name: gcp-secret
+        secret:
+          secretName: {{ template "stackdriver-exporter.gcpsecretName" . }}
+

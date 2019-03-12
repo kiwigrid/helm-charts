@@ -38,3 +38,17 @@ create a csv for metric prefixes
 {{- $local := dict "first" true -}}
 {{- range $k, $v := . -}}{{- if not $local.first -}},{{- end -}}{{- $v -}}{{- $_ := set $local "first" false -}}{{- end -}}
 {{- end -}}
+
+{{/*
+Generate gcp service account secret name
+*/}}
+{{- define "stackdriver-exporter.gcpsecretName" -}}
+{{ default ( printf "%s-%s" (include "stackdriver-exporter.fullname" .) "gcloud-keyfile" ) .Values.gcp.keyfileSecretName }}
+{{- end -}}
+
+{{/*
+Generate gcp service account name
+*/}}
+{{- define "stackdriver-exporter.serviceAccountName" -}}
+{{ default (include "stackdriver-exporter.fullname" .) .Values.gcp.serviceAccountName }}
+{{- end -}}
