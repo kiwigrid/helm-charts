@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - --google.project-id={{ required "gcp.projectId has to be set" .Values.gcp.projectId }}
-            - --monitoring.metrics-type-prefixes="{{ include "stackdriver-exporter.utils.joinListWithComma" .Values.gcp.metricsTypePrefixes }}"
+            - --monitoring.metrics-type-prefixes={{ include "stackdriver-exporter.utils.joinListWithComma" .Values.gcp.metricsTypePrefixes }}
             - --web.listen-address=:{{ .Values.web.port }}
             - --web.telemetry-path={{ .Values.web.path }}
 {{- if .Values.gcp.metricsInterval }}
