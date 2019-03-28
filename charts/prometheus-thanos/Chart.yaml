@@ -1,0 +1,11 @@
+apiVersion: v1
+appVersion: "0.3.2"
+description: A Helm chart for thanos querier and store gateway
+name: prometheus-thanos
+version: 0.1.0
+home: https://github.com/improbable-eng/thanos
+sources:
+- https://github.com/improbable-eng/thanos
+maintainers:
+- name: rpahli
+  email: rico.pahlisch@kiwigrid.com
