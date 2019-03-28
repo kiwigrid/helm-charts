@@ -1,0 +1,9 @@
+dependencies:
+- name: minio
+  version: 2.4.10
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  condition: minio.enabled
+- name: any-resource
+  version: 0.1.0
+  repository: https://kiwigrid.github.io/
+  condition: any-resource.enabled
