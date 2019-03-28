@@ -96,6 +96,12 @@ if [ -n "${CIRCLE_PULL_REQUEST}" ]; then
       echo
   }
 
+  add_helm_repos() {
+      docker_exec helm repo add kiwigrid https://kiwigrid.github.io/
+      docker_exec helm repo update
+      echo
+  }
+
   install_charts() {
       docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.circleci/ct.yaml
       echo
@@ -115,6 +121,7 @@ if [ -n "${CIRCLE_PULL_REQUEST}" ]; then
       create_kind_cluster
       install_tiller
       install_hostpath-provisioner
+      add_helm_repos
       install_charts
   }
 
