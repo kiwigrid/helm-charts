@@ -1,0 +1,96 @@
+# Default values for prometheus-thanos.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  querier:
+    type: ClusterIP
+    http:
+      port: 9090
+    grpc:
+      port: 10901
+  storeGateway:
+    type: ClusterIP
+    http:
+      port: 9090
+    grpc:
+      port: 10901
+
+querier:
+  replicaCount: 1
+  image:
+    repository: improbable/thanos
+    tag: v0.3.2
+    pullPolicy: IfNotPresent
+  replicaLabel: replica
+  logLevel: info
+  stores: []
+  additionalFlags: []
+  cluster:
+    disable: true
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+storeGateway:
+  replicaCount: 1
+  image:
+    repository: improbable/thanos
+    tag: v0.3.1
+    pullPolicy: IfNotPresent
+  extraEnv:
+  # - name: GOOGLE_APPLICATION_CREDENTIALS
+  #   value: /etc/gcp/secrets/credentials.json
+  logLevel: info
+  indexCacheSize: 500MB
+  chunkPoolSize: 500MB
+  cluster:
+    disable: true
+
+  objStoreType: GCS
+  additionalFlags: []
+  objStoreConfig:
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  volumeMounts:
+  volumes:
+
+## this is only for test support dont use this in production
+minio:
+  enabled: false
+any-resource:
+  enabled: false
