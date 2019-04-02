@@ -66,7 +66,6 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"                         |
 | `env.SecurityUserName`                     | Hawkbit user                              | `"admin"`                          |
 | `env.SecurityUserPassword`                 | Hawkbit pass                              | `""`                               |
-| `nginxProxyBodySize`                       | Nginx proxy-body-size annotation          | `200M`                             |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
