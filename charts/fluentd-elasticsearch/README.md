@@ -69,7 +69,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `podSecurityPolicy.annotations`      | Specify pod annotations in the pod security policy                             | `{}`                                   |
 | `podSecurityPolicy.enabled`          | Specify if a pod security policy must be created                               | `false`                                |
 | `priorityClassName`                  | Optional PriorityClass for pods                                                | `""`                                   |
-| `prometheusRule`                     | Whether to enable Prometheus prometheusRule                                    | `false`                                |
+| `prometheusRule.enabled`             | Whether to enable Prometheus prometheusRule                                    | `false`                                |
 | `prometheusRule.prometheusNamespace` | Namespace for prometheusRule                                                   | `monitoring`                           |
 | `prometheusRule.labels`              | Optional labels for prometheusRule                                             | `{}`                                   |
 | `rbac.create`                        | RBAC                                                                           | `true`                                 |
