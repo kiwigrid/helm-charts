@@ -28,7 +28,7 @@ querier:
   replicaLabel: replica
   logLevel: info
   stores: []
-  additionalFlags: []
+  additionalFlags: {}
   cluster:
     disable: true
   resources: {}
@@ -49,7 +49,7 @@ storeGateway:
   replicaCount: 1
   image:
     repository: improbable/thanos
-    tag: v0.3.1
+    tag: v0.3.2
     pullPolicy: IfNotPresent
   extraEnv:
   # - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -61,7 +61,7 @@ storeGateway:
     disable: true
 
   objStoreType: GCS
-  additionalFlags: []
+  additionalFlags: {}
   objStoreConfig:
   ## GCS example
   #  bucket: demo-bucket
