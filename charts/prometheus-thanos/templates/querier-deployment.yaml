@@ -34,7 +34,7 @@ spec:
           - --store={{ . }}
           {{- end }}
           {{- range $key, $value := .Values.querier.additionalFlags }}
-          - --{{ $key }}={{ $value }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
           {{- end }}
           ports:
             - name: http
