@@ -53,7 +53,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `service.storeGateway.grpc.port` | Service grpc port for the store gateway | `10901`|
 | `querier.logLevel` | querier log level | `info`|
 | `querier.stores` | list of stores [see](https://github.com/improbable-eng/thanos/blob/master/docs/components/query.md) | `[]`|
-| `querier.additionalFlags` | additional command line flags | `[]`|
+| `querier.additionalFlags` | additional command line flags | `{}`|
 | `querier.cluster.disable` | disable cluster mode | `true`|
 | `querier.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30`|
 | `querier.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10`|
@@ -67,13 +67,15 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.nodeSelector` | NodeSelector | `{}`|
 | `querier.tolerations` | Tolerations | `[]`|
 | `querier.affinity` | Affinity | `{}`|
+| `querier.volumeMounts` | additional volume mounts | `nil`|
+| `querier.volumes` | additional volumes | `nil`|
 | `storeGateway.extraEnv` | extra env vars | `nil`|
 | `storeGateway.logLevel` | store gateway log level | `info`|
 | `storeGateway.indexCacheSize` | index cache size | `500MB`|
 | `storeGateway.chunkPoolSize` | chunk pool size | `500MB`|
 | `storeGateway.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS`|
 | `storeGateway.cluster.disable` | disable cluster mode | `true`|
-| `storeGateway.additionalFlags` | additional command line flags | `[]`|
+| `storeGateway.additionalFlags` | additional command line flags | `{}`|
 | `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil`|
 | `storeGateway.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30`|
 | `storeGateway.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10`|
