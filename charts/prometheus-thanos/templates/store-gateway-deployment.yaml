@@ -33,7 +33,7 @@ spec:
           - --index-cache-size={{ .Values.storeGateway.indexCacheSize }}
           - --chunk-pool-size={{ .Values.storeGateway.chunkPoolSize }}
           {{- range $key, $value := .Values.storeGateway.additionalFlags }}
-          - --{{ $key }}={{ $value }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
           {{- end }}
           {{- if .Values.storeGateway.objStoreType }}
           - |

@@ -34,7 +34,7 @@ spec:
           - --store={{ . }}
           {{- end }}
           {{- range $key, $value := .Values.querier.additionalFlags }}
-          - --{{ $key }}={{ $value }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
           {{- end }}
           ports:
             - name: http
@@ -61,6 +61,10 @@ spec:
             timeoutSeconds: {{ .Values.querier.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.querier.resources | nindent 12 }}
+          {{- with .Values.querier.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
       {{- with .Values.querier.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -71,6 +75,10 @@ spec:
     {{- end }}
     {{- with .Values.querier.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.querier.volumes }}
+      volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
 
