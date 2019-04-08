@@ -61,7 +61,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled |                                        |
 | `extraVolume`                        | Extra volume                                                                   |                                        |
 | `image.repository`                   | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
-| `image.tag`                          | Image tag                                                                      | `v2.5.0`                               |
+| `image.tag`                          | Image tag                                                                      | `v2.5.1`                               |
 | `image.pullPolicy`                   | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                  | Image pull secrets                                                             |                                        |
 | `livenessProbe.enabled`              | Whether to enable livenessProbe                                                | `true`                                 |
