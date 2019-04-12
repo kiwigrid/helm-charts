@@ -45,6 +45,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.3.2`|
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `cluster.enabled` | enable cluster mode | `false`|
+| `cluster.port` | cluster port | `10900`|
+| `cluster.address` | cluster listen address | `0.0.0.0`|
 | `service.querier.type` | Service type for the querier | `ClusterIP`|
 | `service.querier.http.port` | Service http port for the querier  | `9090`|
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901`|
@@ -54,7 +57,6 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.logLevel` | querier log level | `info`|
 | `querier.stores` | list of stores [see](https://github.com/improbable-eng/thanos/blob/master/docs/components/query.md) | `[]`|
 | `querier.additionalFlags` | additional command line flags | `{}`|
-| `querier.cluster.disable` | disable cluster mode | `true`|
 | `querier.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30`|
 | `querier.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10`|
 | `querier.livenessProbe.successThreshold` | liveness probe successThreshold | `1`|

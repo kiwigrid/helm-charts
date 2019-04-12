@@ -4,6 +4,10 @@
 
 nameOverride: ""
 fullnameOverride: ""
+cluster:
+  enabled: false
+  port: 10900
+  address: 0.0.0.0
 
 service:
   querier:
@@ -29,8 +33,6 @@ querier:
   logLevel: info
   stores: []
   additionalFlags: {}
-  cluster:
-    disable: true
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -57,8 +59,6 @@ storeGateway:
   logLevel: info
   indexCacheSize: 500MB
   chunkPoolSize: 500MB
-  cluster:
-    disable: true
 
   objStoreType: GCS
   additionalFlags: {}
