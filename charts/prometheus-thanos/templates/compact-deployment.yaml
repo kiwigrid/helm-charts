@@ -46,6 +46,10 @@ spec:
           ports:
           - name: monitoring
             containerPort: 10902
+          {{- if .Values.compact.extraEnv }}
+          env:
+            {{- toYaml .Values.compact.extraEnv | nindent 12 }}  
+          {{- end }}
           resources:
             {{- toYaml .Values.compact.resources | nindent 12 }}
           {{- with .Values.compact.volumeMounts }}

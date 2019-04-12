@@ -111,6 +111,9 @@ compact:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  extraEnv:
+  # - name: GOOGLE_APPLICATION_CREDENTIALS
+  #   value: /etc/gcp/secrets/credentials.json
   resources: {}
   nodeSelector: {}
   tolerations: []
