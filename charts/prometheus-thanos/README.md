@@ -45,6 +45,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.3.2`|
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `compact.replicaCount` |  for store gateway | `1`|
+| `compact.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
+| `compact.image.tag` | Docker image tag for store gateway | `v0.3.2`|
+| `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
 | `cluster.enabled` | enable cluster mode | `false`|
 | `cluster.port` | cluster port | `10900`|
 | `cluster.address` | cluster listen address | `0.0.0.0`|
@@ -76,7 +80,6 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.indexCacheSize` | index cache size | `500MB`|
 | `storeGateway.chunkPoolSize` | chunk pool size | `500MB`|
 | `storeGateway.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS`|
-| `storeGateway.cluster.disable` | disable cluster mode | `true`|
 | `storeGateway.additionalFlags` | additional command line flags | `{}`|
 | `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil`|
 | `storeGateway.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30`|
@@ -93,6 +96,21 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.affinity` | Affinity | `{}`|
 | `storeGateway.volumeMounts` | additional volume mounts | `nil`|
 | `storeGateway.volumes` | additional volumes | `nil`|
+| `compact.extraEnv` | extra env vars | `nil`|
+| `compact.logLevel` | store gateway log level | `info`|
+| `compact.retentionResolutionRaw` | retention for raw buckets | `30d`|
+| `compact.retentionResolution5m` | retention for 5m buckets | `120d`|
+| `compact.retentionResolution1h` | retention for 1h buckets | `10y`|
+| `compact.syncDelay` | sync delay | `30m`|
+| `compact.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS`|
+| `compact.additionalFlags` | additional command line flags | `{}`|
+| `compact.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil`|
+| `compact.resources` | Resources | `{}`|
+| `compact.nodeSelector` | NodeSelector | `{}`|
+| `compact.tolerations` | Tolerations | `[]`|
+| `compact.affinity` | Affinity | `{}`|
+| `compact.volumeMounts` | additional volume mounts | `nil`|
+| `compact.volumes` | additional volumes | `nil`|
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 

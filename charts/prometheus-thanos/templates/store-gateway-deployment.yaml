@@ -19,6 +19,9 @@ spec:
         app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
         app.kubernetes.io/instance: {{ .Release.Name }}
         prometheus-thanos-peer: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
     spec:
       containers:
         - name: {{ .Chart.Name }}-store-gateway
