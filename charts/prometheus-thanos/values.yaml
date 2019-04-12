@@ -89,6 +89,32 @@ storeGateway:
   volumeMounts:
   volumes:
 
+compact:
+  replicaCount: 1
+  image:
+    repository: improbable/thanos
+    tag: v0.3.2
+    pullPolicy: IfNotPresent
+  logLevel: info
+  retentionResolutionRaw: 30d
+  retentionResolution5m: 30d
+  retentionResolution1h: 10y
+  syncDelay: 30m
+  additionalFlags: {}
+  objStoreConfig:
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 ## this is only for test support dont use this in production
 minio:
   enabled: false
