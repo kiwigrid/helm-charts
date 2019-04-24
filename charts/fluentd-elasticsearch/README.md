@@ -48,7 +48,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `annotations`                        | Optional daemonset annotations                                                 | `NULL`                                 |
 | `podAnnotations`                     | Optional daemonset's pods annotations                                          | `NULL`                                 |
 | `configMaps`                         | Fluentd configmaps                                                             | `default conf files`                   |
-| `aws`                                | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar`                  | Enable AWS request signing sidecar                                             | `false`                                |
 | `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
 | `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.user`                 | Elasticsearch Auth User                                                        | `""`                                   |
@@ -112,4 +112,4 @@ When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--for
 
 ## AWS Elasticsearch Domains
 
-AWS Elasticsearch requires requests to upload data to be signed using [AWS Signature V4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). In order to support this, you can add `aws: true` to your configuration. This results in a sidecar container being deployed that proxies all requests to your Elasticsearch domain and signs them appropriately.
+AWS Elasticsearch requires requests to upload data to be signed using [AWS Signature V4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). In order to support this, you can add `awsSigningSidecar: true` to your configuration. This results in a sidecar container being deployed that proxies all requests to your Elasticsearch domain and signs them appropriately.
