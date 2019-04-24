@@ -12,6 +12,15 @@ image:
   # pullSecrets:
   #   - myRegistrKeySecretName
 
+## If using AWS Elasticsearch, all requests to ES need to be signed regardless of whether
+## one is using Cognito or not. By setting this to true, this chart will install a sidecar
+## proxy that takes care of signing all requests being sent to the AWS ES Domain.
+awsSigningSidecar:
+  enabled: false
+  image:
+    repository: abutaha/aws-es-proxy
+    tag: 0.9
+
 # Specify to use specific priorityClass for pods
 # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
 # If a Pod cannot be scheduled, the scheduler tries to preempt (evict) lower priority

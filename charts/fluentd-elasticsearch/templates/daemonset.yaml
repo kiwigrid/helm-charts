@@ -60,9 +60,17 @@ spec:
         - name: FLUENTD_ARGS
           value: --no-supervisor -q
         - name: OUTPUT_HOST
+          {{- if .Values.awsSigningSidecar.enabled }}
+          value: 'localhost'
+          {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
+          {{- end }}
         - name: OUTPUT_PORT
+          {{- if .Values.awsSigningSidecar.enabled }}
+          value: '8080'
+          {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
+          {{- end }}
         - name: OUTPUT_USER
           value: {{ .Values.elasticsearch.user | quote }}
         - name: OUTPUT_PASSWORD
@@ -70,7 +78,11 @@ spec:
         - name: LOGSTASH_PREFIX
           value: {{ .Values.elasticsearch.logstash_prefix | quote }}
         - name: OUTPUT_SCHEME
+          {{- if .Values.awsSigningSidecar.enabled }}
+          value: 'http'
+          {{- else }}
           value: {{ .Values.elasticsearch.scheme | quote }}
+          {{- end }}
         - name: OUTPUT_SSL_VERSION
           value: {{ .Values.elasticsearch.ssl_version | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
@@ -109,6 +121,16 @@ spec:
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
+      {{- if .Values.awsSigningSidecar.enabled }}
+      - name: {{ include "fluentd-elasticsearch.fullname" . }}-aws-es-proxy
+        image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
+               "-listen",   "127.0.0.1:8080"]
+        env:
+        - name: PORT_NUM
+          value: "{{ .Values.elasticsearch.port }}"
+      {{- end }}
 {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
 {{- end }}

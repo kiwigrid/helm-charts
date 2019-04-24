@@ -48,6 +48,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `annotations`                        | Optional daemonset annotations                                                 | `NULL`                                 |
 | `podAnnotations`                     | Optional daemonset's pods annotations                                          | `NULL`                                 |
 | `configMaps`                         | Fluentd configmaps                                                             | `default conf files`                   |
+| `awsSigningSidecar.enabled`          | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar.image.repository` | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`        | AWS signing sidecard repository tag                                            | `0.9`                                  |
 | `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
 | `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.user`                 | Elasticsearch Auth User                                                        | `""`                                   |
@@ -108,3 +111,7 @@ $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ## Upgrading
 
 When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+
+## AWS Elasticsearch Domains
+
+AWS Elasticsearch requires requests to upload data to be signed using [AWS Signature V4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). In order to support this, you can add `awsSigningSidecar: {enabled: true}` to your configuration. This results in a sidecar container being deployed that proxies all requests to your Elasticsearch domain and signs them appropriately.
