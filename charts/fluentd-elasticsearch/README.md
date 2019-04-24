@@ -48,7 +48,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `annotations`                        | Optional daemonset annotations                                                 | `NULL`                                 |
 | `podAnnotations`                     | Optional daemonset's pods annotations                                          | `NULL`                                 |
 | `configMaps`                         | Fluentd configmaps                                                             | `default conf files`                   |
-| `awsSigningSidecar`                  | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar.enabled`          | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar.image.repository` | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`        | AWS signing sidecard repository tag                                            | `0.9`                                  |
 | `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
 | `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.user`                 | Elasticsearch Auth User                                                        | `""`                                   |
