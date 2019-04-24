@@ -17,7 +17,7 @@ image:
 ## proxy that takes care of signing all requests being sent to the AWS ES Domain.
 awsSigningSidecar:
   enabled: false
-  image: 
+  image:
     repository: abutaha/aws-es-proxy
     tag: 0.9
 
