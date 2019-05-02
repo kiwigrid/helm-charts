@@ -25,6 +25,11 @@ service:
 
 querier:
   replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   image:
     repository: improbable/thanos
     tag: v0.3.2
@@ -49,6 +54,11 @@ querier:
     timeoutSeconds: 30
 storeGateway:
   replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   image:
     repository: improbable/thanos
     tag: v0.3.2
@@ -91,6 +101,11 @@ storeGateway:
 
 compact:
   replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   image:
     repository: improbable/thanos
     tag: v0.3.2
