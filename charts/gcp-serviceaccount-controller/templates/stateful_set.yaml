@@ -36,7 +36,7 @@ spec:
           value: /var/secrets/credentials.json
 {{- if .Values.disableRestrictionCheck }}
         - name: DISABLE_RESTRICTION_CHECK
-          value: true
+          value: "true"
 {{- end }}
         ports:
         - containerPort: 9876
