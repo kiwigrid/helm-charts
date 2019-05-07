@@ -121,7 +121,7 @@ spec:
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
-{{- if .Values.livenessProbe.enabled }}
+{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile 
         # Liveness probe is aimed to help in situarions where fluentd
         # silently hangs for no apparent reasons until manual restart.
         # The idea of this probe is that if fluentd is not queueing or
