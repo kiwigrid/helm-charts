@@ -32,7 +32,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: improbable/thanos
-    tag: v0.3.2
+    tag: v0.4.0
     pullPolicy: IfNotPresent
   replicaLabel: replica
   logLevel: info
@@ -61,7 +61,7 @@ storeGateway:
       maxUnavailable: 0
   image:
     repository: improbable/thanos
-    tag: v0.3.2
+    tag: v0.4.0
     pullPolicy: IfNotPresent
   extraEnv:
   # - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -108,13 +108,13 @@ compact:
       maxUnavailable: 0
   image:
     repository: improbable/thanos
-    tag: v0.3.2
+    tag: v0.4.0
     pullPolicy: IfNotPresent
   logLevel: info
   retentionResolutionRaw: 30d
   retentionResolution5m: 30d
   retentionResolution1h: 10y
-  syncDelay: 30m
+  consistencyDelay: 30m
   additionalFlags: {}
   objStoreConfig:
   ## GCS example

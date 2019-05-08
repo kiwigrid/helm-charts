@@ -28,17 +28,17 @@ spec:
           image: "{{ .Values.compact.image.repository }}:{{ .Values.compact.image.tag }}"
           args:
           - compact
-          - --log.level={{ .Values.compact.logLevel }}          
+          - --log.level={{ .Values.compact.logLevel }}
           - --retention.resolution-raw={{ .Values.compact.retentionResolutionRaw }}
           - --retention.resolution-5m={{ .Values.compact.retentionResolution5m }}
           - --retention.resolution-1h={{ .Values.compact.retentionResolution1h }}
-          - --sync-delay={{ .Values.compact.syncDelay }}
+          - --consistency-delay={{ .Values.compact.consistencyDelay }}
           {{- range $key, $value := .Values.compact.additionalFlags }}
           - --{{ $key }}{{if $value }}={{ $value }}{{end}}
           {{- end }}
           {{- if .Values.compact.objStoreType }}
           - |
-            --objstore.config=type: {{ .Values.compact.objStoreType }} 
+            --objstore.config=type: {{ .Values.compact.objStoreType }}
             config:
             {{- toYaml .Values.compact.objStoreConfig | nindent 14 }}
           {{- end }}
@@ -48,7 +48,7 @@ spec:
             containerPort: 10902
           {{- if .Values.compact.extraEnv }}
           env:
-            {{- toYaml .Values.compact.extraEnv | nindent 12 }}  
+            {{- toYaml .Values.compact.extraEnv | nindent 12 }}
           {{- end }}
           resources:
             {{- toYaml .Values.compact.resources | nindent 12 }}
