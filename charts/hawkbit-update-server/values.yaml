@@ -4,7 +4,7 @@ useRabbitmq: true
 
 image:
   repository: "hawkbit/hawkbit-update-server"
-  tag: 0.2.5-mysql
+  tag: 0.3.0M2-mysql
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -49,6 +49,7 @@ env:
   securityUserName: "admin"
   # if no password is set a 40 digit random password is created
   securityUserPassword: ""
+  javaOptions: "-Xms512m -Xmx512m"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
