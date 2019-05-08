@@ -4,7 +4,7 @@ useRabbitmq: true
 
 image:
   repository: "hawkbit/hawkbit-update-server"
-  tag: 0.2.5-mysql
+  tag: 0.3.0M2-mysql
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -49,6 +49,7 @@ env:
   securityUserName: "admin"
   # if no password is set a 40 digit random password is created
   securityUserPassword: ""
+  javaOptions: "-Xms512m -Xmx512m"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -56,11 +57,11 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #  cpu: 500m
+  #  memory: 1024Mi
   # requests:
   #  cpu: 100m
-  #  memory: 128Mi
+  #  memory: 512Mi
 
 nodeSelector: {}
 
