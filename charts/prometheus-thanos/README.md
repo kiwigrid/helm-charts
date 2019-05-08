@@ -104,7 +104,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.retentionResolutionRaw` | retention for raw buckets | `30d`|
 | `compact.retentionResolution5m` | retention for 5m buckets | `120d`|
 | `compact.retentionResolution1h` | retention for 1h buckets | `10y`|
-| `compact.syncDelay` | sync delay | `30m`|
+| `compact.consistencyDelay` | consistency delay | `30m`|
 | `compact.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS`|
 | `compact.additionalFlags` | additional command line flags | `{}`|
 | `compact.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil`|
