@@ -69,6 +69,7 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.javaOptions`                          | Java options                              | `"-Xms512m -Xmx512m"`              |
 
 
+
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```bash
