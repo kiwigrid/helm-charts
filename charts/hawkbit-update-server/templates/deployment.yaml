@@ -51,8 +51,10 @@ spec:
                 secretKeyRef:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-hawkbit-pass"
                   key: "hawkbit-pass"
-            - name: JAVA_TOOL_OPTIONS
-              value: {{ .Values.env.javaOptions }}                  
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
