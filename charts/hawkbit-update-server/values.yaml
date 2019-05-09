@@ -49,7 +49,10 @@ env:
   securityUserName: "admin"
   # if no password is set a 40 digit random password is created
   securityUserPassword: ""
-  javaOptions: "-Xms512m -Xmx512m"
+
+# optional env vars
+extraEnv: {}
+  # JAVA_TOOL_OPTIONS: "-Xms1024m -Xmx1024m"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -58,10 +61,10 @@ resources: {}
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
   #  cpu: 500m
-  #  memory: 1024Mi
+  #  memory: 1536Mi
   # requests:
   #  cpu: 100m
-  #  memory: 512Mi
+  #  memory: 1024Mi
 
 nodeSelector: {}
 
