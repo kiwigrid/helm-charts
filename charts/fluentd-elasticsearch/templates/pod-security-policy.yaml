@@ -22,7 +22,7 @@ spec:
     - 'emptyDir'
     - 'hostPath'
     - 'secret'
-    allowedHostPaths:
+  allowedHostPaths:
     - pathPrefix: {{ .Values.hostLogDir.varLog}}
       readOnly: false
     - pathPrefix: {{ .Values.hostLogDir.dockerContainers}}
