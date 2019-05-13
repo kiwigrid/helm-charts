@@ -57,8 +57,6 @@ spec:
         image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         env:
-        - name: FLUENTD_ARGS
-          value: "--no-supervisor -q"
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'localhost'
