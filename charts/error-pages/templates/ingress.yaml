@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "error-pages.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "error-pages.name" . }}
+    helm.sh/chart: {{ include "error-pages.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  
+  annotations:
+    traefik.ingress.kubernetes.io/error-pages: |-
+      foo:
+        status:
+        - "404"
+        - "503"
+        backend: global-default-backend
+        query: "/{status}.html"
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  backend:
+    serviceName: {{ $fullName }}
+    servicePort: http
+{{- end }}
