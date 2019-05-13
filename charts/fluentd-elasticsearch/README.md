@@ -65,8 +65,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `extraVolume`                        | Extra volume                                                                   |                                        |
 | `hostLogDir.varLog`                  | Specify where fluentd can find var log                                         | `/var/log`                             |
 | `hostLogDir.dockerContainers`        | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
-| `hostLogDir.varLog`                  | Specify where fluentd can find logs for user lib64                             | `/usr/lib64`                           |
-| `hostLogDir.varLog`                  | Specify where fluentd can find logs for lib Systemd                            | `/host/lib`                            |
+| `hostLogDir.libSystemdDir`           | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                   | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
 | `image.tag`                          | Image tag                                                                      | `v2.5.1`                               |
 | `image.pullPolicy`                   | Image pull policy                                                              | `IfNotPresent`                         |

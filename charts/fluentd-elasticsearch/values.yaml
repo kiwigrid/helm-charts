@@ -31,8 +31,7 @@ priorityClassName: ""
 hostLogDir:
   varLog: /var/log
   dockerContainers: /var/lib/docker/containers
-  userLib64: /usr/lib64
-  libSystemdDir: /host/lib
+  libSystemdDir: /usr/lib64
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/

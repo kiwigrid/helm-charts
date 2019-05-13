@@ -27,8 +27,6 @@ spec:
       readOnly: false
     - pathPrefix: {{ .Values.hostLogDir.dockerContainers}}
       readOnly: true
-    - pathPrefix: {{ .Values.hostLogDir.userLib64}}
-      readOnly: true
     - pathPrefix: {{ .Values.hostLogDir.libSystemdDir}}
       readOnly: true
   hostNetwork: false

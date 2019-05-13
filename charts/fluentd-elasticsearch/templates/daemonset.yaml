@@ -121,10 +121,7 @@ spec:
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
-        - name: userlib64
-          mountPath: {{ .Values.hostLogDir.userLib64  }}
-          readOnly: true
-{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile 
+{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
         # Liveness probe is aimed to help in situarions where fluentd
         # silently hangs for no apparent reasons until manual restart.
         # The idea of this probe is that if fluentd is not queueing or
