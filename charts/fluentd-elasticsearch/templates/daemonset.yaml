@@ -58,7 +58,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         env:
         - name: FLUENTD_ARGS
-          value: --no-supervisor -q
+          value: "--no-supervisor -q"
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'localhost'
@@ -120,15 +120,15 @@ spec:
 
         volumeMounts:
         - name: varlog
-          mountPath: {{ .Values.hostLogDir.varLog}}
+          mountPath: {{ .Values.hostLogDir.varLog | quote }}
         - name: varlibdockercontainers
-          mountPath: {{ .Values.hostLogDir.dockerContainers}}
+          mountPath: {{ .Values.hostLogDir.dockerContainers | quote }}
           readOnly: true
         - name: userlib64
-          mountPath: {{ .Values.hostLogDir.userLib64}}
+          mountPath: {{ .Values.hostLogDir.userLib64 | quote }}
           readOnly: true
         - name: libsystemddir
-          mountPath: {{ .Values.hostLogDir.libSystemdDir}}
+          mountPath: {{ .Values.hostLogDir.libSystemdDir | quote }}
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
