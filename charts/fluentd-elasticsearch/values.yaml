@@ -27,6 +27,12 @@ awsSigningSidecar:
 # Pods to make scheduling of the pending Pod possible.
 priorityClassName: ""
 
+# Specify where fluentd can find logs
+hostLogDir:
+  varLog: /var/log
+  dockerContainers: /var/lib/docker/containers
+  libSystemdDir: /usr/lib64
+
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##

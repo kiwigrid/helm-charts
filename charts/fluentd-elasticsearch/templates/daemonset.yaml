@@ -112,16 +112,16 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: varlog
-          mountPath: /var/log
+          mountPath: {{ .Values.hostLogDir.varLog }}
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: {{ .Values.hostLogDir.dockerContainers }}
           readOnly: true
         - name: libsystemddir
-          mountPath: /host/lib
+          mountPath: {{ .Values.hostLogDir.libSystemdDir }}
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
-{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile 
+{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
         # Liveness probe is aimed to help in situarions where fluentd
         # silently hangs for no apparent reasons until manual restart.
         # The idea of this probe is that if fluentd is not queueing or

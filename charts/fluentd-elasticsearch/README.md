@@ -63,6 +63,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `secret`                             | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
 | `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled |                                        |
 | `extraVolume`                        | Extra volume                                                                   |                                        |
+| `hostLogDir.varLog`                  | Specify where fluentd can find var log                                         | `/var/log`                             |
+| `hostLogDir.dockerContainers`        | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
+| `hostLogDir.libSystemdDir`           | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                   | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
 | `image.tag`                          | Image tag                                                                      | `v2.5.1`                               |
 | `image.pullPolicy`                   | Image pull policy                                                              | `IfNotPresent`                         |
