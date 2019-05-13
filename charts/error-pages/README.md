@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This chart installs a controller for [Traefik](https://traefik.io/) global [error pages](https://docs.traefik.io/configuration/backends/kubernetes/#global-default-backend-ingresses). This service creates a globel ingress rule which match all unmatched ingress rules. You can use any container you want. The container must expose the error page at the `/` path. The only error which is handled by traefik over this service by default is the `404` error.
+This chart installs a controller for [Traefik](https://traefik.io/) global [error pages](https://docs.traefik.io/configuration/backends/kubernetes/#global-default-backend-ingresses). This service creates a global ingress rule which match all unmatched ingress rules. You can use any container you want. The container must expose the error page at the `/` path. The only error which is handled by traefik over this service by default is the `404` error.
 
 
 ## Prerequisites
