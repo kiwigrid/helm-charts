@@ -110,14 +110,25 @@ spec:
               fieldPath: spec.nodeName
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+
+          - pathPrefix:
+              readOnly: false
+              - pathPrefix:
+              readOnly: true
+              - pathPrefix:
+
+
         volumeMounts:
         - name: varlog
-          mountPath: /var/log
+          mountPath: {{ .Values.hostLogDir.varLog}}
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: {{ .Values.hostLogDir.dockerContainers}}
+          readOnly: true
+        - name: userlib64
+          mountPath: {{ .Values.hostLogDir.userLib64}}
           readOnly: true
         - name: libsystemddir
-          mountPath: /host/lib
+          mountPath: {{ .Values.hostLogDir.libSystemdDir}}
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
