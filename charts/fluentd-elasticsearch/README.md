@@ -60,6 +60,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.buffer_queue_limit`   | Elasticsearch buffer queue limit                                               | `8`                                    |
 | `elasticsearch.scheme`               | Elasticsearch scheme setting                                                   | `http`                                 |
 | `env`                                | List of env vars that are added to the fluentd pods                            | `{}`                                   |
+| `fluentdArgs`                        | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                             | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
 | `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled |                                        |
 | `extraVolume`                        | Extra volume                                                                   |                                        |
