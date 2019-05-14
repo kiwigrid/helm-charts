@@ -58,7 +58,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         env:
         - name: FLUENTD_ARGS
-          value: {{ .Values.fluentd_args | quote }}
+          value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'localhost'
