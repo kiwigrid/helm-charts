@@ -58,7 +58,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         env:
         - name: FLUENTD_ARGS
-          value: --no-supervisor -q
+          value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'localhost'
@@ -112,16 +112,19 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: varlog
-          mountPath: {{ .Values.hostLogDir.varLog }}
+          mountPath: /var/log
         - name: varlibdockercontainers
-          mountPath: {{ .Values.hostLogDir.dockerContainers }}
+          mountPath: /var/lib/docker/containers
           readOnly: true
         - name: libsystemddir
-          mountPath: {{ .Values.hostLogDir.libSystemdDir }}
+          mountPath: /usr/lib64
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
-{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
+{{- if .Values.extraVolumeMounts }}
+{{ toYaml .Values.extraVolumeMounts | indent 8 }}
+{{- end }}
+      {{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
         # Liveness probe is aimed to help in situarions where fluentd
         # silently hangs for no apparent reasons until manual restart.
         # The idea of this probe is that if fluentd is not queueing or
@@ -165,9 +168,6 @@ spec:
         - name: PORT_NUM
           value: "{{ .Values.elasticsearch.port }}"
       {{- end }}
-{{- if .Values.extraVolumeMounts }}
-{{ toYaml .Values.extraVolumeMounts | indent 8 }}
-{{- end }}
         ports:
 {{- range $port := .Values.service.ports }}
           - name: {{ $port.name }}
@@ -176,19 +176,18 @@ spec:
             protocol: {{ $port.protocol }}
 {{- end }}
 {{- end }}
-
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
         hostPath:
-          path: /var/log
+          path: {{ .Values.hostLogDir.varLog }}
       - name: varlibdockercontainers
         hostPath:
-          path: /var/lib/docker/containers
+          path: {{ .Values.hostLogDir.dockerContainers }}
       # It is needed to copy systemd library to decompress journals
       - name: libsystemddir
         hostPath:
-          path: /usr/lib64
+          path: {{ .Values.hostLogDir.libSystemdDir }}
       - name: config-volume
         configMap:
           name: {{ include "fluentd-elasticsearch.fullname" . }}

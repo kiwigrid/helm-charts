@@ -55,6 +55,10 @@ elasticsearch:
   buffer_queue_limit: 8
   logstash_prefix: 'logstash'
 
+# If you want to change args of fluentd process
+# by example you can add -vv to launch with trace log
+fluentdArgs: "--no-supervisor -q"
+
 # If you want to add custom environment variables, use the env dict
 # You can then reference these in your config file e.g.:
 #     user "#{ENV['OUTPUT_USER']}"
