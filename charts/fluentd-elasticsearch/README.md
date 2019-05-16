@@ -42,63 +42,71 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of the Fluentd elasticsearch chart and their default values.
 
-| Parameter                            | Description                                                                    | Default                                |
-| ------------------------------------ | ------------------------------------------------------------------------------ | -------------------------------------- |
-| `affinity`                           | Optional daemonset affinity                                                    | `{}`                                   |
-| `annotations`                        | Optional daemonset annotations                                                 | `NULL`                                 |
-| `podAnnotations`                     | Optional daemonset's pods annotations                                          | `NULL`                                 |
-| `configMaps`                         | Fluentd configmaps                                                             | `default conf files`                   |
-| `awsSigningSidecar.enabled`          | Enable AWS request signing sidecar                                             | `false`                                |
-| `awsSigningSidecar.image.repository` | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`        | AWS signing sidecard repository tag                                            | `0.9`                                  |
-| `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
-| `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
-| `elasticsearch.user`                 | Elasticsearch Auth User                                                        | `""`                                   |
-| `elasticsearch.password`             | Elasticsearch Auth Password                                                    | `""`                                   |
-| `elasticsearch.logstash_prefix`      | Elasticsearch Logstash prefix                                                  | `logstash`                             |
-| `elasticsearch.buffer_chunk_limit`   | Elasticsearch buffer chunk limit                                               | `2M`                                   |
-| `elasticsearch.buffer_queue_limit`   | Elasticsearch buffer queue limit                                               | `8`                                    |
-| `elasticsearch.scheme`               | Elasticsearch scheme setting                                                   | `http`                                 |
-| `env`                                | List of env vars that are added to the fluentd pods                            | `{}`                                   |
-| `fluentdArgs`                        | Fluentd args                                                                   | `--no-supervisor -q`                   |
-| `secret`                             | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
-| `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled |                                        |
-| `extraVolume`                        | Extra volume                                                                   |                                        |
-| `hostLogDir.varLog`                  | Specify where fluentd can find var log                                         | `/var/log`                             |
-| `hostLogDir.dockerContainers`        | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
-| `hostLogDir.libSystemdDir`           | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
-| `image.repository`                   | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
-| `image.tag`                          | Image tag                                                                      | `v2.5.2`                               |
-| `image.pullPolicy`                   | Image pull policy                                                              | `IfNotPresent`                         |
-| `image.pullSecrets`                  | Image pull secrets                                                             |                                        |
-| `livenessProbe.enabled`              | Whether to enable livenessProbe                                                | `true`                                 |
-| `nodeSelector`                       | Optional daemonset nodeSelector                                                | `{}`                                   |
-| `podSecurityPolicy.annotations`      | Specify pod annotations in the pod security policy                             | `{}`                                   |
-| `podSecurityPolicy.enabled`          | Specify if a pod security policy must be created                               | `false`                                |
-| `priorityClassName`                  | Optional PriorityClass for pods                                                | `""`                                   |
-| `prometheusRule.enabled`             | Whether to enable Prometheus prometheusRule                                    | `false`                                |
-| `prometheusRule.prometheusNamespace` | Namespace for prometheusRule                                                   | `monitoring`                           |
-| `prometheusRule.labels`              | Optional labels for prometheusRule                                             | `{}`                                   |
-| `rbac.create`                        | RBAC                                                                           | `true`                                 |
-| `resources.limits.cpu`               | CPU limit                                                                      | `100m`                                 |
-| `resources.limits.memory`            | Memory limit                                                                   | `500Mi`                                |
-| `resources.requests.cpu`             | CPU request                                                                    | `100m`                                 |
-| `resources.requests.memory`          | Memory request                                                                 | `200Mi`                                |
-| `service`                            | Service definition                                                             | `{}`                                   |
-| `service.type`                       | Service type (ClusterIP/NodePort)                                              | Not Set                                |
-| `service.ports`                      | List of service ports dict [{name:...}...]                                     | Not Set                                |
-| `service.ports[].name`               | One of service ports name                                                      | Not Set                                |
-| `service.ports[].port`               | Service port                                                                   | Not Set                                |
-| `service.ports[].nodePort`           | NodePort port (when service.type is NodePort)                                  | Not Set                                |
-| `service.ports[].protocol`           | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
-| `serviceAccount.create`              | Specifies whether a service account should be created.                         | `true`                                 |
-| `serviceAccount.name`                | Name of the service account.                                                   |                                        |
-| `serviceMonitor.enabled`             | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
-| `serviceMonitor.interval`            | Interval at which metrics should be scraped                                    | `10s`                                  |
-| `serviceMonitor.path`                | Path for Metrics                                                               | `/metrics`                             |
-| `serviceMonitor.labels`              | Optional labels for serviceMonitor                                             | `{}`                                   |
-| `tolerations`                        | Optional daemonset tolerations                                                 | `{}`                                   |
-| `updateStrategy`                     | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
+| Parameter                                    | Description                                                                    | Default                                |
+| -------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------- |
+| `affinity`                                   | Optional daemonset affinity                                                    | `{}`                                   |
+| `annotations`                                | Optional daemonset annotations                                                 | `NULL`                                 |
+| `podAnnotations`                             | Optional daemonset's pods annotations                                          | `NULL`                                 |
+| `configMaps.useDefaults.systemConf`          | Use default system.conf                                                        | true                                   |
+| `configMaps.useDefaults.containersInputConf` | Use default containers.input.conf                                              | true                                   |
+| `configMaps.useDefaults.systemInputConf`     | Use default system.input.conf                                                  | true                                   |
+| `configMaps.useDefaults.forwardInputConf`    | Use default forward.input.conf                                                 | true                                   |
+| `configMaps.useDefaults.monitoringConf`      | Use default monitoring.conf                                                    | true                                   |
+| `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
+| `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
+| `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar.image.repository`         | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecard repository tag                                            | `0.9`                                  |
+| `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
+| `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
+| `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
+| `elasticsearch.buffer_chunk_limit`           | Elasticsearch buffer chunk limit                                               | `2M`                                   |
+| `elasticsearch.buffer_queue_limit`           | Elasticsearch buffer queue limit                                               | `8`                                    |
+| `elasticsearch.host`                         | Elasticsearch Host                                                             | `elasticsearch-client`                 |
+| `elasticsearch.logstash_prefix`              | Elasticsearch Logstash prefix                                                  | `logstash`                             |
+| `elasticsearch.port`                         | Elasticsearch Port                                                             | `9200`                                 |
+| `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
+| `elasticsearch.ssl_version`                  | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
+| `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
+| `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
+| `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
+| `extraVolumeMounts`                          | Mount extra volume, required to mount ssl certificates when ES has tls enabled | ``                                     |
+| `extraVolume`                                | Extra volume                                                                   | ``                                     |
+| `hostLogDir.varLog`                          | Specify where fluentd can find var log                                         | `/var/log`                             |
+| `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
+| `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
+| `image.repository`                           | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
+| `image.tag`                                  | Image tag                                                                      | `v2.5.2`                               |
+| `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
+| `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
+| `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
+| `nodeSelector`                               | Optional daemonset nodeSelector                                                | `{}`                                   |
+| `podSecurityPolicy.annotations`              | Specify pod annotations in the pod security policy                             | `{}`                                   |
+| `podSecurityPolicy.enabled`                  | Specify if a pod security policy must be created                               | `false`                                |
+| `priorityClassName`                          | Optional PriorityClass for pods                                                | `""`                                   |
+| `prometheusRule.enabled`                     | Whether to enable Prometheus prometheusRule                                    | `false`                                |
+| `prometheusRule.prometheusNamespace`         | Namespace for prometheusRule                                                   | `monitoring`                           |
+| `prometheusRule.labels`                      | Optional labels for prometheusRule                                             | `{}`                                   |
+| `rbac.create`                                | RBAC                                                                           | `true`                                 |
+| `resources.limits.cpu`                       | CPU limit                                                                      | `100m`                                 |
+| `resources.limits.memory`                    | Memory limit                                                                   | `500Mi`                                |
+| `resources.requests.cpu`                     | CPU request                                                                    | `100m`                                 |
+| `resources.requests.memory`                  | Memory request                                                                 | `200Mi`                                |
+| `service`                                    | Service definition                                                             | `{}`                                   |
+| `service.type`                               | Service type (ClusterIP/NodePort)                                              | Not Set                                |
+| `service.ports`                              | List of service ports dict [{name:...}...]                                     | Not Set                                |
+| `service.ports[].name`                       | One of service ports name                                                      | Not Set                                |
+| `service.ports[].port`                       | Service port                                                                   | Not Set                                |
+| `service.ports[].nodePort`                   | NodePort port (when service.type is NodePort)                                  | Not Set                                |
+| `service.ports[].protocol`                   | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
+| `serviceAccount.create`                      | Specifies whether a service account should be created.                         | `true`                                 |
+| `serviceAccount.name`                        | Name of the service account.                                                   | `""`                                   |
+| `serviceMonitor.enabled`                     | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
+| `serviceMonitor.interval`                    | Interval at which metrics should be scraped                                    | `10s`                                  |
+| `serviceMonitor.path`                        | Path for Metrics                                                               | `/metrics`                             |
+| `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
+| `tolerations`                                | Optional daemonset tolerations                                                 | `{}`                                   |
+| `updateStrategy`                             | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 

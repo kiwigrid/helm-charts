@@ -37,7 +37,7 @@ spec:
         # ref: https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
         scheduler.alpha.kubernetes.io/critical-pod: ''
         {{- end }}
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmaps.yaml") . | sha256sum }}
 {{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
@@ -71,10 +71,12 @@ spec:
           {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
           {{- end }}
+{{- if .Values.elasticsearch.auth.enabled }}
         - name: OUTPUT_USER
-          value: {{ .Values.elasticsearch.user | quote }}
+          value: {{ .Values.elasticsearch.auth.user | quote }}
         - name: OUTPUT_PASSWORD
-          value: {{ .Values.elasticsearch.password | quote }}
+          value: {{ .Values.elasticsearch.auth.password | quote }}
+{{- end }}
         - name: LOGSTASH_PREFIX
           value: {{ .Values.elasticsearch.logstash_prefix | quote }}
         - name: OUTPUT_SCHEME
