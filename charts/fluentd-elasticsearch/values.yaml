@@ -153,9 +153,21 @@ prometheusRule:
   labels: {}
   #  role: alert-rules
 
+configMaps:
+  useDefaults:
+    systemConf: true
+    containersInputConf: true
+    systemInputConf: true
+    forwardInputConf: true
+    monitoringConf: true
+    outputConf: true
+
+# can be used to add new config or overwrite the default configmaps completely after the configmaps default has been disabled above
 extraConfigMaps:
-  # my-extra-config.conf: |-
-  #   param: value
+  # system.conf: |-
+  #   <system>
+  #     root_dir /tmp/fluentd-buffers/
+  #   </system>
 
 # extraVolumes:
 #   - name: es-certs

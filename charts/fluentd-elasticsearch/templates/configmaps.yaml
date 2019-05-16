@@ -10,10 +10,14 @@ metadata:
     kubernetes.io/cluster-service: "true"
     addonmanager.kubernetes.io/mode: Reconcile
 data:
+{{- if .Values.configMaps.useDefaults.systemConf }}
   system.conf: |-
     <system>
       root_dir /tmp/fluentd-buffers/
     </system>
+{{- end }}
+
+{{- if .Values.configMaps.useDefaults.containersInputConf }}
   containers.input.conf: |-
     # This configuration file for Fluentd / td-agent is used
     # to watch changes to Docker log files. The kubelet creates symlinks that
@@ -177,7 +181,9 @@ data:
         </pattern>
       </parse>
     </filter>
+{{- end }}
 
+{{- if .Values.configMaps.useDefaults.systemInputConf }}
   system.input.conf: |-
     # Example:
     # 2015-12-21 23:17:22,066 [salt.state       ][INFO    ] Completed state [net.ipv4.ip_forward] at time 23:17:22.066081
@@ -406,14 +412,18 @@ data:
       read_from_head true
       tag kernel
     </source>
+{{- end }}
 
+{{- if .Values.configMaps.useDefaults.forwardInputConf }}
   forward.input.conf: |-
     # Takes the messages sent over TCP
     <source>
       @id forward
       @type forward
     </source>
+{{- end }}
 
+{{- if .Values.configMaps.useDefaults.monitoringConf }}
   monitoring.conf: |-
     # Prometheus Exporter Plugin
     # input plugin that exports metrics
@@ -453,7 +463,9 @@ data:
         host ${hostname}
       </labels>
     </source>
+{{- end }}
 
+{{- if .Values.configMaps.useDefaults.outputConf }}
   output.conf: |-
     <match **>
       @id elasticsearch
@@ -487,6 +499,7 @@ data:
         overflow_action block
       </buffer>
     </match>
+{{- end }}
 
 {{- range $key, $value := .Values.extraConfigMaps }}
   {{ $key }}: |-
