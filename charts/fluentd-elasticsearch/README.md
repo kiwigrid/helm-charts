@@ -51,26 +51,28 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `awsSigningSidecar.enabled`          | Enable AWS request signing sidecar                                             | `false`                                |
 | `awsSigningSidecar.image.repository` | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
 | `awsSigningSidecar.image.tag`        | AWS signing sidecard repository tag                                            | `0.9`                                  |
-| `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
-| `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
-| `elasticsearch.user`                 | Elasticsearch Auth User                                                        | `""`                                   |
-| `elasticsearch.password`             | Elasticsearch Auth Password                                                    | `""`                                   |
-| `elasticsearch.logstash_prefix`      | Elasticsearch Logstash prefix                                                  | `logstash`                             |
+| `elasticsearch.auth.enabled`         | Elasticsearch Auth enabled                                                     | `false`                                |
+| `elasticsearch.auth.user`            | Elasticsearch Auth User                                                        | `""`                                   |
+| `elasticsearch.auth.password`        | Elasticsearch Auth Password                                                    | `""`                                   |
 | `elasticsearch.buffer_chunk_limit`   | Elasticsearch buffer chunk limit                                               | `2M`                                   |
 | `elasticsearch.buffer_queue_limit`   | Elasticsearch buffer queue limit                                               | `8`                                    |
+| `elasticsearch.host`                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
+| `elasticsearch.logstash_prefix`      | Elasticsearch Logstash prefix                                                  | `logstash`                             |
+| `elasticsearch.port`                 | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.scheme`               | Elasticsearch scheme setting                                                   | `http`                                 |
+| `elasticsearch.ssl_version`          | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
 | `env`                                | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                        | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                             | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
-| `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled |                                        |
-| `extraVolume`                        | Extra volume                                                                   |                                        |
+| `extraVolumeMounts`                  | Mount extra volume, required to mount ssl certificates when ES has tls enabled | ``                                     |
+| `extraVolume`                        | Extra volume                                                                   | ``                                     |
 | `hostLogDir.varLog`                  | Specify where fluentd can find var log                                         | `/var/log`                             |
 | `hostLogDir.dockerContainers`        | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`           | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                   | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
 | `image.tag`                          | Image tag                                                                      | `v2.5.2`                               |
 | `image.pullPolicy`                   | Image pull policy                                                              | `IfNotPresent`                         |
-| `image.pullSecrets`                  | Image pull secrets                                                             |                                        |
+| `image.pullSecrets`                  | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`              | Whether to enable livenessProbe                                                | `true`                                 |
 | `nodeSelector`                       | Optional daemonset nodeSelector                                                | `{}`                                   |
 | `podSecurityPolicy.annotations`      | Specify pod annotations in the pod security policy                             | `{}`                                   |
@@ -92,7 +94,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `service.ports[].nodePort`           | NodePort port (when service.type is NodePort)                                  | Not Set                                |
 | `service.ports[].protocol`           | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
 | `serviceAccount.create`              | Specifies whether a service account should be created.                         | `true`                                 |
-| `serviceAccount.name`                | Name of the service account.                                                   |                                        |
+| `serviceAccount.name`                | Name of the service account.                                                   | `""`                                   |
 | `serviceMonitor.enabled`             | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
 | `serviceMonitor.interval`            | Interval at which metrics should be scraped                                    | `10s`                                  |
 | `serviceMonitor.path`                | Path for Metrics                                                               | `/metrics`                             |
