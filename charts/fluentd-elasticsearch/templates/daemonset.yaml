@@ -71,10 +71,12 @@ spec:
           {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
           {{- end }}
+{{ if .Values.elasticsearch.auth.enabled }}
         - name: OUTPUT_USER
-          value: {{ .Values.elasticsearch.user | quote }}
+          value: {{ .Values.elasticsearch.auth.user | quote }}
         - name: OUTPUT_PASSWORD
-          value: {{ .Values.elasticsearch.password | quote }}
+          value: {{ .Values.elasticsearch.auth.password | quote }}
+{{ end }}
         - name: LOGSTASH_PREFIX
           value: {{ .Values.elasticsearch.logstash_prefix | quote }}
         - name: OUTPUT_SCHEME
