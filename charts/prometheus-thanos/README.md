@@ -49,6 +49,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.4.0`|
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `storeGateway.additionalLabels` | Additional labels on store gateway pods| `{}`|
+| `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}`|
 | `compact.replicaCount` |  for store gateway | `1`|
 | `compact.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `compact.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
