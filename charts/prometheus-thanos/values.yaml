@@ -114,6 +114,8 @@ compact:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  additionalLabels: {}
+  additionalAnnotations: {}
   logLevel: info
   retentionResolutionRaw: 30d
   retentionResolution5m: 30d

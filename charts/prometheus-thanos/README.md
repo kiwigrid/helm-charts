@@ -56,6 +56,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `compact.image.tag` | Docker image tag for store gateway | `v0.4.0`|
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `compact.additionalLabels` | Additional labels on compactor pod| `{}`|
+| `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}`|
 | `cluster.enabled` | enable cluster mode | `false`|
 | `cluster.port` | cluster port | `10900`|
 | `cluster.address` | cluster listen address | `0.0.0.0`|
