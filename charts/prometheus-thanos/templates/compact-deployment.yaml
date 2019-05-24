@@ -18,9 +18,15 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
         app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.compact.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "10902"
+        {{- with .Values.compact.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}-compact
