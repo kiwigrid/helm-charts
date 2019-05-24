@@ -19,9 +19,15 @@ spec:
         app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
         app.kubernetes.io/instance: {{ .Release.Name }}
         prometheus-thanos-peer: "true"
+        {{- with .Values.querier.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "10902"
+        {{- with .Values.querier.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}-querier

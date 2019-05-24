@@ -34,6 +34,8 @@ querier:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  additionalLabels: {}
+  additionalAnnotations: {}
   replicaLabel: replica
   logLevel: info
   stores: []

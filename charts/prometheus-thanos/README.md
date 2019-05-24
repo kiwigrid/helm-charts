@@ -42,6 +42,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.image.repository` | Docker image repo for querier | `improbable/thanos`|
 | `querier.image.tag` | Docker image tag for querier | `v0.4.0`|
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent`|
+| `querier.additionalLabels` | Additional labels on querier pods| `{}`|
+| `querier.additionalAnnotations` | Additional annotations on querier pods| `{}`|
 | `storeGateway.replicaCount` |  for store gateway | `1`|
 | `storeGateway.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
