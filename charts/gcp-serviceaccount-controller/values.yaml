@@ -7,6 +7,12 @@ nameOverride: ""
 fullnameOverride: ""
 
 gcpCredentials: ""
+
+# Use a pre-existing secret (ignores gcpCredentials)
+# existingSecret:
+# The key to use within the existing secret
+existingSecretKey: "credentials.json"
+
 disableRestrictionCheck: false
 service:
   type: ClusterIP
