@@ -42,16 +42,22 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.image.repository` | Docker image repo for querier | `improbable/thanos`|
 | `querier.image.tag` | Docker image tag for querier | `v0.4.0`|
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent`|
+| `querier.additionalLabels` | Additional labels on querier pods| `{}`|
+| `querier.additionalAnnotations` | Additional annotations on querier pods| `{}`|
 | `storeGateway.replicaCount` |  for store gateway | `1`|
 | `storeGateway.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.4.0`|
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `storeGateway.additionalLabels` | Additional labels on store gateway pods| `{}`|
+| `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}`|
 | `compact.replicaCount` |  for store gateway | `1`|
 | `compact.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `compact.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `compact.image.tag` | Docker image tag for store gateway | `v0.4.0`|
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
+| `compact.additionalLabels` | Additional labels on compactor pod| `{}`|
+| `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}`|
 | `cluster.enabled` | enable cluster mode | `false`|
 | `cluster.port` | cluster port | `10900`|
 | `cluster.address` | cluster listen address | `0.0.0.0`|

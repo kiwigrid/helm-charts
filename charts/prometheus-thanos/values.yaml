@@ -34,6 +34,8 @@ querier:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  additionalLabels: {}
+  additionalAnnotations: {}
   replicaLabel: replica
   logLevel: info
   stores: []
@@ -63,6 +65,8 @@ storeGateway:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  additionalLabels: {}
+  additionalAnnotations: {}
   extraEnv:
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
@@ -110,6 +114,8 @@ compact:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  additionalLabels: {}
+  additionalAnnotations: {}
   logLevel: info
   retentionResolutionRaw: 30d
   retentionResolution5m: 30d
