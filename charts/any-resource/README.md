@@ -18,7 +18,7 @@ anyResources:
       .dockercfg: eyJodHRwczovL215LmRvY2tlci5yZWdpc3RyeSI6eyJ1c2VybmFtZSI6ImRvY2tlciIsInBhc3N3b3JkIjoidW5rbm93biIsImF1dGgiOiJFaWsxYWhrdXVzaG9ocGhpdWY5emFocGhlZVRoYXhhPSJ9fQo=
     kind: Secret
     metadata:
-      name: myPullSecret
+      name: my-pull-secret
     type: kubernetes.io/dockercfg
 ```
 
