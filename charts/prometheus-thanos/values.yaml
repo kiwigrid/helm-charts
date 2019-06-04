@@ -139,6 +139,70 @@ compact:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+ruler:
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  image:
+    repository: improbable/thanos
+    tag: v0.4.0
+    pullPolicy: IfNotPresent
+  replicaLabel: replica
+  logLevel: info
+  queries: []
+  clusterName:
+  alertmanagerUrl: http://localhost
+  evalInterval: 1m
+  objStoreConfig:
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  config:
+  #  groups:
+  #  - name: metamonitoring
+  #    rules:
+  #    - alert: PrometheusReplicaDown
+  #      annotations:
+  #        message: Prometheus replica in cluster {{ $labels.cluster }} has disappeared from Prometheus target discovery.
+  #        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusdown
+  #      expr: absent(up{job="prometheus"})
+  #      for: 15s # for demo purposes
+  #      labels:
+  #        severity: critical
+  additionalFlags: {}
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 2Gi
+
 ## this is only for test support dont use this in production
 minio:
   enabled: false

@@ -58,6 +58,13 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
 | `compact.additionalLabels` | Additional labels on compactor pod| `{}`|
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}`|
+| `ruler.replicaCount` |  for ruler | `1`|
+| `ruler.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `ruler.image.repository` | Docker image repo for ruler | `improbable/thanos`|
+| `ruler.image.tag` | Docker image tag for ruler | `v0.4.0`|
+| `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent`|
+| `ruler.additionalLabels` | Additional labels on ruler pod| `{}`|
+| `ruler.additionalAnnotations` | Additional annotations on ruler pod| `{}`|
 | `cluster.enabled` | enable cluster mode | `false`|
 | `cluster.port` | cluster port | `10900`|
 | `cluster.address` | cluster listen address | `0.0.0.0`|
@@ -120,6 +127,28 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.affinity` | Affinity | `{}`|
 | `compact.volumeMounts` | additional volume mounts | `nil`|
 | `compact.volumes` | additional volumes | `nil`|
+| `ruler.extraEnv` | extra env vars | `nil`|
+| `ruler.logLevel` | ruler log level | `info`|
+| `ruler.evalInterval` | ruler evaluation interval | `1m`|
+| `ruler.alertmanagerUrl` | ruler alert manager url | `http://localhost`|
+| `ruler.clusterName` | ruler cluster name | `nil`|
+| `ruler.queries` | ruler quieries endpoints | `[]`|
+| `ruler.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS`|
+| `ruler.additionalFlags` | additional command line flags | `{}`|
+| `ruler.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil`|
+| `ruler.config` | default ruler config | `nil`|
+| `ruler.resources` | Resources | `{}`|
+| `ruler.nodeSelector` | NodeSelector | `{}`|
+| `ruler.tolerations` | Tolerations | `[]`|
+| `ruler.affinity` | Affinity | `{}`|
+| `ruler.volumeMounts` | additional volume mounts | `nil`|
+| `ruler.volumes` | additional volumes | `nil`|
+| `ruler.persistentVolume.enabled` | persistent volume enabled | `enabled`|
+| `ruler.persistentVolume.accessModes` | persistent volume accessModes | `[ReadWriteOnce]`|
+| `ruler.persistentVolume.annotations` | persistent volume annotations | `{}`|
+| `ruler.persistentVolume.existingClaim` | persistent volume existingClaim | ``|
+| `ruler.persistentVolume.size` | persistent volume size | `2Gi`|
+
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
