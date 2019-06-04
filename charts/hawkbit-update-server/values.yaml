@@ -4,7 +4,7 @@ useRabbitmq: true
 
 image:
   repository: "hawkbit/hawkbit-update-server"
-  tag: 0.3.0M2-mysql
+  tag: 0.3.0M3-mysql
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -37,6 +37,11 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+security:
+  # this is added in front of the password in env.springSecurityUserPassword
+  # so you don't have to add it to the password manually
+  passwordEncoder: "{noop}"
+
 # env vars for configuration
 env:
   springDatasourceHost: "hawkbit-update-server-mysql"
@@ -46,10 +51,12 @@ env:
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
-  securityUserName: "admin"
+  springsecurityUserName: "admin"
   # if no password is set a 40 digit random password is created
-  securityUserPassword: ""
+  # you don have to add the password encoder as its already set in security.passwordEncoder
+  springSecurityUserPassword: ""
   javaOptions: "-Xms512m -Xmx512m"
+
 
 # optional env vars
 extraEnv: {}
