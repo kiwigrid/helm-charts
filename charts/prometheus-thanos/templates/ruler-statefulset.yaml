@@ -31,6 +31,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      serviceAccount: {{ include "prometheus-thanos.name" . }}-ruler
       containers:
         - name: {{ .Chart.Name }}-ruler
           imagePullPolicy: {{ .Values.ruler.image.pullPolicy }}
@@ -82,11 +83,41 @@ spec:
           volumeMounts:
             - mountPath: /etc/thanos-ruler
               name: config
+            - mountPath: /etc/thanos-ruler/external
+              name: external-config-volume
             - mountPath: /data
               name: storage-volume
           {{- with .Values.ruler.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- if .Values.ruler.sidecar.enabled }}
+        - env:
+          - name: LABEL
+            value: {{ .Values.ruler.sidecar.watchLabel }}
+          - name: FOLDER
+            value: /etc/config
+          - name: NAMESPACE
+            value: ALL
+          - name: REQ_URL
+            value: http://127.0.0.1:10902/-/reload
+          - name: REQ_METHOD
+            value: POST
+          imagePullPolicy: {{ .Values.ruler.sidecar.image.pullPolicy }}
+          image: "{{ .Values.ruler.sidecar.image.repository }}:{{ .Values.ruler.sidecar.image.tag }}"
+          name: kiwigrid-configmap-watcher
+          resources:
+            limits:
+              cpu: 10m
+              memory: 32Mi
+            requests:
+              cpu: 10m
+              memory: 32Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/config
+            name: external-config-volume
+{{- end }}
       {{- with .Values.ruler.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -100,6 +131,8 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       volumes:
+        - name: external-config-volume
+          emptyDir: {}
         - configMap:
             name: {{ include "prometheus-thanos.fullname" . }}-ruler
           name: config

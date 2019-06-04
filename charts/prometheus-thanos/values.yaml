@@ -102,6 +102,13 @@ storeGateway:
     timeoutSeconds: 30
   volumeMounts:
   volumes:
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 2Gi
 
 compact:
   replicaCount: 1
@@ -151,6 +158,13 @@ ruler:
     repository: improbable/thanos
     tag: v0.4.0
     pullPolicy: IfNotPresent
+  sidecar:
+    enabled: false
+    watchLabel: thanos_alert_config
+    image:
+      repository: kiwigrid/k8s-configmap-watcher
+      tag: 0.1.0
+      pullPolicy: IfNotPresent
   replicaLabel: replica
   logLevel: info
   queries: []

@@ -19,6 +19,34 @@ To install the chart with the release name `prometheus-thanos`, run the followin
 $ helm install kiwigrid/prometheus-thanos --name prometheus-thanos --values=my-values.yaml
 ```
 
+## Using Sidcar Configmap Watcher
+
+To enable the sidecar you can set `ruler.sidecar.enabled` to `true`. The sidcar will then watch all configmaps and if there is a configmap with label named like `ruler.sidecar.watchLabel` the the sidecar will use the content inside the config directory of the ruler and will notify the ruler to reload the config files.
+
+An example configmap will look like:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:  
+  name: custom-config-map
+  labels:
+    thanos_alert_config: "1"
+data:
+  custom-external-rules.yaml: |-
+    groups:
+    - name: custom_external_rules_group
+      rules:
+      - alert: custom_alert
+        annotations:
+          description: "add your desc here"
+          summary: "add your summary here"
+        expr: up
+        for: 10m
+        labels:
+          severity: warn
+```
+
 ## Uninstalling the Chart
 
 To uninstall/delete the `prometheus-thanos` deployment:
@@ -112,6 +140,11 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.affinity` | Affinity | `{}`|
 | `storeGateway.volumeMounts` | additional volume mounts | `nil`|
 | `storeGateway.volumes` | additional volumes | `nil`|
+| `storeGateway.persistentVolume.enabled` | persistent volume enabled | `enabled`|
+| `storeGateway.persistentVolume.accessModes` | persistent volume accessModes | `[ReadWriteOnce]`|
+| `storeGateway.persistentVolume.annotations` | persistent volume annotations | `{}`|
+| `storeGateway.persistentVolume.existingClaim` | persistent volume existingClaim | ``|
+| `storeGateway.persistentVolume.size` | persistent volume size | `2Gi`|
 | `compact.extraEnv` | extra env vars | `nil`|
 | `compact.logLevel` | store gateway log level | `info`|
 | `compact.retentionResolutionRaw` | retention for raw buckets | `30d`|
@@ -127,6 +160,11 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.affinity` | Affinity | `{}`|
 | `compact.volumeMounts` | additional volume mounts | `nil`|
 | `compact.volumes` | additional volumes | `nil`|
+| `ruler.sidecar.image.repository` | Docker image for configmap watcher sidecar | `kiwigrid/k8s-configmap-watcher`|
+| `ruler.sidecar.image.tag` | Docker image tag for configmap watcher sidecar | `0.1.0`|
+| `ruler.sidecar.image.pullPolicy` | pull policy for configmap watcher sidecar | `IfNotPresent`|
+| `ruler.sidecar.enabled` | enable configmap watcher sidecar | `false`|
+| `ruler.sidecar.watchLabel` | label for configmaps to watch | `thanos_alert_config`|
 | `ruler.extraEnv` | extra env vars | `nil`|
 | `ruler.logLevel` | ruler log level | `info`|
 | `ruler.evalInterval` | ruler evaluation interval | `1m`|

@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "prometheus-thanos.fullname" . }}-store-gateway
   labels:
@@ -13,6 +13,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
       app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.fullname" . }}-store-gateway
   template:
     metadata:
       labels:
@@ -86,9 +87,11 @@ spec:
             timeoutSeconds: {{ .Values.storeGateway.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.storeGateway.resources | nindent 12 }}
-          {{- with .Values.storeGateway.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 14 }}
+            - mountPath: /data
+              name: storage-volume
+          {{- with .Values.storeGateway.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.storeGateway.nodeSelector }}
       nodeSelector:
@@ -106,4 +109,28 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-
+{{- if .Values.storeGateway.persistentVolume.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.storeGateway.persistentVolume.annotations }}
+        annotations:
+{{ toYaml .Values.storeGateway.persistentVolume.annotations | indent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+{{ toYaml .Values.storeGateway.persistentVolume.accessModes | indent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.storeGateway.persistentVolume.size }}"
+      {{- if .Values.storeGateway.persistentVolume.storageClass }}
+      {{- if (eq "-" .Values.storeGateway.persistentVolume.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: "{{ .Values.storeGateway.persistentVolume.storageClass }}"
+      {{- end }}
+      {{- end }}
+{{- else }}
+        - name: storage-volume
+          emptyDir: {}
+{{- end }}
