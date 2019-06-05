@@ -27,7 +27,7 @@ explain why.
 **Version of Helm and Kubernetes**:
 
 
-**Which chart**:
+**Which chart in which version**:
 
 
 **What happened**:

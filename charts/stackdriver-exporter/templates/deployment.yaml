@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "stackdriver-exporter.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "stackdriver-exporter.name" . }}
+    helm.sh/chart: {{ include "stackdriver-exporter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "stackdriver-exporter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "stackdriver-exporter.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+{{- if .Values.usingGCPController }}
+        checksum/secret: {{ include (print $.Template.BasePath "/gcpserviceaccount.yaml") . | sha256sum }}        
+{{ else }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}        
+{{ end }}
+        prometheus.io/port : "{{ .Values.web.port }}"
+        prometheus.io/scrape : "true"
+        prometheus.io/path : "{{ .Values.web.path }}"
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --google.project-id={{ required "gcp.projectId has to be set" .Values.gcp.projectId }}
+            - --monitoring.metrics-type-prefixes={{ include "stackdriver-exporter.utils.joinListWithComma" .Values.gcp.metricsTypePrefixes }}
+            - --web.listen-address=:{{ .Values.web.port }}
+            - --web.telemetry-path={{ .Values.web.path }}
+{{- if .Values.gcp.metricsInterval }}
+            - --monitoring.metrics-interval={{ .Values.gcp.metricsInterval }}
+{{ end }}
+{{- if .Values.gcp.metricsOffset }}
+            - --monitoring.metrics-offset={{ .Values.gcp.metricsOffset }}
+{{ end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.web.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/gcp/credentials.json
+          volumeMounts:          
+          - name: gcp-secret
+            mountPath: /var/secrets/gcp
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:      
+      - name: gcp-secret
+        secret:
+          secretName: {{ template "stackdriver-exporter.gcpsecretName" . }}
+

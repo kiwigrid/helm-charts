@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ingress-annotator.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "ingress-annotator.name" . }}
+    helm.sh/chart: {{ include "ingress-annotator.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  config.yaml: |-
+    annotations:
+{{- range $key, $val := .Values.config }}
+      {{ $key }}:
+{{ toYaml $val | indent 8 }}
+{{- end}}

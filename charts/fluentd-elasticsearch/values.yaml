@@ -1,9 +1,9 @@
 image:
-  repository: gcr.io/google-containers/fluentd-elasticsearch
+  repository: gcr.io/fluentd-elasticsearch/fluentd
 ## Specify an imagePullPolicy (Required)
 ## It's recommended to change this to 'Always' if the image tag is 'latest'
 ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
-  tag: v2.4.0
+  tag: v2.5.2
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -12,11 +12,26 @@ image:
   # pullSecrets:
   #   - myRegistrKeySecretName
 
+## If using AWS Elasticsearch, all requests to ES need to be signed regardless of whether
+## one is using Cognito or not. By setting this to true, this chart will install a sidecar
+## proxy that takes care of signing all requests being sent to the AWS ES Domain.
+awsSigningSidecar:
+  enabled: false
+  image:
+    repository: abutaha/aws-es-proxy
+    tag: 0.9
+
 # Specify to use specific priorityClass for pods
 # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
 # If a Pod cannot be scheduled, the scheduler tries to preempt (evict) lower priority
 # Pods to make scheduling of the pending Pod possible.
 priorityClassName: ""
+
+# Specify where fluentd can find logs
+hostLogDir:
+  varLog: /var/log
+  dockerContainers: /var/lib/docker/containers
+  libSystemdDir: /usr/lib64
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -30,15 +45,21 @@ resources: {}
   #   memory: 200Mi
 
 elasticsearch:
+  auth:
+    enabled: false
+    user: "yourUser"
+    password: "yourPass"
+  buffer_chunk_limit: 2M
+  buffer_queue_limit: 8
   host: 'elasticsearch-client'
+  logstash_prefix: 'logstash'
   port: 9200
   scheme: 'http'
   ssl_version: TLSv1_2
-  user: ""
-  password: ""
-  buffer_chunk_limit: 2M
-  buffer_queue_limit: 8
-  logstash_prefix: 'logstash'
+
+# If you want to change args of fluentd process
+# by example you can add -vv to launch with trace log
+fluentdArgs: "--no-supervisor -q"
 
 # If you want to add custom environment variables, use the env dict
 # You can then reference these in your config file e.g.:
@@ -62,7 +83,7 @@ serviceAccount:
   create: true
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: ""
 
 ## Specify if a Pod Security Policy for node-exporter must be created
 ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
@@ -98,6 +119,14 @@ tolerations: {}
   #   operator: Exists
   #   effect: NoSchedule
 
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: node-role.kubernetes.io/master
+  #         operator: DoesNotExist
+
 nodeSelector: {}
 
 service: {}
@@ -106,6 +135,7 @@ service: {}
   #   - name: "monitor-agent"
   #     port: 24231
 
+<<<<<<< HEAD
 configMaps:
   system.conf: |-
     <system>
@@ -577,6 +607,41 @@ configMaps:
         overflow_action block
       </buffer>
     </match>
+=======
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: false
+  interval: 10s
+  path: /metrics
+  labels: {}
+
+prometheusRule:
+  ## If true, a PrometheusRule CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: false
+  prometheusNamespace: monitoring
+  labels: {}
+  #  role: alert-rules
+
+configMaps:
+  useDefaults:
+    systemConf: true
+    containersInputConf: true
+    systemInputConf: true
+    forwardInputConf: true
+    monitoringConf: true
+    outputConf: true
+
+# can be used to add new config or overwrite the default configmaps completely after the configmaps default has been disabled above
+extraConfigMaps:
+  # system.conf: |-
+  #   <system>
+  #     root_dir /tmp/fluentd-buffers/
+  #   </system>
+>>>>>>> c1fa7050375edf077786a141e81f1e2de45360de
 
 
 # extraVolumes:

@@ -34,12 +34,19 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of the GCP serviceaccount chart and their default values.
 
-| Parameter                         | Description                             | Default                                                                                     |
-| --------------------------------- | --------------------------------------  | ---------------------------------------------------------                                   |
-| `image`                           | gcp service account controller image                          | `kiwigrid/gcp-serviceaccount-controller`                                                        |
-| `imageTag`                        | gcp service account controller image tag                      | `24`                                                                                      |
-| `imagePullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
-| `gcpCredentials`                  | Service account key JSON file           | Should be provided and base64 encoded when no existing secret is used, in this case a new secret will be created holding this service account |
+| Parameter                 | Description                              | Default                                                                                                                                       |
+| ------------------------- | -----------------------------------------| --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image.repository`        | gcp service account controller image     | `kiwigrid/gcp-serviceaccount-controller`                                                                                                      |
+| `image.tag`               | gcp service account controller image tag | `0.2.1`                                                                                                                                       |
+| `image.pullPolicy`        | Image pull policy                        | `IfNotPresent`                                                                                                                                |
+| `gcpCredentials`          | Service account key JSON file            | Should be provided and base64 encoded when installing the chart and no existing secret is used, in this case a new secret will be created holding this service account |
+| `existingSecret`          | Existing secret containing the service account key JSON file | null|
+| `existingSecretKey`       | The key to use within the existing secret            | "credentials.json" |
+| `disableRestrictionCheck` | Disables namespace restriction           | `false`                                                                                                                                       |
+| `resources`               | Resources                                | `{}`                                                                                                                                          |
+| `nodeSelector`            | NodeSelector                             | `{}`                                                                                                                                          |
+| `tolerations`             | Tolerations                              | `[]`                                                                                                                                          |
+| `affinity`                | Affinity                                 | `{}`                                                                                                                                          |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.

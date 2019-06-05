@@ -37,7 +37,7 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | Parameter                                  | Description                               | Default                            |
 | ------------------------------------------ | ----------------------------------------- | ---------------------------------- |
 | `image.repository`                         | Docker image repo                         | `hawkbit/hawkbit-update-server`    |
-| `image.tag`                                | Docker image                              | `0.2.5-mysql`                      |
+| `image.tag`                                | Docker image                              | `0.3.0M2-mysql`                    |
 | `image.pullPolicy`                         | Docker image pull policy                  | `IfNotPresent`                     |
 | `service.type`                             | Service type                              | `ClusterIP`                        |
 | `service.port`                             | Service port of hawkbit-update-server UI  | `80`                               |
@@ -64,8 +64,10 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springRabbitmqHost`                   | RabbitMq host                             | `"hawkbit-update-server-rabbitmq"` |
 | `env.springRabbitmqUsername`               | RabbitMq user                             | `"hawkbit"`                        |
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"                         |
-| `springSecurityUserName`                   | Hawkbit user                              | `"admin"`                          |
-| `springSecurityUserPassword`               | Hawkbit pass                              | `"admin"`                          |
+| `env.SecurityUserName`                     | Hawkbit user                              | `"admin"`                          |
+| `env.SecurityUserPassword`                 | Hawkbit pass                              | `""`                               |
+| `extraEnv`                                 | Optional environment variables            | `{}`              
+
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 

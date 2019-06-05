@@ -23,11 +23,11 @@ spec:
     - 'hostPath'
     - 'secret'
   allowedHostPaths:
-    - pathPrefix: /var/log
+    - pathPrefix: {{ .Values.hostLogDir.varLog}}
       readOnly: false
-    - pathPrefix: /var/lib/docker/containers
+    - pathPrefix: {{ .Values.hostLogDir.dockerContainers}}
       readOnly: true
-    - pathPrefix: /usr/lib64
+    - pathPrefix: {{ .Values.hostLogDir.libSystemdDir}}
       readOnly: true
   hostNetwork: false
   hostPID: false

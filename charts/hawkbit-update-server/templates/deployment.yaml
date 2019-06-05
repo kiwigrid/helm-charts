@@ -18,6 +18,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        checksum/config: {{ include (print .Template.BasePath "/secrets.yaml") . | sha256sum }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -43,12 +45,16 @@ spec:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-rabbitmq-pass"
                   key: "rabbitmq-pass"
             - name: "SECURITY_USER_NAME"
-              value: "{{ .Values.env.springSecurityUserName}}"
+              value: "{{ .Values.env.securityUserName}}"
             - name: "SECURITY_USER_PASSWORD"
               valueFrom:
                 secretKeyRef:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-hawkbit-pass"
                   key: "hawkbit-pass"
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
