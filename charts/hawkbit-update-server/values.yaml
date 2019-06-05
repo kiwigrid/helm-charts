@@ -51,7 +51,7 @@ env:
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
-  springsecurityUserName: "admin"
+  springSecurityUserName: "admin"
   # if no password is set a 40 digit random password is created
   # you don have to add the password encoder as its already set in security.passwordEncoder
   springSecurityUserPassword: ""
