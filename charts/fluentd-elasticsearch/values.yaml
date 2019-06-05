@@ -548,10 +548,12 @@ configMaps:
       @id prometheus
       @type prometheus
     </source>
+    
     <source>
       @id monitor_agent
       @type monitor_agent
     </source>
+    
     # input plugin that collects metrics from MonitorAgent
     <source>
       @id prometheus_monitor
@@ -560,6 +562,7 @@ configMaps:
         host ${hostname}
       </labels>
     </source>
+    
     # input plugin that collects metrics for output plugin
     <source>
       @id prometheus_output_monitor
@@ -568,6 +571,7 @@ configMaps:
         host ${hostname}
       </labels>
     </source>
+    
     # input plugin that collects metrics for in_tail plugin
     <source>
       @id prometheus_tail_monitor
