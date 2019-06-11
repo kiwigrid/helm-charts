@@ -40,12 +40,6 @@ spec:
           - store
           - --data-dir=/data
           - --log.level={{ .Values.storeGateway.logLevel }}
-          {{- if .Values.cluster.enabled }}          
-          - --cluster.address={{ .Values.cluster.address }}:{{ .Values.cluster.port}}
-          - --cluster.peers={{ include "prometheus-thanos.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.cluster.port }}          
-          {{- else }}
-          - --cluster.disable
-          {{- end }}
           - --index-cache-size={{ .Values.storeGateway.indexCacheSize }}
           - --chunk-pool-size={{ .Values.storeGateway.chunkPoolSize }}
           {{- range $key, $value := .Values.storeGateway.additionalFlags }}
@@ -63,9 +57,6 @@ spec:
               protocol: TCP
             - name: grpc
               containerPort: 10901
-              protocol: TCP
-            - name: cluster
-              containerPort: {{ .Values.cluster.port }}
               protocol: TCP
           {{- if .Values.storeGateway.extraEnv }}
           env:

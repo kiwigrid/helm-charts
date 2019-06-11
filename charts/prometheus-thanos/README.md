@@ -93,9 +93,6 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent`|
 | `ruler.additionalLabels` | Additional labels on ruler pod| `{}`|
 | `ruler.additionalAnnotations` | Additional annotations on ruler pod| `{}`|
-| `cluster.enabled` | enable cluster mode | `false`|
-| `cluster.port` | cluster port | `10900`|
-| `cluster.address` | cluster listen address | `0.0.0.0`|
 | `service.querier.type` | Service type for the querier | `ClusterIP`|
 | `service.querier.http.port` | Service http port for the querier  | `9090`|
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901`|

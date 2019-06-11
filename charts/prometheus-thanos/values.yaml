@@ -4,10 +4,6 @@
 
 nameOverride: ""
 fullnameOverride: ""
-cluster:
-  enabled: false
-  port: 10900
-  address: 0.0.0.0
 
 service:
   querier:
@@ -32,7 +28,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: improbable/thanos
-    tag: v0.4.0
+    tag: v0.5.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -59,7 +55,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: improbable/thanos
-    tag: v0.4.0
+    tag: v0.5.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -115,7 +111,7 @@ compact:
       maxUnavailable: 0
   image:
     repository: improbable/thanos
-    tag: v0.4.0
+    tag: v0.5.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -148,7 +144,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: improbable/thanos
-    tag: v0.4.0
+    tag: v0.5.0
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false

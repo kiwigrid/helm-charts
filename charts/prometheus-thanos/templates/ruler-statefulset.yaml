@@ -43,7 +43,6 @@ spec:
           - --data-dir=/data
           - --log.level={{ .Values.ruler.logLevel }}
           - --eval-interval={{ .Values.ruler.evalInterval }}          
-          - --cluster.disable
           - --rule-file=/etc/thanos-ruler/**/*.rules.yaml
           - --alertmanagers.url={{ .Values.ruler.alertmanagerUrl }}
           - --query={{ include "prometheus-thanos.fullname" . }}-querier:{{ .Values.service.querier.http.port }}
@@ -76,9 +75,6 @@ spec:
               protocol: TCP
             - name: grpc
               containerPort: 10901
-              protocol: TCP
-            - name: cluster
-              containerPort: {{ .Values.cluster.port }}
               protocol: TCP
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
