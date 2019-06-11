@@ -9,6 +9,10 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.compact.replicaCount }}
+  strategy:
+  {{- with .Values.compact.updateStrategy }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
@@ -78,4 +82,3 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-

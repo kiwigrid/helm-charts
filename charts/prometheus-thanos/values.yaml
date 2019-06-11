@@ -56,11 +56,7 @@ querier:
     timeoutSeconds: 30
 storeGateway:
   replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  updateStrategy: RollingUpdate
   image:
     repository: improbable/thanos
     tag: v0.4.0
@@ -149,11 +145,7 @@ compact:
 
 ruler:
   replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  updateStrategy: RollingUpdate
   image:
     repository: improbable/thanos
     tag: v0.4.0

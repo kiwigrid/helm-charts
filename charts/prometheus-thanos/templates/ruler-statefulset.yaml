@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.ruler.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.ruler.updateStrategy }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
