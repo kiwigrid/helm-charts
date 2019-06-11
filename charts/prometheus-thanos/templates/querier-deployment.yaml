@@ -9,6 +9,10 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.querier.replicaCount }}
+  strategy:
+  {{- with .Values.querier.updateStrategy }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
@@ -37,12 +41,6 @@ spec:
           - query
           - --log.level={{ .Values.querier.logLevel }}
           - --query.replica-label={{ .Values.querier.replicaLabel }}
-          {{- if .Values.cluster.enabled }}          
-          - --cluster.address={{ .Values.cluster.address }}:{{ .Values.cluster.port}}
-          - --cluster.peers={{ include "prometheus-thanos.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.cluster.port }}          
-          {{- else }}
-          - --cluster.disable
-          {{- end }}
           {{- range .Values.querier.stores }}
           - --store={{ . }}
           {{- end }}
@@ -55,9 +53,6 @@ spec:
               protocol: TCP
             - name: grpc
               containerPort: 10901
-              protocol: TCP
-            - name: cluster
-              containerPort: {{ .Values.cluster.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -97,4 +92,3 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-

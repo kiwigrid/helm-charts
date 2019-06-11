@@ -73,7 +73,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.additionalLabels` | Additional labels on querier pods| `{}`|
 | `querier.additionalAnnotations` | Additional annotations on querier pods| `{}`|
 | `storeGateway.replicaCount` |  for store gateway | `1`|
-| `storeGateway.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `storeGateway.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos`|
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.4.0`|
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent`|
@@ -87,15 +87,12 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.additionalLabels` | Additional labels on compactor pod| `{}`|
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}`|
 | `ruler.replicaCount` |  for ruler | `1`|
-| `ruler.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `ruler.image.repository` | Docker image repo for ruler | `improbable/thanos`|
 | `ruler.image.tag` | Docker image tag for ruler | `v0.4.0`|
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent`|
 | `ruler.additionalLabels` | Additional labels on ruler pod| `{}`|
 | `ruler.additionalAnnotations` | Additional annotations on ruler pod| `{}`|
-| `cluster.enabled` | enable cluster mode | `false`|
-| `cluster.port` | cluster port | `10900`|
-| `cluster.address` | cluster listen address | `0.0.0.0`|
 | `service.querier.type` | Service type for the querier | `ClusterIP`|
 | `service.querier.http.port` | Service http port for the querier  | `9090`|
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901`|
