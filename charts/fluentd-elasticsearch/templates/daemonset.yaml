@@ -78,19 +78,21 @@ spec:
           value: {{ .Values.elasticsearch.auth.password | quote }}
 {{- end }}
         - name: LOGSTASH_PREFIX
-          value: {{ .Values.elasticsearch.logstash_prefix | quote }}
+          value: {{ .Values.elasticsearch.logstashPrefix | quote }}
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'
           {{- else }}
           value: {{ .Values.elasticsearch.scheme | quote }}
           {{- end }}
+        - name: OUTPUT_SSL_VERIFY
+          value: {{ .Values.elasticsearch.sslVerify | quote }}
         - name: OUTPUT_SSL_VERSION
-          value: {{ .Values.elasticsearch.ssl_version | quote }}
+          value: {{ .Values.elasticsearch.sslVersion | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
-          value: {{ .Values.elasticsearch.buffer_chunk_limit | quote }}
+          value: {{ .Values.elasticsearch.bufferChunkLimit | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT
-          value: {{ .Values.elasticsearch.buffer_queue_limit | quote }}
+          value: {{ .Values.elasticsearch.bufferQueueLimit | quote }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}

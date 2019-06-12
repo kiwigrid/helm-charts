@@ -49,13 +49,14 @@ elasticsearch:
     enabled: false
     user: "yourUser"
     password: "yourPass"
-  buffer_chunk_limit: 2M
-  buffer_queue_limit: 8
-  host: 'elasticsearch-client'
-  logstash_prefix: 'logstash'
+  bufferChunkLimit: "2M"
+  bufferQueueLimit: 8
+  host: "elasticsearch-client"
+  logstashPrefix: "logstash"
   port: 9200
-  scheme: 'http'
-  ssl_version: TLSv1_2
+  scheme: "http"
+  sslVerify: true
+  sslVersion: "TLSv1_2"
 
 # If you want to change args of fluentd process
 # by example you can add -vv to launch with trace log

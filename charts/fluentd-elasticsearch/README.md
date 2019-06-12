@@ -60,13 +60,14 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
-| `elasticsearch.buffer_chunk_limit`           | Elasticsearch buffer chunk limit                                               | `2M`                                   |
-| `elasticsearch.buffer_queue_limit`           | Elasticsearch buffer queue limit                                               | `8`                                    |
+| `elasticsearch.bufferChunkLimit`           | Elasticsearch buffer chunk limit                                               | `2M`                                   |
+| `elasticsearch.bufferQueueLimit`           | Elasticsearch buffer queue limit                                               | `8`                                    |
 | `elasticsearch.host`                         | Elasticsearch Host                                                             | `elasticsearch-client`                 |
-| `elasticsearch.logstash_prefix`              | Elasticsearch Logstash prefix                                                  | `logstash`                             |
+| `elasticsearch.logstashPrefix`              | Elasticsearch Logstash prefix                                                  | `logstash`                             |
 | `elasticsearch.port`                         | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
-| `elasticsearch.ssl_version`                  | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
+| `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
+| `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
