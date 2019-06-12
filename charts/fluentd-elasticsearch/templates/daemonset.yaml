@@ -160,6 +160,14 @@ spec:
                 exit 1;
               fi;
 {{- end }}
+        ports:
+{{- range $port := .Values.service.ports }}
+          - name: {{ $port.name }}
+            containerPort: {{ $port.port }}
+{{- if $port.protocol }}
+            protocol: {{ $port.protocol }}
+{{- end }}
+{{- end }}
       {{- if .Values.awsSigningSidecar.enabled }}
       - name: {{ include "fluentd-elasticsearch.fullname" . }}-aws-es-proxy
         image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
@@ -170,14 +178,6 @@ spec:
         - name: PORT_NUM
           value: "{{ .Values.elasticsearch.port }}"
       {{- end }}
-        ports:
-{{- range $port := .Values.service.ports }}
-          - name: {{ $port.name }}
-            containerPort: {{ $port.port }}
-{{- if $port.protocol }}
-            protocol: {{ $port.protocol }}
-{{- end }}
-{{- end }}
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
