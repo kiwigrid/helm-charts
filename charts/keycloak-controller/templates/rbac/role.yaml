@@ -1,0 +1,27 @@
+{{- if .Values.rbac.enabled -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "keycloak-controller.fullname" . }}
+  labels:
+{{ include "keycloak-controller.labels" . | indent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+- apiGroups:
+  - k8s.kiwigrid.com
+  resources:
+  - keycloaks
+  - keycloakrealms
+  - keycloakclients
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+{{- end -}}
