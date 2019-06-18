@@ -1,6 +1,6 @@
 # Keycloak Client Controller
 
-The [Keycloak Client Controller](https://github.com/kiwigrid/keycloak-client-controller) manages clients and realms in
+The [Keycloak Controller](https://github.com/kiwigrid/keycloak-controller) manages clients and realms in one
 or more [Keycloak](https://www.keycloak.org) instances via Kubernetes resources.
 
 ## Configuration
@@ -10,8 +10,8 @@ The following table lists the configurable parameters of the chart and their def
 | Parameter                 | Description                                                | Default                               |
 | ------------------------- | ---------------------------------------------------------- | ------------------------------------- |
 | `replicaCount`            | Number of replicas                                         | 1                                     |
-| `image.repository`        | keycloak-client-controller image                           | `kiwigrid/keycloak-client-controller` |
-| `image.tag`               | keycloak-client-controller image tag                       | `1.0.0`                               |
+| `image.repository`        | keycloak-controller image                                  | `kiwigrid/keycloak-controller`        |
+| `image.tag`               | keycloak-controller image tag                              | `1.0.0`                               |
 | `image.pullPolicy`        | Image pull policy                                          | `IfNotPresent`                        |
 | `rbac.enabled`            | Controls RBAC usage                                        | `true`                                |
 | `retryRate`               | Configure retry interval for failed resources              | `60s`                                 |
@@ -32,7 +32,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install --name my-release -f values.yaml kiwigrid/keycloak-client-controller
+helm install --name my-release -f values.yaml kiwigrid/keycloak-controller
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
