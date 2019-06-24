@@ -60,10 +60,10 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
-| `elasticsearch.bufferChunkLimit`           | Elasticsearch buffer chunk limit                                               | `2M`                                   |
-| `elasticsearch.bufferQueueLimit`           | Elasticsearch buffer queue limit                                               | `8`                                    |
+| `elasticsearch.bufferChunkLimit`             | Elasticsearch buffer chunk limit                                               | `2M`                                   |
+| `elasticsearch.bufferQueueLimit`             | Elasticsearch buffer queue limit                                               | `8`                                    |
 | `elasticsearch.host`                         | Elasticsearch Host                                                             | `elasticsearch-client`                 |
-| `elasticsearch.logstashPrefix`              | Elasticsearch Logstash prefix                                                  | `logstash`                             |
+| `elasticsearch.logstashPrefix`               | Elasticsearch Logstash prefix                                                  | `logstash`                             |
 | `elasticsearch.port`                         | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
@@ -77,7 +77,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                           | Image                                                                          | `gcr.io/fluentd-elasticsearch/fluentd` |
-| `image.tag`                                  | Image tag                                                                      | `v2.5.2`                               |
+| `image.tag`                                  | Image tag                                                                      | `v2.6.0`                               |
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
