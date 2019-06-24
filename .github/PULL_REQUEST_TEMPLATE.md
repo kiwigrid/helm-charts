@@ -41,3 +41,4 @@ even continue reviewing your changes.
 - [ ] [DCO](https://developercertificate.org) signed
 - [ ] Chart Version bumped (if the pr is an update to an existing chart)
 - [ ] Variables are documented in the README.md
+- [ ] Title of the PR starts with chart name (e.g. `[fluentd-elasticsearch]`)
