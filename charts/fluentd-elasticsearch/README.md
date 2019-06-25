@@ -94,8 +94,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `resources.requests.cpu`                     | CPU request                                                                    | `100m`                                 |
 | `resources.requests.memory`                  | Memory request                                                                 | `200Mi`                                |
 | `service`                                    | Service definition                                                             | `{}`                                   |
-| `service.type`                               | Service type (ClusterIP/NodePort)                                              | Not Set                                |
 | `service.ports`                              | List of service ports dict [{name:...}...]                                     | Not Set                                |
+| `service.ports[].type`                       | Service type (ClusterIP/NodePort)                                              | Not Set                                |
 | `service.ports[].name`                       | One of service ports name                                                      | Not Set                                |
 | `service.ports[].port`                       | Service port                                                                   | Not Set                                |
 | `service.ports[].nodePort`                   | NodePort port (when service.type is NodePort)                                  | Not Set                                |
@@ -103,6 +103,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceAccount.create`                      | Specifies whether a service account should be created.                         | `true`                                 |
 | `serviceAccount.name`                        | Name of the service account.                                                   | `""`                                   |
 | `serviceMonitor.enabled`                     | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
+| `serviceMonitor.port`                        | Define on which port the ServiceMonitor should scrape                          | `24231`                                |
 | `serviceMonitor.interval`                    | Interval at which metrics should be scraped                                    | `10s`                                  |
 | `serviceMonitor.path`                        | Path for Metrics                                                               | `/metrics`                             |
 | `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
