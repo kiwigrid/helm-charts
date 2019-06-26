@@ -1,5 +1,5 @@
 image:
-  repository: gcr.io/fluentd-elasticsearch/fluentd
+  repository: quay.io/fluentd_elasticsearch/fluentd
 ## Specify an imagePullPolicy (Required)
 ## It's recommended to change this to 'Always' if the image tag is 'latest'
 ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
