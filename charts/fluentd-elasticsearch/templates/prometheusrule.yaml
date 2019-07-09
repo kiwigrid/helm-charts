@@ -19,7 +19,7 @@ spec:
   - name: fluentd
     rules:
     - alert: FluentdNodeDown
-      expr: up{job="{{ .Release.Name }}"} == 0
+      expr: up{job="{{ include "fluentd-elasticsearch.fullname" . }}"} == 0
       for: 10m
       labels:
         service: fluentd
@@ -29,7 +29,7 @@ spec:
         description: Prometheus could not scrape {{ "{{ $labels.job }}" }} for more than 10 minutes
   
     - alert: FluentdNodeDown
-      expr: up{job="{{ .Release.Name }}"} == 0
+      expr: up{job="{{ include "fluentd-elasticsearch.fullname" . }}"} == 0
       for: 30m
       labels:
         service: fluentd
