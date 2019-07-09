@@ -1,0 +1,84 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "hono-adapter-kura.fullname" . }}
+  labels: 
+{{ include "hono-adapter-kura.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+     app.kubernetes.io/name: {{ include "hono-adapter-kura.name" . }}
+     app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "hono-adapter-kura.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- if eq .Values.jaeger.enabled true}}
+      initContainers:
+        - name: wait-for-jaeger-agent
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nslookup {{ .Values.jaeger.agentHost }}; do echo waiting for {{ .Values.jaeger.agentHost }}; sleep 2; done;']
+      {{- end}}
+      containers:
+      - image: {{ .Values.honoContainerRegistry }}/eclipse/hono-adapter-kura:{{ .Values.honoImageTag }}
+        imagePullPolicy: IfNotPresent
+        name: {{ .Chart.Name }}
+        ports:
+        - name: health
+          containerPort: {{ .Values.healthCheckPort }}
+          protocol: TCP
+        - name: mqtt
+          containerPort: 1883
+          protocol: TCP
+        - name: secure-mqtt
+          containerPort: 8883
+          protocol: TCP
+        securityContext:
+          privileged: false
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: file:///etc/hono/
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        - name: LOGGING_CONFIG
+          value: classpath:logback-spring.xml
+        {{- if eq .Values.jaeger.enabled true}}
+        - name: JAEGER_SERVICE_NAME
+          value: hono-adapter-kura
+        {{- range $key, $value := .Values.jaeger.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end}}
+        - name: _JAVA_OPTIONS
+          value: "{{ .Values.defaultJavaOptions }}"
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - mountPath: /etc/hono
+          name: conf
+          readOnly: true
+        resources:
+          limits:
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: {{ .Values.healthCheckPort }}
+            scheme: HTTP
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: {{ .Values.healthCheckPort }}
+            scheme: HTTP
+          initialDelaySeconds: 180
+      volumes:
+      - name: conf
+        secret:
+          secretName: hono-adapter-kura-conf
