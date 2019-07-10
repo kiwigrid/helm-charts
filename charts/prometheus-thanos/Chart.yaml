@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "0.5.0"
 description: A Helm chart for thanos monitoring components
 name: prometheus-thanos
-version: 1.1.1
+version: 1.1.2
 home: https://github.com/improbable-eng/thanos
 sources:
 - https://github.com/improbable-eng/thanos
