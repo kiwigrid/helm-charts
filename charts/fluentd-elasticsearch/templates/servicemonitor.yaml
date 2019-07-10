@@ -17,9 +17,7 @@ spec:
   endpoints:
   - interval: {{ .Values.serviceMonitor.interval }}
     honorLabels: true
-    {{- range $port := .Values.service.ports }}
-    port: {{ $port.name }}
-    {{- end }} 
+    port: metrics
     path: {{ .Values.serviceMonitor.path }}
   jobLabel: "{{ .Release.Name }}"
   selector:

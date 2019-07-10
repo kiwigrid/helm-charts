@@ -142,7 +142,7 @@ serviceMonitor:
   ##
   enabled: false
   interval: 10s
-  path: /metrics
+  port: 24231
   labels: {}
 
 prometheusRule:
