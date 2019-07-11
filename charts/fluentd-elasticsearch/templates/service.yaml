@@ -1,5 +1,6 @@
 {{- if .Values.service }}
-{{- range $port := .Values.service.ports }}
+{{- range $port := .Values.service.ports  }}
+{{- $service_type := $port.type | default "ClusterIP" }}
 ---
 apiVersion: v1
 kind: Service
@@ -13,12 +14,12 @@ metadata:
     kubernetes.io/cluster-service: "true"
     addonmanager.kubernetes.io/mode: Reconcile
 spec:
-  type: {{ $port.type }}
+  type: {{ $service_type }}
   ports:
     - name: {{ $port.name }}
       port: {{ $port.port }}
       targetPort: {{ $port.port }}
-      {{- if and ($port.nodePort) (eq $port.type "NodePort") }}
+      {{- if and ($port.nodePort) (eq $service_type "NodePort") }}
       nodePort: {{ $port.nodePort }}
       {{- end }}
       {{- if $port.protocol }}
