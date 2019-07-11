@@ -95,7 +95,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `resources.requests.memory`                  | Memory request                                                                 | `200Mi`                                |
 | `service`                                    | Service definition                                                             | `{}`                                   |
 | `service.ports`                              | List of service ports dict [{name:...}...]                                     | Not Set                                |
-| `service.ports[].type`                       | Service type (ClusterIP/NodePort)                                              | Not Set                                |
+| `service.ports[].type`                       | Service type (ClusterIP/NodePort)                                              | `ClusterIP`                                |
 | `service.ports[].name`                       | One of service ports name                                                      | Not Set                                |
 | `service.ports[].port`                       | Service port                                                                   | Not Set                                |
 | `service.ports[].nodePort`                   | NodePort port (when service.type is NodePort)                                  | Not Set                                |
