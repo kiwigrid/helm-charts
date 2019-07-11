@@ -59,7 +59,7 @@ storeGateway:
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
-  extraEnv:
+  extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
   logLevel: info
@@ -68,7 +68,7 @@ storeGateway:
 
   objStoreType: GCS
   additionalFlags: {}
-  objStoreConfig:
+  objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
 
@@ -121,7 +121,7 @@ compact:
   retentionResolution1h: 10y
   consistencyDelay: 30m
   additionalFlags: {}
-  objStoreConfig:
+  objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
 
@@ -131,7 +131,7 @@ compact:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
-  extraEnv:
+  extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
   resources: {}
@@ -159,7 +159,7 @@ ruler:
   clusterName:
   alertmanagerUrl: http://localhost
   evalInterval: 1m
-  objStoreConfig:
+  objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
 
@@ -169,7 +169,7 @@ ruler:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
-  config:
+  config: {}
   #  groups:
   #  - name: metamonitoring
   #    rules:
