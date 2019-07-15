@@ -63,13 +63,13 @@ env:
 # See https://github.com/eclipse/hawkbit/pull/865.
 oidc:
   enabled: false
-  #clientId: "oidc-client-id"
-  #clientSecret: "oidc-client-secret"
-  #issuerUri: "https://oidc-provier/issuer-uri"
-  #authorizationUri: "https://oidc-provier/authorization-uri"
-  #tokenUri: "https://oidc-provier/token-uri"
-  #userInfoUri: "https://oidc-provier/user-info-uri"
-  #jwkSetUri: "https://oidc-provier/jwk-set-uri"
+  # clientId: "oidc-client-id"
+  # clientSecret: "oidc-client-secret"
+  # issuerUri: "https://oidc-provier/issuer-uri"
+  # authorizationUri: "https://oidc-provier/authorization-uri"
+  # tokenUri: "https://oidc-provier/token-uri"
+  # userInfoUri: "https://oidc-provier/user-info-uri"
+  # jwkSetUri: "https://oidc-provier/jwk-set-uri"
 
 
 # optional env vars
