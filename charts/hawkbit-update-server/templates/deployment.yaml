@@ -23,7 +23,7 @@ spec:
     spec:
     {{- with .Values.image.pullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | trimSuffix "\n" | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
         - name: {{ .Chart.Name }}
