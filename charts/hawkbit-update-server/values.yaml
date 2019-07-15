@@ -57,6 +57,9 @@ env:
   springSecurityUserPassword: ""
   javaOptions: "-Xms512m -Xmx512m"
 
+oidc:
+  enabled: false
+
 
 # optional env vars
 extraEnv: {}
