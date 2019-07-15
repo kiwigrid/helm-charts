@@ -55,6 +55,25 @@ spec:
                 secretKeyRef:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-hawkbit-pass"
                   key: "hawkbit-pass"
+            {{- if .Values.oidc.enabled }}
+            - name: "spring.security.oauth2.client.registration.oidc.client-id"
+              value: "{{ .Values.oidc.clientId }}"
+            - name: "spring.security.oauth2.client.registration.oidc.client-secret"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ template "hawkbit-update-server.fullname" . }}-oidc-client-secret"
+                  key: "oidc-client-secret"
+            - name: "spring.security.oauth2.client.provider.oidc.issuer-uri"
+              value: "{{ .Values.oidc.issuerUri }}"
+            - name: "spring.security.oauth2.client.provider.oidc.authorization-uri"
+              value: "{{ .Values.oidc.authorizationUri }}"
+            - name: "spring.security.oauth2.client.provider.oidc.token-uri"
+              value: "{{ .Values.oidc.tokenUri }}"
+            - name: "spring.security.oauth2.client.provider.oidc.user-info-uri"
+              value: "{{ .Values.oidc.userInfoUri }}"
+            - name: "spring.security.oauth2.client.provider.oidc.jwk-set-uri"
+              value: "{{ .Values.oidc.jwkSetUri }}"
+            {{- end }}
             {{- range $key, $value := .Values.extraEnv }}
             - name: "{{ $key }}"
               value: "{{ $value }}"
@@ -65,13 +84,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /VAADIN/themes/hawkbit/favicon.ico
               port: http
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /VAADIN/themes/hawkbit/favicon.ico
               port: http
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
