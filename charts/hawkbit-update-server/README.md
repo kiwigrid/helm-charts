@@ -68,6 +68,14 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"`                        |
 | `env.springSecurityUserName`               | Hawkbit user                              | `"admin"`                          |
 | `env.springSecurityUserPassword`           | Hawkbit pass                              | `""`                               |
+| `oidc.enabled`                             | enable OpenID Connect authentication      | `false`                            |
+| `oidc.clientId`                            | OpenID Connect client ID                  | `""`                               |
+| `oidc.clientSecret`                        | OpenID Connect client secret              | `""`                               |
+| `oidc.issuerUri`                           | OpenID Connect issuer URI                 | `""`                               |
+| `oidc.authorizationUri`                    | OpenID Connect authorization URI          | `""`                               |
+| `oidc.tokenUri`                            | OpenID Connect token URI                  | `""`                               |
+| `oidc.userInfoUri`                         | OpenID Connect user info URI              | `""`                               |
+| `oidc.jwkSetUri`                           | OpenID Connect JWK set URI                | `""`                               |
 | `extraEnv`                                 | Optional environment variables            | `{}`                               |
 
 
