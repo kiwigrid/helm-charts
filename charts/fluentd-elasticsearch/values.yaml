@@ -131,9 +131,9 @@ affinity: {}
 nodeSelector: {}
 
 service: {}
-  # type: ClusterIP
   # ports:
   #   - name: "monitor-agent"
+  #     type: ClusterIP
   #     port: 24231
 
 serviceMonitor:
