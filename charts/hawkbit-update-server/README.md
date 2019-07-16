@@ -39,6 +39,7 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `image.repository`                         | Docker image repo                         | `hawkbit/hawkbit-update-server`    |
 | `image.tag`                                | Docker image                              | `0.3.0M3-mysql`                    |
 | `image.pullPolicy`                         | Docker image pull policy                  | `IfNotPresent`                     |
+| `image.pullSecrets`                        | Docker image pull secrets                 | `{}`                               |
 | `service.type`                             | Service type                              | `ClusterIP`                        |
 | `service.port`                             | Service port of hawkbit-update-server UI  | `80`                               |
 | `resources`                                | Resource limits for the pod               | `{}`                               |
@@ -64,10 +65,18 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `env.springDatasourceDb`                   | MySQL db                                  | `"hawkbit"`                        |
 | `env.springRabbitmqHost`                   | RabbitMq host                             | `"hawkbit-update-server-rabbitmq"` |
 | `env.springRabbitmqUsername`               | RabbitMq user                             | `"hawkbit"`                        |
-| `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"                         |
+| `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"`                        |
 | `env.springSecurityUserName`               | Hawkbit user                              | `"admin"`                          |
 | `env.springSecurityUserPassword`           | Hawkbit pass                              | `""`                               |
-| `extraEnv`                                 | Optional environment variables            | `{}`              
+| `oidc.enabled`                             | enable OpenID Connect authentication      | `false`                            |
+| `oidc.clientId`                            | OpenID Connect client ID                  | `""`                               |
+| `oidc.clientSecret`                        | OpenID Connect client secret              | `""`                               |
+| `oidc.issuerUri`                           | OpenID Connect issuer URI                 | `""`                               |
+| `oidc.authorizationUri`                    | OpenID Connect authorization URI          | `""`                               |
+| `oidc.tokenUri`                            | OpenID Connect token URI                  | `""`                               |
+| `oidc.userInfoUri`                         | OpenID Connect user info URI              | `""`                               |
+| `oidc.jwkSetUri`                           | OpenID Connect JWK set URI                | `""`                               |
+| `extraEnv`                                 | Optional environment variables            | `{}`                               |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
