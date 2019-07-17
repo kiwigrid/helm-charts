@@ -131,9 +131,9 @@ affinity: {}
 nodeSelector: {}
 
 service: {}
-  # type: ClusterIP
   # ports:
   #   - name: "monitor-agent"
+  #     type: ClusterIP
   #     port: 24231
 
 serviceMonitor:
@@ -142,6 +142,7 @@ serviceMonitor:
   ##
   enabled: false
   interval: 10s
+  path: /metrics
   port: 24231
   labels: {}
 
