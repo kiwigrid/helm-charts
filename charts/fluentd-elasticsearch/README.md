@@ -65,6 +65,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.host`                         | Elasticsearch Host                                                             | `elasticsearch-client`                 |
 | `elasticsearch.logstashPrefix`               | Elasticsearch Logstash prefix                                                  | `logstash`                             |
 | `elasticsearch.port`                         | Elasticsearch Port                                                             | `9200`                                 |
+| `elasticsearch.path`                         | Elasticsearch Path                                                             | `""`                                   |
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |

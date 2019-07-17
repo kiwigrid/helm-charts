@@ -475,6 +475,7 @@ data:
       type_name _doc
       host "#{ENV['OUTPUT_HOST']}"
       port "#{ENV['OUTPUT_PORT']}"
+      path "#{ENV['OUTPUT_PATH']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
       ssl_verify "#{ENV['OUTPUT_SSL_VERIFY']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
