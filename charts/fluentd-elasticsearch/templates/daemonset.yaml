@@ -71,6 +71,8 @@ spec:
           {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
           {{- end }}
+        - name: OUTPUT_PATH
+          value: {{ .Values.elasticsearch.path | quote }}
 {{- if .Values.elasticsearch.auth.enabled }}
         - name: OUTPUT_USER
           value: {{ .Values.elasticsearch.auth.user | quote }}

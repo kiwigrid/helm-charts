@@ -54,6 +54,7 @@ elasticsearch:
   host: "elasticsearch-client"
   logstashPrefix: "logstash"
   port: 9200
+  path: ""
   scheme: "http"
   sslVerify: true
   sslVersion: "TLSv1_2"
