@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[Thanos](https://github.com/improbable-eng/thanos/) is a set of components that can be composed into a highly available metric system with unlimited storage capacity, which can be added seamlessly on top of existing Prometheus deployments.
+[Thanos](https://github.com/thanos-io/thanos/) is a set of components that can be composed into a highly available metric system with unlimited storage capacity, which can be added seamlessly on top of existing Prometheus deployments.
 
 Thanos leverages the Prometheus 2.0 storage format to cost-efficiently store historical metric data in any object storage while retaining fast query latencies. Additionally, it provides a global query view across all Prometheus installations and can merge data from Prometheus HA pairs on the fly..
 
@@ -67,29 +67,29 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | ------------------------------------------ | ----------------------------------------- | ---------------------------------- |
 | `querier.replicaCount` | replica count for querier | `1` |
 | `querier.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
-| `querier.image.repository` | Docker image repo for querier | `improbable/thanos` |
-| `querier.image.tag` | Docker image tag for querier | `v0.5.0` |
+| `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
+| `querier.image.tag` | Docker image tag for querier | `v0.6.0` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
 | `querier.additionalLabels` | Additional labels on querier pods| `{}` |
 | `querier.additionalAnnotations` | Additional annotations on querier pods| `{}` |
 | `storeGateway.replicaCount` |  for store gateway | `1` |
 | `storeGateway.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
-| `storeGateway.image.repository` | Docker image repo for store gateway | `improbable/thanos` |
-| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.5.0` |
+| `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
+| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.6.0` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `storeGateway.additionalLabels` | Additional labels on store gateway pods| `{}` |
 | `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}` |
 | `compact.replicaCount` |  for store gateway | `1` |
 | `compact.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
-| `compact.image.repository` | Docker image repo for store gateway | `improbable/thanos` |
-| `compact.image.tag` | Docker image tag for store gateway | `v0.5.0` |
+| `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
+| `compact.image.tag` | Docker image tag for store gateway | `v0.6.0` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `compact.additionalLabels` | Additional labels on compactor pod| `{}` |
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}` |
 | `ruler.replicaCount` |  for ruler | `1` |
 | `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
-| `ruler.image.repository` | Docker image repo for ruler | `improbable/thanos` |
-| `ruler.image.tag` | Docker image tag for ruler | `v0.5.0` |
+| `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
+| `ruler.image.tag` | Docker image tag for ruler | `v0.6.0` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
 | `ruler.additionalLabels` | Additional labels on ruler pod| `{}` |
 | `ruler.additionalAnnotations` | Additional annotations on ruler pod| `{}` |
@@ -100,7 +100,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `service.storeGateway.http.port` | Service http port for the store gateway | `9090` |
 | `service.storeGateway.grpc.port` | Service grpc port for the store gateway | `10901` |
 | `querier.logLevel` | querier log level | `info` |
-| `querier.stores` | list of stores [see](https://github.com/improbable-eng/thanos/blob/master/docs/components/query.md) | `[]` |
+| `querier.stores` | list of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `querier.additionalFlags` | additional command line flags | `{}` |
 | `querier.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30` |
 | `querier.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10` |
@@ -120,9 +120,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.logLevel` | store gateway log level | `info` |
 | `storeGateway.indexCacheSize` | index cache size | `500MB` |
 | `storeGateway.chunkPoolSize` | chunk pool size | `500MB` |
-| `storeGateway.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS` |
+| `storeGateway.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `storeGateway.additionalFlags` | additional command line flags | `{}` |
-| `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil` |
+| `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30` |
 | `storeGateway.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10` |
 | `storeGateway.livenessProbe.successThreshold` | liveness probe successThreshold | `1` |
@@ -148,9 +148,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.retentionResolution5m` | retention for 5m buckets | `120d` |
 | `compact.retentionResolution1h` | retention for 1h buckets | `10y` |
 | `compact.consistencyDelay` | consistency delay | `30m` |
-| `compact.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS` |
+| `compact.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `compact.additionalFlags` | additional command line flags | `{}` |
-| `compact.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil` |
+| `compact.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
 | `compact.resources` | Resources | `{}` |
 | `compact.nodeSelector` | NodeSelector | `{}` |
 | `compact.tolerations` | Tolerations | `[]` |
@@ -168,9 +168,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.alertmanagerUrl` | ruler alert manager url | `http://localhost` |
 | `ruler.clusterName` | ruler cluster name | `nil` |
 | `ruler.queries` | ruler quieries endpoints | `[]` |
-| `ruler.objStoreType` | object store [type](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `GCS` |
+| `ruler.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `ruler.additionalFlags` | additional command line flags | `{}` |
-| `ruler.objStoreConfig` | config for the [bucket store](https://github.com/improbable-eng/thanos/blob/master/docs/storage.md) | `nil` |
+| `ruler.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
 | `ruler.config` | default ruler config | `nil` |
 | `ruler.resources` | Resources | `{}` |
 | `ruler.nodeSelector` | NodeSelector | `{}` |

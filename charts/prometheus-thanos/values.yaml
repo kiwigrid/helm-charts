@@ -27,8 +27,8 @@ querier:
       maxSurge: 1
       maxUnavailable: 0
   image:
-    repository: improbable/thanos
-    tag: v0.5.0
+    repository: quay.io/thanos/thanos
+    tag: v0.6.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -54,8 +54,8 @@ storeGateway:
   replicaCount: 1
   updateStrategy: RollingUpdate
   image:
-    repository: improbable/thanos
-    tag: v0.5.0
+    repository: quay.io/thanos/thanos
+    tag: v0.6.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -110,8 +110,8 @@ compact:
       maxSurge: 1
       maxUnavailable: 0
   image:
-    repository: improbable/thanos
-    tag: v0.5.0
+    repository: quay.io/thanos/thanos
+    tag: v0.6.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -143,8 +143,8 @@ ruler:
   replicaCount: 1
   updateStrategy: RollingUpdate
   image:
-    repository: improbable/thanos
-    tag: v0.5.0
+    repository: quay.io/thanos/thanos
+    tag: v0.6.0
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
