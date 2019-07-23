@@ -93,6 +93,8 @@ spec:
           value: {{ .Values.elasticsearch.bufferChunkLimit | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT
           value: {{ .Values.elasticsearch.bufferQueueLimit | quote }}
+        - name: OUTPUT_LOG_LEVEL
+          value: {{ .Values.elasticsearch.logLevel | quote }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}
