@@ -42,8 +42,8 @@ spec:
           - rule
           - --data-dir=/data
           - --log.level={{ .Values.ruler.logLevel }}
-          - --eval-interval={{ .Values.ruler.evalInterval }}          
-          - --rule-file=/etc/thanos-ruler/**/*.rules.yaml
+          - --eval-interval={{ .Values.ruler.evalInterval }}
+          - --rule-file={{ .Values.ruler.ruleFile }}
           - --alertmanagers.url={{ .Values.ruler.alertmanagerUrl }}
           - --query={{ include "prometheus-thanos.fullname" . }}-querier:{{ .Values.service.querier.http.port }}
           {{- range .Values.ruler.queries }}
@@ -51,7 +51,7 @@ spec:
           {{- end }}
           {{- if .Values.ruler.objStoreType }}
           - |
-            --objstore.config=type: {{ .Values.ruler.objStoreType }} 
+            --objstore.config=type: {{ .Values.ruler.objStoreType }}
             config:
             {{- toYaml .Values.ruler.objStoreConfig | nindent 14 }}
           {{- end }}
@@ -66,7 +66,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          {{- if .Values.ruler.extraEnv }}          
+          {{- if .Values.ruler.extraEnv }}
             {{- toYaml .Values.ruler.extraEnv | nindent 12 }}
           {{- end }}
           ports:
@@ -102,7 +102,7 @@ spec:
             value: POST
           imagePullPolicy: {{ .Values.ruler.sidecar.image.pullPolicy }}
           image: "{{ .Values.ruler.sidecar.image.repository }}:{{ .Values.ruler.sidecar.image.tag }}"
-          name: kiwigrid-configmap-watcher
+          name: k8s-configmap-watcher
           resources:
             limits:
               cpu: 10m

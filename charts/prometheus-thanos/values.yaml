@@ -155,10 +155,13 @@ ruler:
       pullPolicy: IfNotPresent
   replicaLabel: replica
   logLevel: info
+  ## Ruler configuration
+  ## ref: https://thanos.io/components/rule.md/#flags
   queries: []
   clusterName:
   alertmanagerUrl: http://localhost
   evalInterval: 1m
+  ruleFile: /etc/thanos-ruler/**/*-rules.yaml
   objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
