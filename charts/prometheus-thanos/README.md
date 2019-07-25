@@ -165,6 +165,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.extraEnv` | extra env vars | `nil` |
 | `ruler.logLevel` | ruler log level | `info` |
 | `ruler.evalInterval` | ruler evaluation interval | `1m` |
+| `ruler.ruleFile` | rule files that should be used | `/etc/thanos-ruler/**/*-rules.yaml` |
 | `ruler.alertmanagerUrl` | ruler alert manager url | `http://localhost` |
 | `ruler.clusterName` | ruler cluster name | `nil` |
 | `ruler.queries` | ruler quieries endpoints | `[]` |
