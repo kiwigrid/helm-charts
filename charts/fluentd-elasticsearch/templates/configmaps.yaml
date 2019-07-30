@@ -470,10 +470,11 @@ data:
     <match **>
       @id elasticsearch
       @type elasticsearch
-      @log_level info
+      @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
       include_tag_key true
       host "#{ENV['OUTPUT_HOST']}"
       port "#{ENV['OUTPUT_PORT']}"
+      path "#{ENV['OUTPUT_PATH']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
       ssl_verify "#{ENV['OUTPUT_SSL_VERIFY']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
