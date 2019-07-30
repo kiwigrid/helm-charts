@@ -7,6 +7,7 @@ metadata:
     helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    kubernetes.io/cluster-service: "true"
     addonmanager.kubernetes.io/mode: Reconcile
 {{- if .Values.annotations }}
   annotations:
@@ -26,6 +27,7 @@ spec:
         helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
+        kubernetes.io/cluster-service: "true"
       annotations:
         {{- if semverCompare "< 1.13" .Capabilities.KubeVersion.GitVersion }}
         # This annotation ensures that fluentd does not get evicted if the node
