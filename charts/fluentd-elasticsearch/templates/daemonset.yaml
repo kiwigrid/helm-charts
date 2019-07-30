@@ -93,6 +93,8 @@ spec:
           value: {{ .Values.elasticsearch.sslVerify | quote }}
         - name: OUTPUT_SSL_VERSION
           value: {{ .Values.elasticsearch.sslVersion | quote }}
+        - name: OUTPUT_TYPE_NAME
+          value: {{ .Values.elasticsearch.typeName | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
           value: {{ .Values.elasticsearch.bufferChunkLimit | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT

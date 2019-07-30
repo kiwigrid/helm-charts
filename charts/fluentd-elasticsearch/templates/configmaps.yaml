@@ -472,13 +472,15 @@ data:
       @type elasticsearch
       @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
       include_tag_key true
-      type_name _doc
       host "#{ENV['OUTPUT_HOST']}"
       port "#{ENV['OUTPUT_PORT']}"
       path "#{ENV['OUTPUT_PATH']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
       ssl_verify "#{ENV['OUTPUT_SSL_VERIFY']}"
       ssl_version "#{ENV['OUTPUT_SSL_VERSION']}"
+{{- if (ne .Values.elasticsearch.typeName "") }}
+      type_name "#{ENV['OUTPUT_TYPE_NAME']}"
+{{- end }}
 {{- if .Values.elasticsearch.auth.enabled }}
       user "#{ENV['OUTPUT_USER']}"
       password "#{ENV['OUTPUT_PASSWORD']}"

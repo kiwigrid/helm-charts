@@ -69,7 +69,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
-| `elasticsearch.logLevel`		       | Elasticsearch global log level							| `info`				 |
+| `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
+| `elasticsearch.logLevel`		                 | Elasticsearch global log level							                                    | `info`			                        	 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
@@ -97,7 +98,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `resources.requests.memory`                  | Memory request                                                                 | `200Mi`                                |
 | `service`                                    | Service definition                                                             | `{}`                                   |
 | `service.ports`                              | List of service ports dict [{name:...}...]                                     | Not Set                                |
-| `service.ports[].type`                       | Service type (ClusterIP/NodePort)                                              | `ClusterIP`                                |
+| `service.ports[].type`                       | Service type (ClusterIP/NodePort)                                              | `ClusterIP`                            |
 | `service.ports[].name`                       | One of service ports name                                                      | Not Set                                |
 | `service.ports[].port`                       | Service port                                                                   | Not Set                                |
 | `service.ports[].nodePort`                   | NodePort port (when service.type is NodePort)                                  | Not Set                                |
