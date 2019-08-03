@@ -70,7 +70,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
 | `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
-| `elasticsearch.logLevel`		                 | Elasticsearch global log level							                                    | `info`			                        	 |
+| `elasticsearch.logLevel`		               | Elasticsearch global log level							                        | `info`			                   	 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
@@ -80,7 +80,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                           | Image                                                                          | `quay.io/fluentd_elasticsearch/fluentd`|
-| `image.tag`                                  | Image tag                                                                      | `v2.6.0`                               |
+| `image.tag`                                  | Image tag                                                                      | `v2.7.0`                               |
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
