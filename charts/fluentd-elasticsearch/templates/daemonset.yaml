@@ -22,7 +22,7 @@ spec:
   template:
     metadata:
       labels:
-{{ include "fluentd-elasticsearch.labels" . | indent 4 }}
+{{ include "fluentd-elasticsearch.labels" . | indent 8 }}
         {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
         kubernetes.io/cluster-service: "true"
         {{- end }}
