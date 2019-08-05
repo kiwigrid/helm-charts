@@ -4,11 +4,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ include "fluentd-elasticsearch.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "fluentd-elasticsearch.name" . }}
-    helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "fluentd-elasticsearch.labels" . | indent 4 }}
+    {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
     kubernetes.io/cluster-service: "true"
+    {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
 subjects:
 - kind: ServiceAccount
