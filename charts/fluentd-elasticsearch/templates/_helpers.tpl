@@ -40,3 +40,16 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "fluentd-elasticsearch.labels" -}}
+app.kubernetes.io/name: {{ include "fluentd-elasticsearch.name" . }}
+helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
