@@ -99,6 +99,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `service.storeGateway.type` | Service type for the store gateway | `ClusterIP` |
 | `service.storeGateway.http.port` | Service http port for the store gateway | `9090` |
 | `service.storeGateway.grpc.port` | Service grpc port for the store gateway | `10901` |
+| `service.ruler.type` | Service type for ruler | `ClusterIP` |
+| `service.ruler.http.port` | Service http port for ruler | `9090` |
+| `service.ruler.grpc.port` | Service grpc port for ruler | `10901` |
 | `querier.logLevel` | querier log level | `info` |
 | `querier.stores` | list of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `querier.additionalFlags` | additional command line flags | `{}` |
