@@ -43,6 +43,7 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `service.type`                             | Service type                              | `ClusterIP`                        |
 | `service.port`                             | Service port of hawkbit-update-server UI  | `80`                               |
 | `resources`                                | Resource limits for the pod               | `{}`                               |
+| `podTemplate.annotations`                  | pod annotations                           | `{}`                               |
 | `ingress.enabled`                          | Ingress enabled                           | `false`                            |
 | `ingress.annotations`                      | Ingress annotations                       | `{}`                               |
 | `ingress.path`                             | Ingress path                              | `/`                                |
@@ -54,20 +55,16 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `affinity`                                 | Affinity                                  | `{}`                               |
 | `useMysql`                                 | use MySQL dependency chart                | `true`                             |
 | `useRabbitmq`                              | user Rabbitmq dependency chart            | `true`                             |
+| `useActuatorCheck`                         | use actuator for health checks            | `false`                            |
 | `livenessProbe.initialDelaySeconds`        | livenessProbe initialDelaySeconds         | `240`                              |
 | `livenessProbe.timeoutSeconds`             | livenessProbe timeoutSeconds              | `5`                                |
 | `readinessProbe.initialDelaySeconds`       | readinessProbe timeoutSeconds             | `120`                              |
 | `readinessProbe.timeoutSeconds`            | readinessProbe timeoutSeconds             | `5`                                |
-| `security.passwordEncoder`                 | Spring Password encoder                   | `"{noop}"`                         |
 | `env.springDatasourceHost`                 | MySQL host                                | `"hawkbit-update-server-mysql"`    |
-| `env.springDatasourceUsername`             | MySQL user                                | `"hawkbit"`                        |
-| `env.springDatasourcePassword`             | MySQL pass                                | `"hawkbit"`                        |
 | `env.springDatasourceDb`                   | MySQL db                                  | `"hawkbit"`                        |
 | `env.springRabbitmqHost`                   | RabbitMq host                             | `"hawkbit-update-server-rabbitmq"` |
 | `env.springRabbitmqUsername`               | RabbitMq user                             | `"hawkbit"`                        |
 | `env.springRabbitmqPassword`               | RabbitMq pass                             | `"hawkbit"`                        |
-| `env.springSecurityUserName`               | Hawkbit user                              | `"admin"`                          |
-| `env.springSecurityUserPassword`           | Hawkbit pass                              | `""`                               |
 | `oidc.enabled`                             | enable OpenID Connect authentication      | `false`                            |
 | `oidc.clientId`                            | OpenID Connect client ID                  | `""`                               |
 | `oidc.clientSecret`                        | OpenID Connect client secret              | `""`                               |
@@ -77,6 +74,11 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `oidc.userInfoUri`                         | OpenID Connect user info URI              | `""`                               |
 | `oidc.jwkSetUri`                           | OpenID Connect JWK set URI                | `""`                               |
 | `extraEnv`                                 | Optional environment variables            | `{}`                               |
+| `extraVolumes`                             | list of extra volumes                     | `[]`                               |
+| `extraVolumeMounts`                        | list of extra volume mounts               | `[]`                               |
+| `config.application`                       | yaml formated config for spring           | `see values file`                  |
+| `config.secrets`                           | yaml formated config for spring secrets   | `see values file`                  |
+| `configMap.mountPath`                      | config map mount path (should by application path inside docker +) | `{}`      |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:

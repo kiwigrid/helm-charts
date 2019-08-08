@@ -4,7 +4,7 @@ useRabbitmq: true
 
 image:
   repository: "hawkbit/hawkbit-update-server"
-  tag: 0.3.0M3-mysql
+  tag: 0.3.0M5-mysql
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -37,40 +37,15 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-security:
-  # this is added in front of the password in env.springSecurityUserPassword
-  # so you don't have to add it to the password manually
-  passwordEncoder: "{noop}"
-
 # env vars for configuration
 env:
   springDatasourceHost: "hawkbit-update-server-mysql"
-  springDatasourceUsername: "hawkbit"
-  springDatasourcePassword: "hawkbit"
+
   springDatasourceDb: "hawkbit"
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
-  springSecurityUserName: "admin"
-  # if no password is set a 40 digit random password is created
-  # you don have to add the password encoder as its already set in security.passwordEncoder
-  springSecurityUserPassword: ""
   javaOptions: "-Xms512m -Xmx512m"
-
-# OpenID Connect
-# Currently hawkBit does not support OIDC authentication managers, yet.
-# However, a pull request has been opened which introduces this feature.
-# See https://github.com/eclipse/hawkbit/pull/865.
-oidc:
-  enabled: false
-  # clientId: "oidc-client-id"
-  # clientSecret: "oidc-client-secret"
-  # issuerUri: "https://oidc-provier/issuer-uri"
-  # authorizationUri: "https://oidc-provier/authorization-uri"
-  # tokenUri: "https://oidc-provier/token-uri"
-  # userInfoUri: "https://oidc-provier/user-info-uri"
-  # jwkSetUri: "https://oidc-provier/jwk-set-uri"
-
 
 # optional env vars
 extraEnv: {}
@@ -93,7 +68,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+podTemplate:
+  annotations: {}
 
+useActuatorCheck: false
 # dependency charts config
 mysql:
   mysqlUser: hawkbit
@@ -108,3 +86,26 @@ rabbitmq:
     password: hawkbit
     metrics:
       enabled: true
+
+extraVolumes: []
+extraVolumeMounts: []
+
+configMap:
+  mountPath: "/opt/hawkbit/config"
+
+spring:
+  profiles: "mysql"
+config:
+  secrets:
+    spring:
+      security:
+        user:
+          password: "{noop}admin"
+      datasource:
+        username: hawkbit
+        password: hawkbit
+  application:
+    spring:
+      security:
+        user:
+          name: admin
