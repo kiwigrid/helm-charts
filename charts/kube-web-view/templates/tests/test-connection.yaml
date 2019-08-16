@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "kube-web-view.fullname" . }}-test-connection"
+  labels:
+{{ include "kube-web-view.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "kube-web-view.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

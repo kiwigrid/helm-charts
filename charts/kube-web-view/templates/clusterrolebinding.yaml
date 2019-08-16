@@ -1,0 +1,14 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{ include "kube-web-view.fullname" . }}
+  labels:
+{{ include "kube-web-view.labels" . | indent 4 }}  
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-web-view
+subjects:
+- kind: ServiceAccount
+  name: kube-web-view
+  namespace: default

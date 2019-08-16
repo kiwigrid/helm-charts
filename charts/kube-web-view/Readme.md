@@ -1,0 +1,1 @@
+Kubernetes Web View allows to list and view all Kubernetes resources (incl. CRDs) with permalink-friendly URLs in a plain-HTML frontend. This tool was mainly developed to provide a web-version of kubectl for troubleshooting and supporting colleagues. See the Kubernetes Web View Documentation and try out the live demo.

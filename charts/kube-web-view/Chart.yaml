@@ -1,0 +1,13 @@
+apiVersion: v1
+appVersion: "19.8.1"
+description: A Helm chart for kube-web-view dashboard
+name: kube-web-view
+version: 0.1.0
+home: https://kube-web-view.readthedocs.io/en/latest/
+source: https://codeberg.org/hjacobs/kube-web-view
+icon: https://codeberg.org/repo-avatars/1013-79c19f23d3617c23ec9f668a3c5fe0c5
+maintainers:
+- name: fabian-schlegel
+  email: fabian.schlegel@kiwigrid.com
+- name: monotek
+  email: andre.bauer@kiwigrid.com
