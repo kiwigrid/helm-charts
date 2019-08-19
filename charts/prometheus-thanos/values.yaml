@@ -18,6 +18,12 @@ service:
       port: 9090
     grpc:
       port: 10901
+  ruler:
+    type: ClusterIP
+    http:
+      port: 9090
+    grpc:
+      port: 10901
 
 querier:
   replicaCount: 1
