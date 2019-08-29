@@ -79,13 +79,21 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `storeGateway.additionalLabels` | Additional labels on store gateway pods| `{}` |
 | `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}` |
-| `compact.replicaCount` |  for store gateway | `1` |
-| `compact.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `compact.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
 | `compact.image.tag` | Docker image tag for store gateway | `v0.6.0` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `compact.additionalLabels` | Additional labels on compactor pod| `{}` |
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}` |
+| `compact.affinity` | Affinity | `{}` |
+| `compact.tolerations` | Tolerations | `[]` |
+| `compact.volumeMounts` | Additional volume mounts | `nil` |
+| `compact.volumes` | Additional volumes | `nil` |
+| `compact.persistentVolume.enabled` | Persistent volume enabled | `enabled` |
+| `compact.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
+| `compact.persistentVolume.annotations` | Persistent volume annotations | `{}` |
+| `compact.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
+| `compact.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `ruler.replicaCount` |  for ruler | `1` |
 | `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
