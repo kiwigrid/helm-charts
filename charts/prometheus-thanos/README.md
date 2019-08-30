@@ -89,11 +89,12 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.tolerations` | Tolerations | `[]` |
 | `compact.volumeMounts` | Additional volume mounts | `nil` |
 | `compact.volumes` | Additional volumes | `nil` |
-| `compact.persistentVolume.enabled` | Persistent volume enabled | `enabled` |
+| `compact.persistentVolume.enabled` | Persistent volume enabled | `false` |
 | `compact.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
 | `compact.persistentVolume.annotations` | Persistent volume annotations | `{}` |
 | `compact.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
 | `compact.persistentVolume.size` | Persistent volume size | `2Gi` |
+| `compact.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `ruler.replicaCount` |  for ruler | `1` |
 | `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |

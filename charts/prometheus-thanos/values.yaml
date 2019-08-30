@@ -142,7 +142,8 @@ compact:
   volumeMounts:
   volumes:
   persistentVolume:
-    enabled: true
+    enabled: false
+    storageClass: ""
     accessModes:
       - ReadWriteOnce
     annotations: {}
