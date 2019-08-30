@@ -109,12 +109,7 @@ storeGateway:
     size: 2Gi
 
 compact:
-  replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
     tag: v0.6.0
@@ -144,6 +139,17 @@ compact:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  volumeMounts:
+  volumes:
+  persistentVolume:
+    enabled: false
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 2Gi
+
 
 ruler:
   replicaCount: 1
