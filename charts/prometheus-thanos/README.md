@@ -154,6 +154,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.persistentVolume.annotations` | persistent volume annotations | `{}` |
 | `storeGateway.persistentVolume.existingClaim` | persistent volume existingClaim | `` |
 | `storeGateway.persistentVolume.size` | persistent volume size | `2Gi` |
+| `storeGateway.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `compact.extraEnv` | extra env vars | `nil` |
 | `compact.logLevel` | store gateway log level | `info` |
 | `compact.retentionResolutionRaw` | retention for raw buckets | `30d` |
@@ -196,6 +197,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.persistentVolume.annotations` | persistent volume annotations | `{}` |
 | `ruler.persistentVolume.existingClaim` | persistent volume existingClaim | `""` |
 | `ruler.persistentVolume.size` | persistent volume size | `2Gi` |
+| `ruler.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 

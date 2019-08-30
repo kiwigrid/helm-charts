@@ -107,6 +107,7 @@ storeGateway:
     annotations: {}
     existingClaim: ""
     size: 2Gi
+    storageClass: ""
 
 compact:
   updateStrategy: RollingUpdate
@@ -219,6 +220,7 @@ ruler:
     annotations: {}
     existingClaim: ""
     size: 2Gi
+    storageClass: ""
 
 ## this is only for test support dont use this in production
 minio:
