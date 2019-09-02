@@ -55,8 +55,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
 | `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
-| `awsSigningSidecar.image.repository`         | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`                | AWS signing sidecard repository tag                                            | `0.9`                                  |
+| `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                          | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                            | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
