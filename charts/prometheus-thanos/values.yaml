@@ -34,7 +34,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.6.0
+    tag: v0.7.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -61,7 +61,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.6.0
+    tag: v0.7.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -113,7 +113,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.6.0
+    tag: v0.7.0
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -157,7 +157,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.6.0
+    tag: v0.7.0
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
