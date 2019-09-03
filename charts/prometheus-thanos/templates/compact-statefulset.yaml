@@ -65,7 +65,7 @@ spec:
             - mountPath: /data
               name: storage-volume
           {{- with .Values.compact.volumeMounts }}
-            {{- toYaml . | nindent 14 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.compact.nodeSelector }}
       nodeSelector:
