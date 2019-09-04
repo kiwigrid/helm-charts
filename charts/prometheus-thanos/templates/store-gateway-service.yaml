@@ -1,3 +1,4 @@
+{{- if .Values.storeGateway.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -21,4 +22,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
     app.kubernetes.io/instance: {{ .Release.Name }}
-
+{{- end }}

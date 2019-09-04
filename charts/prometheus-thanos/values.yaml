@@ -26,6 +26,7 @@ service:
       port: 10901
 
 querier:
+  enabled: true
   replicaCount: 1
   updateStrategy:
     type: RollingUpdate
@@ -56,7 +57,9 @@ querier:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 30
+
 storeGateway:
+  enabled: true
   replicaCount: 1
   updateStrategy: RollingUpdate
   image:
@@ -110,6 +113,7 @@ storeGateway:
     storageClass: ""
 
 compact:
+  enabled: true
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
@@ -153,6 +157,7 @@ compact:
 
 
 ruler:
+  enabled: true
   replicaCount: 1
   updateStrategy: RollingUpdate
   image:
