@@ -22,6 +22,7 @@ The following table lists the configurable parameters of the chart and their def
 | `prometheus.descriptions` | If meter descriptions should be sent to Prometheus         | `true`                                |
 | `javaToolOptions`         | Allows to specify the initialization of tools              | see `values.yaml`                     |
 | `gcpLogging`              | Enables Stackdriver conform logging                        | `true`                                |
+| `namespaced`              | Controls whether watching only for events in its namespace | `true`                                |
 | `resources`               | Resources                                                  | `{}`                                  |
 | `nodeSelector`            | NodeSelector                                               | `{}`                                  |
 | `tolerations`             | Tolerations                                                | `[]`                                  |
