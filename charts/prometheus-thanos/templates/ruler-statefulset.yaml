@@ -106,8 +106,8 @@ spec:
           name: k8s-configmap-watcher
           resources:
             limits:
-              cpu: 10m
-              memory: 32Mi
+              cpu: 20m
+              memory: 64Mi
             requests:
               cpu: 10m
               memory: 32Mi
