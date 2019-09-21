@@ -54,6 +54,17 @@ spec:
       - name: {{ include "fluentd-elasticsearch.fullname" . }}
         image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        {{- if .Values.additionalPlugins }}
+        command:
+          - /bin/bash
+        args:
+          - '-c'
+          - >-
+            {{- range .Values.additionalPlugins }}
+            gem install {{ .name }} --version {{ .version }} &&
+            {{- end }}
+            /run.sh
+        {{- end }}
         env:
         - name: FLUENTD_ARGS
           value: {{ .Values.fluentdArgs | quote }}
