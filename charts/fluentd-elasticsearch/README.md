@@ -55,8 +55,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
 | `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
-| `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                          | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                            | `0.9`                                  |
+| `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
@@ -112,6 +112,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
 | `tolerations`                                | Optional daemonset tolerations                                                 | `{}`                                   |
 | `updateStrategy`                             | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
+| `additionalPlugins`                          | Optional additionnal plugins to install when pod starts                        | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
