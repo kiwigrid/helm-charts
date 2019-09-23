@@ -12,6 +12,10 @@ metadata:
     kubernetes.io/cluster-service: "true"
     {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
+  annotations:
+{{- if .Values.service.annotations }}
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
 spec:
   type: {{ $service_type }}
   ports:

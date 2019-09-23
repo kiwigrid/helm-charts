@@ -140,6 +140,9 @@ affinity: {}
 nodeSelector: {}
 
 service: {}
+    # annotations: {}
+    ## Specify service annotations
+    ## Ref: https://kubernetes.io/docs/concepts/services-networking/service/
   # ports:
   #   - name: "monitor-agent"
   #     type: ClusterIP
