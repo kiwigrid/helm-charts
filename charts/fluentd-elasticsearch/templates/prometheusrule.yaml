@@ -58,7 +58,7 @@ spec:
         description: In the last 5 minutes, fluentd queues increased 50%. Current value is {{ "{{ $value }}" }}
 
     - alert: FluentdRecordsCountsHigh
-      expr: sum(rate(fluentd_record_counts{job="{{ .Release.Name }}"}[5m])) BY (instance) >  (3 * sum(rate(fluentd_record_counts{job="{{ .Release.Name }}"}[15m])) BY (instance))
+      expr: sum(rate(fluentd_output_status_emit_records{job="{{ .Release.Name }}"}[5m])) BY (instance) >  (3 * sum(rate(fluentd_output_status_emit_records{job="{{ .Release.Name }}"}[15m])) BY (instance))
       for: 1m
       labels:
         service: fluentd
