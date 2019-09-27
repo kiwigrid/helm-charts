@@ -84,6 +84,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
+| `livenessProbe.initialDelaySeconds`          | livenessProbe initial delay seconds                                            | `600`                                  |
+| `livenessProbe.periodSeconds`                | livenessProbe period seconds                                                   | `60`                                   |
+| `livenessProbe.command`                      | livenessProbe command                                                          | `Set to a Linux compatible command`    |
 | `nodeSelector`                               | Optional daemonset nodeSelector                                                | `{}`                                   |
 | `podSecurityPolicy.annotations`              | Specify pod annotations in the pod security policy                             | `{}`                                   |
 | `podSecurityPolicy.enabled`                  | Specify if a pod security policy must be created                               | `false`                                |
