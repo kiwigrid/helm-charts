@@ -1,25 +1,25 @@
-{{- if .Values.querier.enabled -}}
+{{- if .Values.ruler.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "prometheus-thanos.fullname" . }}-querier
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
   labels:
-    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
     helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  type: {{ .Values.service.querier.type }}
+  type: {{ .Values.service.ruler.type }}
   ports:
-    - port: {{ .Values.service.querier.http.port }}
+    - port: {{ .Values.service.ruler.http.port }}
       targetPort: http
       protocol: TCP
       name: http
-    - port: {{ .Values.service.querier.grpc.port }}
+    - port: {{ .Values.service.ruler.grpc.port }}
       targetPort: grpc
       protocol: TCP
       name: grpc
   selector:
-    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
     app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

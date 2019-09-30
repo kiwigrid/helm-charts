@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: kiwigrid/keycloak-controller
-  tag: 1.0.0
+  tag: 1.1.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -39,6 +39,9 @@ livenessProbe:
 javaToolOptions: "-Xms48m -Xmx48m -XX:MetaspaceSize=56m -XX:MaxMetaspaceSize=56m -XX:ReservedCodeCacheSize=8m -XX:CompressedClassSpaceSize=12m -XX:MaxDirectMemorySize=1m"
 
 gcpLogging: true
+
+## Controls whether watching only for events in its namespace
+namespaced: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
