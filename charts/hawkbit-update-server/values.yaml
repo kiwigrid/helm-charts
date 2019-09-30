@@ -75,7 +75,6 @@ extraVolumes: []
 extraVolumeMounts: []
 
 configMap:
-  enabled: false
   mountPath: "/opt/hawkbit/config"
 
 spring:
@@ -85,7 +84,7 @@ config:
     hawkbit:
       dmf:
         hono:
-          enabled: true
+          enabled: false
           tenant-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/admin/tenants"
           device-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/admin/$$tenantId/devices"
           credentials-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/v1/credentials/$$tenantId/$$deviceId"
@@ -98,14 +97,14 @@ config:
       cloud:
         stream:
           bindings:
+            default:
+              group: "hawkbit"
             device-created:
               destination: "device-registry.device-created"
             device-updated:
               destination: "device-registry.device-updated"
             device-deleted:
               destination: "device-registry.device-deleted"
-            default:
-              group: "hawkbit"
       security:
         user:
           name: admin
