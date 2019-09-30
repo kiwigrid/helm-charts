@@ -75,6 +75,7 @@ extraVolumes: []
 extraVolumeMounts: []
 
 configMap:
+  enabled: false
   mountPath: "/opt/hawkbit/config"
 
 spring:

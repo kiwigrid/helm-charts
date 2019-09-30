@@ -1,3 +1,4 @@
+{{ if .Values.configMap.enabled }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -10,3 +11,4 @@ metadata:
 data:
   application.yaml: |-
 {{ toYaml .Values.config.application | indent 4}}
+{{ end }}
