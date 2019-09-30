@@ -92,7 +92,7 @@ config:
           username: "[KEYCLOAK_HAWKBIT_USERNAME]"
           password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"
           oidc-token-uri: "http://[KEYCLOAK_HOST]:8080/auth/realms/kiwigrid/protocol/openid-connect/token"
-          oidc-client-id: "[KEYCLOAK_DEVICE_REGISTRY_CLIENT_ID]"  
+          oidc-client-id: "[KEYCLOAK_DEVICE_REGISTRY_CLIENT_ID]"
     spring:
       cloud:
         stream:
@@ -132,4 +132,3 @@ rabbitmq:
     password: hawkbit
     metrics:
       enabled: true
-
