@@ -4,7 +4,7 @@ appVersion: "0.3.0"
 description: A Helm chart for hawkbit update server
 name: hawkbit-update-server
 home: https://www.eclipse.org/hawkbit/
-sources: 
+sources:
 - https://github.com/eclipse/hawkbit
 - https://github.com/kiwigrid/helm-charts/tree/master/charts/hawkbit-update-server
 icon: https://www.eclipse.org/hawkbit/images/hawkbit_icon.png
