@@ -38,7 +38,7 @@ spec:
             - name: MANAGEMENT_SERVER_PORT
               value: "9090"
             - name: "SPRING_DATASOURCE_URL"
-              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
+              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ template "hawkbit-update-server.fullname" . }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
             - name: "SPRING_APPLICATION_JSON"
               valueFrom:
                 secretKeyRef:

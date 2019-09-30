@@ -31,21 +31,19 @@ ingress:
     # nginx.ingress.kubernetes.io/proxy-body-size: 200m
   paths: []
   hosts:
-    - chart-example.local
+    - hawkbit-update-server.local
   tls: []
-  #  - secretName: chart-example-tls
+  #  - secretName: hawkbit-tls
   #    hosts:
-  #      - chart-example.local
+  #      - hawkbit-update-server.local
 
 # env vars for configuration
 env:
   springDatasourceHost: "hawkbit-update-server-mysql"
-
   springDatasourceDb: "hawkbit"
   springRabbitmqHost: "hawkbit-update-server-rabbitmq"
   springRabbitmqUsername: "hawkbit"
   springRabbitmqPassword: "hawkbit"
-  javaOptions: "-Xms512m -Xmx512m"
 
 # optional env vars
 extraEnv: {}
@@ -72,6 +70,54 @@ podTemplate:
   annotations: {}
 
 useActuatorCheck: false
+
+extraVolumes: []
+extraVolumeMounts: []
+
+configMap:
+  mountPath: "/opt/hawkbit/config"
+
+spring:
+  profiles: "mysql"
+config:
+  application:
+   hawkbit:
+    dmf:
+      hono:
+        enabled: true
+        tenant-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/admin/tenants"
+        device-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/admin/$$tenantId/devices"
+        credentials-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/v1/credentials/$$tenantId/$$deviceId"
+        authentication-method: "oidc"
+        username: "[KEYCLOAK_HAWKBIT_USERNAME]"
+        password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"
+        oidc-token-uri: "http://[KEYCLOAK_HOST]:8080/auth/realms/kiwigrid/protocol/openid-connect/token"
+        oidc-client-id: "[KEYCLOAK_DEVICE_REGISTRY_CLIENT_ID]"  
+    spring:
+      cloud:
+        stream:
+          bindings:
+            device-created:
+              destination: "device-registry.device-created"
+            device-updated:
+              destination: "device-registry.device-updated"
+            device-deleted:
+              destination: "device-registry.device-deleted"
+            default:
+              group: "hawkbit"
+       security:
+        user:
+          name: admin
+  secrets:
+    spring:
+      security:
+        user:
+          password: "{noop}admin"
+      datasource:
+        username: hawkbit
+        password: hawkbit
+
+
 # dependency charts config
 mysql:
   mysqlUser: hawkbit
@@ -87,25 +133,3 @@ rabbitmq:
     metrics:
       enabled: true
 
-extraVolumes: []
-extraVolumeMounts: []
-
-configMap:
-  mountPath: "/opt/hawkbit/config"
-
-spring:
-  profiles: "mysql"
-config:
-  secrets:
-    spring:
-      security:
-        user:
-          password: "{noop}admin"
-      datasource:
-        username: hawkbit
-        password: hawkbit
-  application:
-    spring:
-      security:
-        user:
-          name: admin
