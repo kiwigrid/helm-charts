@@ -108,6 +108,7 @@ config:
     spring:
       security:
         user:
+          # the "{noop}" prefix is needed!
           password: "{noop}admin"
       datasource:
         username: hawkbit
