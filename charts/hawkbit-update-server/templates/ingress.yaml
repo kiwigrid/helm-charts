@@ -1,17 +1,13 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "hawkbit-update-server.fullname" . -}}
-{{- $ingressPaths := .Values.ingress.paths -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
-    helm.sh/chart: {{ include "hawkbit-update-server.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-  annotations:
+{{ include "hawkbit-update-server.labels" . | indent 4 }}
   {{- with .Values.ingress.annotations }}
+  annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -27,14 +23,14 @@ spec:
 {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ .host | quote }}
       http:
         paths:
-  {{- range $ingressPaths }}
+        {{- range .paths }}
           - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
-  {{- end }}
+        {{- end }}
   {{- end }}
 {{- end }}
