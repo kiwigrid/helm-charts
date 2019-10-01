@@ -107,9 +107,9 @@ config:
           name: admin
   secrets:
     hawkbit:
-          dmf:
-            hono:
-              password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"  
+      dmf:
+        hono:
+          password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"
     spring:
       security:
         user:
