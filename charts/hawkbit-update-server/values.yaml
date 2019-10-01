@@ -30,7 +30,6 @@ ingress:
   hosts:
     - host: hawkbit-update-server.local
       paths: []
-
   tls: []
   #  - secretName: hawkbit-tls
   #    hosts:

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "hawkbit-update-server.fullname" . }}
   labels:
-{{ include "hawkbit-update-server.labels" . | indent 4 }}  
+{{ include "hawkbit-update-server.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
