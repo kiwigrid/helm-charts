@@ -76,6 +76,7 @@ configMap:
 
 spring:
   profiles: "mysql"
+
 config:
   application:
     hawkbit:
@@ -87,7 +88,6 @@ config:
           credentials-list-uri: "http://[DEVICE_REGISTRY_HOST]:8080/v1/credentials/$$tenantId/$$deviceId"
           authentication-method: "oidc"
           username: "[KEYCLOAK_HAWKBIT_USERNAME]"
-          password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"
           oidc-token-uri: "http://[KEYCLOAK_HOST]:8080/auth/realms/kiwigrid/protocol/openid-connect/token"
           oidc-client-id: "[KEYCLOAK_DEVICE_REGISTRY_CLIENT_ID]"
     spring:
@@ -106,6 +106,10 @@ config:
         user:
           name: admin
   secrets:
+    hawkbit:
+          dmf:
+            hono:
+              password: "[KEYCLOAK_HAWKBIT_USER_PASSWORD]"  
     spring:
       security:
         user:
