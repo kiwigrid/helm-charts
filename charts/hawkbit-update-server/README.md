@@ -83,9 +83,9 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `mysql.mysqlDatabase`                      | MySQL db                                  |  `hawkbit`                         |
 | `mysql.metrics.enabled`                    | MySQL metrics enabled                     | `true`                             |
 | `rabbitmq.enabled`                         | use Rabbitmq dependency chart             | `true`                             |
-| `rabbitmq.username`                        | Rabbitmq username                         | `hawkbit`                          |
-| `rabbitmq.password`                        | Rabbitmq password                         |`hawkbit`                           |
-| `rabbitmq.metrics.enabled`                 | use Rabbitmq metrics                      |`true`                              |  
+| `rabbitmq.rabbitmq.username`               | Rabbitmq username                         | `hawkbit`                          |
+| `rabbitmq.rabbitmq.password`               | Rabbitmq password                         |`hawkbit`                           |
+| `rabbitmq.rabbitmq.metrics.enabled`        | use Rabbitmq metrics                      |`true`                              |  
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
