@@ -53,8 +53,6 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `nodeSelector`                             | NodeSelector                              | `{}`                               |
 | `tolerations`                              | Tolerations                               | `[]`                               |
 | `affinity`                                 | Affinity                                  | `{}`                               |
-| `useMysql`                                 | use MySQL dependency chart                | `true`                             |
-| `useRabbitmq`                              | user Rabbitmq dependency chart            | `true`                             |
 | `useActuatorCheck`                         | use actuator for health checks            | `false`                            |
 | `livenessProbe.initialDelaySeconds`        | livenessProbe initialDelaySeconds         | `240`                              |
 | `livenessProbe.timeoutSeconds`             | livenessProbe timeoutSeconds              | `5`                                |
@@ -79,7 +77,15 @@ The following table lists the configurable parameters of the hawkbit-update-serv
 | `config.application`                       | yaml formated config for spring           | `see values file`                  |
 | `config.secrets`                           | yaml formated config for spring secrets   | `see values file`                  |
 | `configMap.mountPath`                      | config map mount path (should by application path inside docker +) | `{}`      |
-
+| `mysql.enabled`                            | use MySQL dependency chart                | `true`                             |
+| `mysql.mysqlUser`                          | MySQL User                                | `hawkbit`                          |
+| `mysql.mysqlPassword`                      | MySQL password                            | `hawkbit`                          |
+| `mysql.mysqlDatabase`                      | MySQL db                                  |  `hawkbit`                         |
+| `mysql.metrics.enabled`                    | MySQL metrics enabled                     | `true`                             |
+| `rabbitmq.enabled`                         | use Rabbitmq dependency chart             | `true`                             |
+| `rabbitmq.username`                        | Rabbitmq username                         | `hawkbit`                          |
+| `rabbitmq.password`                        | Rabbitmq password                         |`hawkbit`                           |
+| `rabbitmq.metrics.enabled`                 | use Rabbitmq metrics                      |`true`                              |  
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
