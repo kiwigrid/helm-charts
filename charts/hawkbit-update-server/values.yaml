@@ -25,11 +25,12 @@ ingress:
   enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
     # nginx.ingress.kubernetes.io/proxy-body-size: 200m
-  paths: []
+    # kubernetes.io/tls-acme: "true"
   hosts:
-    - hawkbit-update-server.local
+    - host: hawkbit-update-server.local
+      paths: []
+
   tls: []
   #  - secretName: hawkbit-tls
   #    hosts:
