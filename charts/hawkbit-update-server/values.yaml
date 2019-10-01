@@ -127,6 +127,8 @@ mysql:
 
 rabbitmq:
   enabled: true
+  volumePermissions:
+    enabled: true
   rabbitmq:
     username: hawkbit
     password: hawkbit
