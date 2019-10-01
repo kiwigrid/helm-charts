@@ -3,10 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "hawkbit-update-server.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
-    helm.sh/chart: {{ include "hawkbit-update-server.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "hawkbit-update-server.labels" . | indent 4 }}  
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -38,14 +35,14 @@ spec:
             - name: MANAGEMENT_SERVER_PORT
               value: "9090"
             - name: "SPRING_DATASOURCE_URL"
-              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
+              value: "jdbc:mysql://{{ if .Values.mysql.enabled }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
             - name: "SPRING_APPLICATION_JSON"
               valueFrom:
                 secretKeyRef:
                   name: {{ include "hawkbit-update-server.fullname" . }}
                   key: "SPRING_APPLICATION_JSON"
             - name: "SPRING_RABBITMQ_HOST"
-              value: "{{ if .Values.useRabbitmq }}{{ .Release.Name }}-rabbitmq{{ else }}{{ .Values.env.springRabbitmqHost }}{{ end }}"
+              value: "{{ if .Values.rabbitmq.enabled }}{{ .Release.Name }}-rabbitmq{{ else }}{{ .Values.env.springRabbitmqHost }}{{ end }}"
             - name: "SPRING_RABBITMQ_USERNAME"
               value: "{{ .Values.env.springRabbitmqUsername }}"
             - name: "SPRING_RABBITMQ_PASSWORD"

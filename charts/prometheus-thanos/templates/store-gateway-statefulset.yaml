@@ -1,3 +1,4 @@
+{{- if .Values.storeGateway.enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -126,4 +127,5 @@ spec:
 {{- else }}
         - name: storage-volume
           emptyDir: {}
+{{- end }}
 {{- end }}

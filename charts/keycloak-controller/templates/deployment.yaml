@@ -63,6 +63,8 @@ spec:
         - name: GCP_LOGGING
           value: "true"
         {{- end }}
+        - name: CONTROLLER_NAMESPACED
+          value: {{ .Values.namespaced | quote }}
         volumeMounts:
         - name: config-volume
           mountPath: /kiwigrid/application-k8s.yaml
