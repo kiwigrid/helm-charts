@@ -51,6 +51,8 @@ spec:
             --objstore.config=type: {{ .Values.storeGateway.objStoreType }} 
             config:
             {{- toYaml .Values.storeGateway.objStoreConfig | nindent 14 }}
+          {{ else if .Values.storeGateway.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
           {{- end }}
           ports:
             - name: http

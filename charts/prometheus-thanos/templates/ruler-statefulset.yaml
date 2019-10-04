@@ -55,6 +55,8 @@ spec:
             --objstore.config=type: {{ .Values.ruler.objStoreType }}
             config:
             {{- toYaml .Values.ruler.objStoreConfig | nindent 14 }}
+          {{ else if .Values.ruler.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.ruler.objStoreConfigFile }}
           {{- end }}
           {{- range $key, $value := .Values.ruler.additionalFlags }}
           - --{{ $key }}{{if $value }}={{ $value }}{{end}}
