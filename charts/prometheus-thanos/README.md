@@ -136,9 +136,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.logLevel` | store gateway log level | `info` |
 | `storeGateway.indexCacheSize` | index cache size | `500MB` |
 | `storeGateway.chunkPoolSize` | chunk pool size | `500MB` |
-| `storeGateway.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `storeGateway.additionalFlags` | additional command line flags | `{}` |
-| `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `storeGateway.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
+| `storeGateway.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
+| `storeGateway.objStoreConfigFile` | path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | liveness probe initialDelaySeconds | `30` |
 | `storeGateway.livenessProbe.periodSeconds` | liveness probe periodSeconds | `10` |
 | `storeGateway.livenessProbe.successThreshold` | liveness probe successThreshold | `1` |
@@ -165,9 +166,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.retentionResolution5m` | retention for 5m buckets | `120d` |
 | `compact.retentionResolution1h` | retention for 1h buckets | `10y` |
 | `compact.consistencyDelay` | consistency delay | `30m` |
-| `compact.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `compact.additionalFlags` | additional command line flags | `{}` |
-| `compact.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `compact.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `compact.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
+| `compact.objStoreConfigFile` | path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
 | `compact.resources` | Resources | `{}` |
 | `compact.nodeSelector` | NodeSelector | `{}` |
 | `compact.tolerations` | Tolerations | `[]` |
@@ -186,9 +188,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.alertmanagerUrl` | ruler alert manager url | `http://localhost` |
 | `ruler.clusterName` | ruler cluster name | `nil` |
 | `ruler.queries` | ruler quieries endpoints | `[]` |
-| `ruler.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
 | `ruler.additionalFlags` | additional command line flags | `{}` |
-| `ruler.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `ruler.objStoreType` | object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `ruler.objStoreConfig` | config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
+| `ruler.objStoreConfigFile` | path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
 | `ruler.config` | default ruler config | `nil` |
 | `ruler.resources` | Resources | `{}` |
 | `ruler.nodeSelector` | NodeSelector | `{}` |
