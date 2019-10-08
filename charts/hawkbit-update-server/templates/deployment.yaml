@@ -87,7 +87,7 @@ spec:
             - name: configmap
               mountPath: {{ .Values.configMap.mountPath }}
             {{- if .Values.extraVolumeMounts }}
-            {{ toYaml .Values.extraVolumeMounts | indent 12 }}
+            {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
             {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
