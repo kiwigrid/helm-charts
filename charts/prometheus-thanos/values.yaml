@@ -75,7 +75,7 @@ storeGateway:
   indexCacheSize: 500MB
   chunkPoolSize: 500MB
 
-  objStoreType: GCS
+  objStoreType: GCS  # WARNING: this is default to null in other sections
   additionalFlags: {}
   objStoreConfig: {}
   ## GCS example
@@ -87,6 +87,8 @@ storeGateway:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -127,6 +129,8 @@ compact:
   retentionResolution1h: 10y
   consistencyDelay: 30m
   additionalFlags: {}
+
+  objStoreType: null
   objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
@@ -137,6 +141,8 @@ compact:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
@@ -180,6 +186,8 @@ ruler:
   alertmanagerUrl: http://localhost
   evalInterval: 1m
   ruleFile: /etc/thanos-ruler/**/*-rules.yaml
+
+  objStoreType: null
   objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
@@ -190,6 +198,8 @@ ruler:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   config: {}
   #  groups:
   #  - name: metamonitoring
