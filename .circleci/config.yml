@@ -25,7 +25,7 @@ jobs:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
       CHART_TESTING_TAG: v2.3.3
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
-      KIND_VERSION: v0.4.0
+      KIND_VERSION: v0.5.1
       K8S_VERSION: v1.11.10
     steps:
       - checkout
@@ -40,8 +40,8 @@ jobs:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
       CHART_TESTING_TAG: v2.3.3
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
-      KIND_VERSION: v0.4.0
-      K8S_VERSION: v1.12.9
+      KIND_VERSION: v0.5.1
+      K8S_VERSION: v1.12.10
     steps:
       - checkout
       - run:
@@ -55,8 +55,8 @@ jobs:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
       CHART_TESTING_TAG: v2.3.3
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
-      KIND_VERSION: v0.4.0
-      K8S_VERSION: v1.13.7
+      KIND_VERSION: v0.5.1
+      K8S_VERSION: v1.13.10
     steps:
       - checkout
       - run:
@@ -70,8 +70,8 @@ jobs:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
       CHART_TESTING_TAG: v2.3.3
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
-      KIND_VERSION: v0.4.0
-      K8S_VERSION: v1.14.3
+      KIND_VERSION: v0.5.1
+      K8S_VERSION: v1.14.6
     steps:
       - checkout
       - run:

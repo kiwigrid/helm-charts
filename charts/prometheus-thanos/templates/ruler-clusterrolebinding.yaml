@@ -11,9 +11,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "prometheus-thanos.name" . }}-ruler
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
 subjects:
 - kind: ServiceAccount
-  name: {{ include "prometheus-thanos.name" . }}-ruler
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
   namespace: {{ .Release.Namespace }}
 {{- end }}
