@@ -177,7 +177,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.volumeMounts` | additional volume mounts | `nil` |
 | `compact.volumes` | additional volumes | `nil` |
 | `ruler.sidecar.image.repository` | Docker image for configmap watcher sidecar | `kiwigrid/k8s-configmap-watcher` |
-| `ruler.sidecar.image.tag` | Docker image tag for configmap watcher sidecar | `0.1.0` |
+| `ruler.sidecar.image.tag` | Docker image tag for configmap watcher sidecar | `0.1.1` |
 | `ruler.sidecar.image.pullPolicy` | pull policy for configmap watcher sidecar | `IfNotPresent` |
 | `ruler.sidecar.enabled` | enable configmap watcher sidecar | `false` |
 | `ruler.sidecar.watchLabel` | label for configmaps to watch | `thanos_alert_config` |
