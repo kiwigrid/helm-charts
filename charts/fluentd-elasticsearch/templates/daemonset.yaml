@@ -146,19 +146,10 @@ spec:
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
 {{- end }}
       {{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
-        # Liveness probe is aimed to help in situarions where fluentd
-        # silently hangs for no apparent reasons until manual restart.
-        # The idea of this probe is that if fluentd is not queueing or
-        # flushing chunks for 5 minutes, something is not right. If
-        # you want to change the fluentd configuration, reducing amount of
-        # logs fluentd collects, consider changing the threshold or turning
-        # liveness probe off completely.
         livenessProbe:
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          exec:
-            command:
-{{ toYaml .Values.livenessProbe.command | indent 12 }}
+{{ toYaml .Values.livenessProbe.kind | indent 10 }}
 {{- end }}
         ports:
 {{- range $port := .Values.service.ports }}
