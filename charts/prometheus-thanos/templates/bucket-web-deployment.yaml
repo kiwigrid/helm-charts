@@ -63,6 +63,10 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.bucketWebInterface.resources | nindent 12 }}
+          {{- with .Values.bucketWebInterface.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
       {{- with .Values.bucketWebInterface.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -73,6 +77,10 @@ spec:
     {{- end }}
     {{- with .Values.bucketWebInterface.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.bucketWebInterface.volumes }}
+      volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
 {{- end }}

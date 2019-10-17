@@ -274,6 +274,8 @@ bucketWebInterface:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
+  volumeMounts:
+  volumes:
 
 ## this is only for test support dont use this in production
 minio:

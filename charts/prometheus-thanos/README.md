@@ -83,6 +83,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.resources` | Resources | `{}` |
 | `bucketWebInterface.tolerations` | Tolerations | `[]` |
 | `bucketWebInterface.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `bucketWebInterface.volumeMounts` | Additional volume mounts | `nil` |
+| `bucketWebInterface.volumes` |Additional volumes | `nil` |
 | `compact.enabled` | Controls whether compact related resources should be created | `true` |
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}` |
 | `compact.additionalFlags` | Additional command line flags | `{}` |
