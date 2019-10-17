@@ -24,7 +24,7 @@ service:
       port: 9090
     grpc:
       port: 10901
-  bucketweb:
+  bucketWebInterface:
     type: ClusterIP
     http:
       port: 9090
@@ -241,12 +241,13 @@ ruler:
     size: 2Gi
     storageClass: ""
 
-bucketweb:
+bucketWebInterface:
   enabled: false
   additionalAnnotations: {}
   additionalFlags: {}
   additionalLabels: {}
   affinity: {}
+  extraEnv: []
   image:
     repository: quay.io/thanos/thanos
     tag: v0.7.0
