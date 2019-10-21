@@ -24,6 +24,10 @@ service:
       port: 9090
     grpc:
       port: 10901
+  bucketWebInterface:
+    type: ClusterIP
+    http:
+      port: 9090
 
 querier:
   enabled: true
@@ -236,6 +240,42 @@ ruler:
     existingClaim: ""
     size: 2Gi
     storageClass: ""
+
+bucketWebInterface:
+  enabled: false
+  additionalAnnotations: {}
+  additionalFlags: {}
+  additionalLabels: {}
+  affinity: {}
+  extraEnv: []
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.7.0
+    pullPolicy: IfNotPresent
+  logLevel: info
+  objStoreType: null
+  objStoreConfig: {}
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  objStoreConfigFile: null
+  nodeSelector: {}
+  replicaCount: 1
+  resources: {}
+  tolerations: []
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  volumeMounts:
+  volumes:
 
 ## this is only for test support dont use this in production
 minio:

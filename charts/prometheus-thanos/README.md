@@ -65,6 +65,26 @@ The following table lists the configurable parameters of the prometheus-thanos c
 
 | Parameter                                  | Description                               | Default                            |
 | ------------------------------------------ | ----------------------------------------- | ---------------------------------- |
+| `bucketWebInterface.enabled` | Controls whether bucket web interface related resources should be created | `false` |
+| `bucketWebInterface.additionalAnnotations` | Additional annotations on bucket web interface pods| `{}` |
+| `bucketWebInterface.additionalFlags` | Additional command line flags | `{}` |
+| `bucketWebInterface.additionalLabels` | Additional labels on bucket web interface pods| `{}` |
+| `bucketWebInterface.affinity` | Affinity | `{}` |
+| `bucketWebInterface.extraEnv` | Extra env vars | `nil` |
+| `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
+| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.7.0` |
+| `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
+| `bucketWebInterface.logLevel` | Bucket web interface log level | `info` |
+| `bucketWebInterface.nodeSelector` | NodeSelector | `{}` |
+| `bucketWebInterface.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
+| `bucketWebInterface.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
+| `bucketWebInterface.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
+| `bucketWebInterface.replicaCount` | Replica count for bucket web interface | `1` |
+| `bucketWebInterface.resources` | Resources | `{}` |
+| `bucketWebInterface.tolerations` | Tolerations | `[]` |
+| `bucketWebInterface.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `bucketWebInterface.volumeMounts` | Additional volume mounts | `nil` |
+| `bucketWebInterface.volumes` |Additional volumes | `nil` |
 | `compact.enabled` | Controls whether compact related resources should be created | `true` |
 | `compact.additionalAnnotations` | Additional annotations on compactor pod| `{}` |
 | `compact.additionalFlags` | Additional command line flags | `{}` |
@@ -156,6 +176,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `ruler.volumeMounts` | Additional volume mounts | `nil` |
 | `ruler.volumes` | Additional volumes | `nil` |
+| `service.bucketWebInterface.type` | Service type for the bucket web interface | `ClusterIP` |
+| `service.bucketWebInterface.http.port` | Service http port for the bucket web interface  | `9090` |
 | `service.querier.type` | Service type for the querier | `ClusterIP` |
 | `service.querier.http.port` | Service http port for the querier  | `9090` |
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901` |
