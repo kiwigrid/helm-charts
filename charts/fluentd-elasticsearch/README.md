@@ -86,7 +86,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
 | `livenessProbe.initialDelaySeconds`          | livenessProbe initial delay seconds                                            | `600`                                  |
 | `livenessProbe.periodSeconds`                | livenessProbe period seconds                                                   | `60`                                   |
-| `livenessProbe.command`                      | livenessProbe command                                                          | `Set to a Linux compatible command`    |
+| `livenessProbe.kind`                         | livenessProbe kind                                                             | `Set to a Linux compatible command`    |
 | `nodeSelector`                               | Optional daemonset nodeSelector                                                | `{}`                                   |
 | `podSecurityPolicy.annotations`              | Specify pod annotations in the pod security policy                             | `{}`                                   |
 | `podSecurityPolicy.enabled`                  | Specify if a pod security policy must be created                               | `false`                                |
@@ -132,6 +132,8 @@ $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ## Upgrading
 
 When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+
+When upgrading this chart from a version &ge; 4.9.3 to version &ge; 5.0.0, you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
 
 ## AWS Elasticsearch Domains
 
