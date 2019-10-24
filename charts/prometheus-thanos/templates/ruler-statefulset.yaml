@@ -79,6 +79,22 @@ spec:
             - name: grpc
               containerPort: 10901
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}              
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
           volumeMounts:

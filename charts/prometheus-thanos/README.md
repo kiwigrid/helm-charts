@@ -152,6 +152,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
 | `ruler.image.tag` | Docker image tag for ruler | `v0.8.1` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
+| `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
+| `ruler.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
+| `ruler.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
+| `ruler.livenessProbe.timeoutSeconds` | Liveness probe timeoutSeconds | `30` |
 | `ruler.logLevel` | Ruler log level | `info` |
 | `ruler.nodeSelector` | NodeSelector | `{}` |
 | `ruler.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
@@ -164,6 +168,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `ruler.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `ruler.queries` | Ruler quieries endpoints | `[]` |
+| `ruler.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
+| `ruler.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
+| `ruler.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
+| `ruler.readinessProbe.timeoutSeconds` | Readiness probe timeoutSeconds | `30` |
 | `ruler.replicaCount` |  Replica count for ruler | `1` |
 | `ruler.resources` | Resources | `{}` |
 | `ruler.ruleFile` | Rule files that should be used | `/etc/thanos-ruler/**/*-rules.yaml` |
