@@ -72,7 +72,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.affinity` | Affinity | `{}` |
 | `bucketWebInterface.extraEnv` | Extra env vars | `nil` |
 | `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
-| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.7.0` |
+| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.8.1` |
 | `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
 | `bucketWebInterface.logLevel` | Bucket web interface log level | `info` |
 | `bucketWebInterface.nodeSelector` | NodeSelector | `{}` |
@@ -93,7 +93,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.consistencyDelay` | Consistency delay | `30m` |
 | `compact.extraEnv` | Extra env vars | `nil` |
 | `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `compact.image.tag` | Docker image tag for store gateway | `v0.7.0` |
+| `compact.image.tag` | Docker image tag for store gateway | `v0.8.1` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `compact.logLevel` | Store gateway log level | `info` |
 | `compact.nodeSelector` | NodeSelector | `{}` |
@@ -120,7 +120,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.additionalLabels` | Additional labels on querier pods| `{}` |
 | `querier.affinity` | Affinity | `{}` |
 | `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
-| `querier.image.tag` | Docker image tag for querier | `v0.7.0` |
+| `querier.image.tag` | Docker image tag for querier | `v0.8.1` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
 | `querier.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `querier.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
@@ -150,8 +150,12 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.evalInterval` | Ruler evaluation interval | `1m` |
 | `ruler.extraEnv` | Extra env vars | `nil` |
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
-| `ruler.image.tag` | Docker image tag for ruler | `v0.7.0` |
+| `ruler.image.tag` | Docker image tag for ruler | `v0.8.1` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
+| `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
+| `ruler.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
+| `ruler.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
+| `ruler.livenessProbe.timeoutSeconds` | Liveness probe timeoutSeconds | `30` |
 | `ruler.logLevel` | Ruler log level | `info` |
 | `ruler.nodeSelector` | NodeSelector | `{}` |
 | `ruler.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
@@ -164,6 +168,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `ruler.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `ruler.queries` | Ruler quieries endpoints | `[]` |
+| `ruler.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
+| `ruler.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
+| `ruler.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
+| `ruler.readinessProbe.timeoutSeconds` | Readiness probe timeoutSeconds | `30` |
 | `ruler.replicaCount` |  Replica count for ruler | `1` |
 | `ruler.resources` | Resources | `{}` |
 | `ruler.ruleFile` | Rule files that should be used | `/etc/thanos-ruler/**/*-rules.yaml` |
@@ -195,7 +203,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.chunkPoolSize` | Chunk pool size | `500MB` |
 | `storeGateway.extraEnv` | Extra env vars | `nil` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.7.0` |
+| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.8.1` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `storeGateway.indexCacheSize` | Index cache size | `500MB` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |

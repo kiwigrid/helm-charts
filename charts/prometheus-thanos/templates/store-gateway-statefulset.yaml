@@ -67,7 +67,7 @@ spec:
           {{- end }}
           livenessProbe:
             httpGet:
-              path: /metrics
+              path: /-/healthy
               port: http
             initialDelaySeconds: {{ .Values.storeGateway.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.storeGateway.livenessProbe.periodSeconds }}
@@ -75,7 +75,7 @@ spec:
             timeoutSeconds: {{ .Values.storeGateway.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /metrics
+              path: /-/ready
               port: http
             initialDelaySeconds: {{ .Values.storeGateway.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.storeGateway.readinessProbe.periodSeconds }}
