@@ -6,25 +6,6 @@
 
 ```console
 $ helm repo add kiwigrid https://kiwigrid.github.io
-```
-
-## Installation
-### IBM IKS
-
-For IBM IKS path `/var/log/pods` must be mounted, otherwise only kubelet logs would be available
-
-```yaml
-extraVolumeMounts: |
-    - name: pods
-      mountPath: /var/log/pods
-      readOnly: true
-
-extraVolumes: |
-    - name: pods
-      hostPath:
-        path: "/var/log/pods"
-        type: Directory
-```
 
 ## Support
 

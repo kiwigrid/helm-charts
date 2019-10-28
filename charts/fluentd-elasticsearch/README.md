@@ -129,6 +129,24 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
 
+## Installation
+### IBM IKS
+
+For IBM IKS path `/var/log/pods` must be mounted, otherwise only kubelet logs would be available
+
+```yaml
+extraVolumeMounts: |
+    - name: pods
+      mountPath: /var/log/pods
+      readOnly: true
+
+extraVolumes: |
+    - name: pods
+      hostPath:
+        path: "/var/log/pods"
+        type: Directory
+```
+
 ## Upgrading
 
 When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
