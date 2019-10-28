@@ -6,6 +6,7 @@
 
 ```console
 $ helm repo add kiwigrid https://kiwigrid.github.io
+```
 
 ## Support
 
