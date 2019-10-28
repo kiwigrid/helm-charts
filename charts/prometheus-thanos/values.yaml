@@ -24,6 +24,10 @@ service:
       port: 9090
     grpc:
       port: 10901
+  bucketWebInterface:
+    type: ClusterIP
+    http:
+      port: 9090
 
 querier:
   enabled: true
@@ -35,7 +39,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.7.0
+    tag: v0.8.1
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -64,7 +68,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.7.0
+    tag: v0.8.1
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -75,7 +79,7 @@ storeGateway:
   indexCacheSize: 500MB
   chunkPoolSize: 500MB
 
-  objStoreType: GCS
+  objStoreType: GCS  # WARNING: this is default to null in other sections
   additionalFlags: {}
   objStoreConfig: {}
   ## GCS example
@@ -87,6 +91,8 @@ storeGateway:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -117,7 +123,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.7.0
+    tag: v0.8.1
     pullPolicy: IfNotPresent
   additionalLabels: {}
   additionalAnnotations: {}
@@ -127,6 +133,8 @@ compact:
   retentionResolution1h: 10y
   consistencyDelay: 30m
   additionalFlags: {}
+
+  objStoreType: null
   objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
@@ -137,6 +145,8 @@ compact:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
@@ -162,14 +172,14 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.7.0
+    tag: v0.8.1
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
     watchLabel: thanos_alert_config
     image:
       repository: kiwigrid/k8s-configmap-watcher
-      tag: 0.1.0
+      tag: 0.1.1
       pullPolicy: IfNotPresent
   replicaLabel: replica
   logLevel: info
@@ -180,6 +190,8 @@ ruler:
   alertmanagerUrl: http://localhost
   evalInterval: 1m
   ruleFile: /etc/thanos-ruler/**/*-rules.yaml
+
+  objStoreType: null
   objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
@@ -190,6 +202,8 @@ ruler:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+
   config: {}
   #  groups:
   #  - name: metamonitoring
@@ -226,6 +240,42 @@ ruler:
     existingClaim: ""
     size: 2Gi
     storageClass: ""
+
+bucketWebInterface:
+  enabled: false
+  additionalAnnotations: {}
+  additionalFlags: {}
+  additionalLabels: {}
+  affinity: {}
+  extraEnv: []
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.8.1
+    pullPolicy: IfNotPresent
+  logLevel: info
+  objStoreType: null
+  objStoreConfig: {}
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  objStoreConfigFile: null
+  nodeSelector: {}
+  replicaCount: 1
+  resources: {}
+  tolerations: []
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  volumeMounts:
+  volumes:
 
 ## this is only for test support dont use this in production
 minio:

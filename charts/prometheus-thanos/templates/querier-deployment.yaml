@@ -65,7 +65,7 @@ spec:
             timeoutSeconds: {{ .Values.querier.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /-/healthy
+              path: /-/ready
               port: http
             initialDelaySeconds: {{ .Values.querier.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.querier.readinessProbe.periodSeconds }}

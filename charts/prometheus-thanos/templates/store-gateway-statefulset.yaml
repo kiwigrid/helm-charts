@@ -51,6 +51,8 @@ spec:
             --objstore.config=type: {{ .Values.storeGateway.objStoreType }} 
             config:
             {{- toYaml .Values.storeGateway.objStoreConfig | nindent 14 }}
+          {{ else if .Values.storeGateway.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
           {{- end }}
           ports:
             - name: http
@@ -65,7 +67,7 @@ spec:
           {{- end }}
           livenessProbe:
             httpGet:
-              path: /metrics
+              path: /-/healthy
               port: http
             initialDelaySeconds: {{ .Values.storeGateway.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.storeGateway.livenessProbe.periodSeconds }}
@@ -73,7 +75,7 @@ spec:
             timeoutSeconds: {{ .Values.storeGateway.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /metrics
+              path: /-/ready
               port: http
             initialDelaySeconds: {{ .Values.storeGateway.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.storeGateway.readinessProbe.periodSeconds }}
