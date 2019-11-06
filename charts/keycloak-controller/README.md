@@ -11,7 +11,7 @@ The following table lists the configurable parameters of the chart and their def
 | ------------------------- | ---------------------------------------------------------- | ------------------------------------- |
 | `replicaCount`            | Number of replicas                                         | 1                                     |
 | `image.repository`        | keycloak-controller image                                  | `kiwigrid/keycloak-controller`        |
-| `image.tag`               | keycloak-controller image tag                              | `1.0.0`                               |
+| `image.tag`               | keycloak-controller image tag                              | `1.2.0`                               |
 | `image.pullPolicy`        | Image pull policy                                          | `IfNotPresent`                        |
 | `rbac.enabled`            | Controls RBAC usage                                        | `true`                                |
 | `retryRate`               | Configure retry interval for failed resources              | `60s`                                 |
