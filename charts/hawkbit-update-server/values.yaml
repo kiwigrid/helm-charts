@@ -23,9 +23,7 @@ service:
   type: ClusterIP
   port: 80
   annotations: {}
-    # prometheus.io/path: /actuator/prometheus
-    # prometheus.io/port: "9080"
-    # prometheus.io/scrape: "true"
+    # traefik.ingress.kubernetes.io/affinity: "true"
 
 livenessProbe:
   initialDelaySeconds: 240
