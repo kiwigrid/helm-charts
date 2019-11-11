@@ -167,7 +167,7 @@ spec:
                "-listen",   "127.0.0.1:8080"]
         env:
         - name: PORT_NUM
-          value: "{{ .Values.elasticsearch.port }}"
+          value: '8080'
       {{- end }}
       terminationGracePeriodSeconds: 30
       volumes:
