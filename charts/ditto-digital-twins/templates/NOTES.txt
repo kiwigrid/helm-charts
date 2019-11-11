@@ -1,0 +1,5 @@
+Eclipse Ditto installed.
+
+Access ditto in your browser (http://localhost:8080) by running:
+
+    kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "ditto-digital-twins.fullname" . }}-nginx 8080:8080
