@@ -17,6 +17,16 @@ image:
 ## proxy that takes care of signing all requests being sent to the AWS ES Domain.
 awsSigningSidecar:
   enabled: false
+  resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 500Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 200Mi
+  network:
+    port: 8080
+    address: localhost
   image:
     repository: abutaha/aws-es-proxy
     tag: 0.9
