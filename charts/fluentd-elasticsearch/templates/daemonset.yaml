@@ -169,7 +169,7 @@ spec:
         - name: PORT_NUM
           value: value: {{ .Values.awsSigningSidecar.network.port | quote }}
         resources:
-{{ toYaml .Values.resources | indent 10 }}
+{{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
         volumeMounts:
       {{- end }}
       terminationGracePeriodSeconds: 30
