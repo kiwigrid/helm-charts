@@ -164,7 +164,7 @@ spec:
         image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
-               "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}]
+               "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"]
         env:
         - name: PORT_NUM
           value: value: {{ .Values.awsSigningSidecar.network.port | quote }}
