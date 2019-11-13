@@ -167,7 +167,7 @@ spec:
                "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"]
         env:
         - name: PORT_NUM
-          value: value: {{ .Values.awsSigningSidecar.network.port | quote }}
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
         resources:
 {{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
         volumeMounts:
