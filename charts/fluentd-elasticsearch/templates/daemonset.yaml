@@ -70,7 +70,7 @@ spec:
           value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: "{{ .Values.awsSigningSidecar.network.address | quote }}"
+          value: {{ .Values.awsSigningSidecar.network.address | quote }}
           {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
           {{- end }}
@@ -167,7 +167,7 @@ spec:
                "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"]
         env:
         - name: PORT_NUM
-          value: value: {{ .Values.awsSigningSidecar.network.port | quote }}
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
         resources:
 {{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
         volumeMounts:
