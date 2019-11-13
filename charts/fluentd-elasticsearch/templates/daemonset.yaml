@@ -70,13 +70,13 @@ spec:
           value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: 'localhost'
+          value: "{{ .Values.awsSigningSidecar.network.address | quote }}"
           {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
           {{- end }}
         - name: OUTPUT_PORT
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: '8080'
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
           {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
           {{- end }}
@@ -164,10 +164,13 @@ spec:
         image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
-               "-listen",   "127.0.0.1:8080"]
+               "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"]
         env:
         - name: PORT_NUM
-          value: '8080'
+          value: value: {{ .Values.awsSigningSidecar.network.port | quote }}
+        resources:
+{{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
+        volumeMounts:
       {{- end }}
       terminationGracePeriodSeconds: 30
       volumes:
