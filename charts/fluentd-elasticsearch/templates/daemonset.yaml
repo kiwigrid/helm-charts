@@ -70,7 +70,7 @@ spec:
           value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: "{{ .Values.awsSigningSidecar.network.address | quote }}"
+          value: {{ .Values.awsSigningSidecar.network.address | quote }}
           {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
           {{- end }}
