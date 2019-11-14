@@ -55,6 +55,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
 | `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
+| `awsSigningSidecar.resources`                | AWS Sidecar resources                                                   | `{}`               |
+| `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                                 | `8080`               |
+| `awsSigningSidecar.network.address`           | AWS Sidecar listen address                                                                 | `localhost`               |
 | `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
 | `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
@@ -108,6 +111,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `service.ports[].protocol`                   | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
 | `serviceAccount.create`                      | Specifies whether a service account should be created.                         | `true`                                 |
 | `serviceAccount.name`                        | Name of the service account.                                                   | `""`                                   |
+| `serviceAccount.annotations`                 | Specify annotations in the pod service account                                                   | `{}`                                   |
 | `serviceMonitor.enabled`                     | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
 | `serviceMonitor.port`                        | Define on which port the ServiceMonitor should scrape                          | `24231`                                |
 | `serviceMonitor.interval`                    | Interval at which metrics should be scraped                                    | `10s`                                  |
