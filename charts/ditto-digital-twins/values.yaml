@@ -16,6 +16,23 @@ rbac:
 nameOverride: ""
 fullnameOverride: ""
 
+## dbconfig for mongodb connections
+dbconfig:
+  concierge:
+    uri: mongodb://ditto-mongodb:27017/concierge
+    ssl: false
+  connectivity:
+    uri: mongodb://ditto-mongodb:27017/connectivity
+    ssl: false
+  things:
+    uri: mongodb://ditto-mongodb:27017/things
+    ssl: false
+  searchDB:
+    uri: mongodb://ditto-mongodb:27017/searchDB
+    ssl: false
+  policies:
+    uri: mongodb://ditto-mongodb:27017/policies
+    ssl: false
 
 ## ----------------------------------------------------------------------------
 ## global configuration shared by all components
@@ -608,19 +625,3 @@ mongodb:
     tag: 3.6
   persistence:
     enabled: false
-  apps:
-    concierge:
-      uri: mongodb://ditto-mongodb:27017/concierge
-      ssl: false
-    connectivity:
-      uri: mongodb://ditto-mongodb:27017/connectivity
-      ssl: false
-    things:
-      uri: mongodb://ditto-mongodb:27017/things
-      ssl: false
-    searchDB:
-      uri: mongodb://ditto-mongodb:27017/searchDB
-      ssl: false
-    policies:
-      uri: mongodb://ditto-mongodb:27017/policies
-      ssl: false
