@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   lint-scripts:
     docker:
-      - image: koalaman/shellcheck-alpine
+      - image: koalaman/shellcheck-alpine:v0.7.0
     steps:
       - checkout
       - run:
@@ -12,7 +12,7 @@ jobs:
 
   lint-chart:
     docker:
-      - image: quay.io/helmpack/chart-testing:v2.3.3
+      - image: quay.io/helmpack/chart-testing:v2.4.0
     steps:
       - checkout
       - run:
@@ -23,7 +23,7 @@ jobs:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.3.3
+      CHART_TESTING_TAG: v2.4.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
       KIND_VERSION: v0.5.1
       K8S_VERSION: v1.11.10
@@ -38,7 +38,7 @@ jobs:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.3.3
+      CHART_TESTING_TAG: v2.4.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
       KIND_VERSION: v0.5.1
       K8S_VERSION: v1.12.10
@@ -53,7 +53,7 @@ jobs:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.3.3
+      CHART_TESTING_TAG: v2.4.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
       KIND_VERSION: v0.5.1
       K8S_VERSION: v1.13.10
@@ -68,7 +68,7 @@ jobs:
     machine: true
     environment:
       CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.3.3
+      CHART_TESTING_TAG: v2.4.0
       CHARTS_REPO: https://github.com/kiwigrid/helm-charts
       KIND_VERSION: v0.5.1
       K8S_VERSION: v1.14.6
