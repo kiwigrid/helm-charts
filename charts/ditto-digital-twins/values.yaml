@@ -16,6 +16,24 @@ rbac:
 nameOverride: ""
 fullnameOverride: ""
 
+## dbconfig for mongodb connections
+## will be handled as k8s secret as connection uri might contain auth credentials
+dbconfig:
+  concierge:
+    uri: mongodb://ditto-mongodb:27017/concierge
+    ssl: false
+  connectivity:
+    uri: mongodb://ditto-mongodb:27017/connectivity
+    ssl: false
+  things:
+    uri: mongodb://ditto-mongodb:27017/things
+    ssl: false
+  searchDB:
+    uri: mongodb://ditto-mongodb:27017/searchDB
+    ssl: false
+  policies:
+    uri: mongodb://ditto-mongodb:27017/policies
+    ssl: false
 
 ## ----------------------------------------------------------------------------
 ## global configuration shared by all components
@@ -603,24 +621,7 @@ thingsSearch:
 mongodb:
   ## enabled controls usage of dependency chart
   enabled: true
+  fullnameOverride: ditto-mongodb
   usePassword: false
-  image:
-    tag: 3.6
   persistence:
     enabled: false
-  apps:
-    concierge:
-      uri: mongodb://ditto-mongodb:27017/concierge
-      ssl: false
-    connectivity:
-      uri: mongodb://ditto-mongodb:27017/connectivity
-      ssl: false
-    things:
-      uri: mongodb://ditto-mongodb:27017/things
-      ssl: false
-    searchDB:
-      uri: mongodb://ditto-mongodb:27017/searchDB
-      ssl: false
-    policies:
-      uri: mongodb://ditto-mongodb:27017/policies
-      ssl: false

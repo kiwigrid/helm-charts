@@ -1,5 +1,5 @@
 {{- if .Values.concierge.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "ditto-digital-twins.fullname" . }}-concierge
@@ -73,9 +73,9 @@ spec:
             - name: TZ
               value: "{{ .Values.global.timezone }}"
             - name: OPENJ9_JAVA_OPTIONS
-              value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=40 -XX:+ExitOnOutOfMemoryError{{ if .Values.mongodb.apps.concierge.ssl }} -Dorg.mongodb.async.type=netty{{ end }}"
+              value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=40 -XX:+ExitOnOutOfMemoryError{{ if .Values.dbconfig.concierge.ssl }} -Dorg.mongodb.async.type=netty{{ end }}"
             - name: MONGO_DB_SSL_ENABLED
-              value: "{{ if .Values.mongodb.apps.concierge.ssl }}true{{ else }}false{{ end }}"
+              value: "{{ if .Values.dbconfig.concierge.ssl }}true{{ else }}false{{ end }}"
             - name: MONGO_DB_URI
               valueFrom:
                 secretKeyRef:

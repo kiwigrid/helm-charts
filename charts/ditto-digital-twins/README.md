@@ -1,12 +1,8 @@
 # Ditto - Digital Twins
 
-**NOTE** This is Work In Progress
-
 Open issues:
 
-* Mongo setup (stateful set and PVC)
 * NGINX config
-  * static loaded from file (`nginx.conf` contains references to gateway and swaggerui service)
   * create password for default user dynamically
 
 ## Introduction
@@ -26,6 +22,7 @@ Furthermore we want to cover some other points:
 * Enhance flexibility
 * Enable Prometheus support
 * Usage of dedicated ServiceAccount
+* Add PodDisruptionBudget
 
 ## Prerequisites
 
