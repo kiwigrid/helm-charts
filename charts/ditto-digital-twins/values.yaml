@@ -38,6 +38,10 @@ dbconfig:
 ## ----------------------------------------------------------------------------
 ## global configuration shared by all components
 global:
+  ## jwtOnly controls whether only OpenID-Connect authentication is supported
+  ## if false, basicAuth is used
+  ## ref: https://www.eclipse.org/ditto/installation-operating.html#openid-connect
+  jwtOnly: false
   ## timezone
   timezone: Europe/Berlin
   ## imagePullSecrets will be added to every deployment
@@ -86,7 +90,7 @@ concierge:
     ## repository for the concierge docker image
     repository: docker.io/eclipse/ditto-concierge
     ## tag for the concierge docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the concierge docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for concierge service
@@ -160,7 +164,7 @@ connectivity:
     ## repository for the connectivity docker image
     repository: docker.io/eclipse/ditto-connectivity
     ## tag for the connectivity docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the connectivity docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for connectivity service
@@ -237,7 +241,7 @@ gateway:
     ## repository for the gateway docker image
     repository: docker.io/eclipse/ditto-gateway
     ## tag for the gateway docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the gateway docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for gateway service
@@ -371,7 +375,7 @@ policies:
     ## repository for the policies docker image
     repository: docker.io/eclipse/ditto-policies
     ## tag for the policies docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the policies docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for policies service
@@ -491,7 +495,7 @@ things:
     ## repository for the things docker image
     repository: docker.io/eclipse/ditto-things
     ## tag for the things docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the things docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for things service
@@ -565,7 +569,7 @@ thingsSearch:
     ## repository for the things-search docker image
     repository: docker.io/eclipse/ditto-things-search
     ## tag for the things-search docker image
-    tag: 0.9.0
+    tag: 1.0.0-M3
     ## pullPolicy for the things-search docker image
     pullPolicy: IfNotPresent
   ## systemProps used to define arbritrary system properties for things-search service
