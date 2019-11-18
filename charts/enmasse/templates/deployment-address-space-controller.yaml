@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "enmasse.labels" . | indent 4 }}
+  name: {{ include "enmasse.fullname" . }}-address-space-controller
+spec:
+  replicas: {{ .Values.addressSpaceController.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "enmasse.fullname" . }}-address-space-controller
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "enmasse.fullname" . }}-address-space-controller
+        app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.addressSpaceController.annotations }}
+      annotations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: node-role.enmasse.io/operator-infra
+                    operator: In
+                    values:
+                      - "true"
+      containers:
+      - env:
+        - name: EXPOSE_ENDPOINTS_BY_DEFAULT
+          valueFrom:
+            configMapKeyRef:
+              key: exposeEndpointsByDefault
+              name: address-space-controller-config
+              optional: true
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              key: environment
+              name: address-space-controller-config
+              optional: true
+        - name: TEMPLATE_DIR
+          value: /opt/templates
+        - name: RESOURCES_DIR
+          value: /opt
+        - name: STANDARD_AUTHSERVICE_CONFIG_NAME
+          value: keycloak-config
+        - name: STANDARD_AUTHSERVICE_CREDENTIALS_SECRET_NAME
+          value: keycloak-credentials
+        - name: STANDARD_AUTHSERVICE_CERT_SECRET_NAME
+          value: standard-authservice-cert
+        - name: WILDCARD_ENDPOINT_CERT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              key: wildcardEndpointCertSecret
+              name: address-space-controller-config
+              optional: true
+        - name: RESYNC_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              key: resyncInterval
+              name: address-space-controller-config
+              optional: true
+        - name: RECHECK_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              key: recheckInterval
+              name: address-space-controller-config
+              optional: true
+          {{- if .Values.addressSpaceController.configEnv }}
+            {{- toYaml .Values.addressSpaceController.configEnv | nindent 8 }}
+          {{- end }}
+        image: "{{ .Values.addressSpaceController.image.repository }}:{{ .Values.addressSpaceController.image.tag }}"
+        imagePullPolicy: {{ .Values.addressSpaceController.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+            scheme: HTTP
+        name: address-space-controller
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+            scheme: HTTP
+        resources:
+{{ toYaml .Values.addressSpaceController.resources | indent 10 }}
+{{- if .Values.rbac.enabled }}
+      serviceAccountName: {{ include "enmasse.fullname" . }}-address-space-controller
+{{- end }}
