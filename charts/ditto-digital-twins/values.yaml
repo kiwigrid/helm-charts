@@ -35,6 +35,27 @@ dbconfig:
     uri: mongodb://ditto-mongodb:27017/policies
     ssl: false
 
+## ingress configuration
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+    # ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: ditto.example.com
+      paths: []
+        # - /api
+        # - /ws
+        # - /devops
+        # - /status
+        # - /health
+        # - /apidoc
+
+  tls: []
+  #  - secretName: ditto-tls
+  #    hosts:
+  #      - ditto.example.com
+
 ## ----------------------------------------------------------------------------
 ## global configuration shared by all components
 global:

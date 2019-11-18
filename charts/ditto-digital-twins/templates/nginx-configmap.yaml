@@ -42,15 +42,15 @@ data:
         location /api {
           include nginx-cors.conf;
 
-          {{- if .Values.global.jwtOnly -}}
-          proxy_pass_request_headers on;
-          proxy_set_header Authorization $http_authorization;
+          {{ if .Values.global.jwtOnly -}}
+          proxy_pass_request_headers    on;
+          proxy_set_header              Authorization       $http_authorization;
           {{ else }}
           auth_basic                    "Authentication required";
           auth_basic_user_file          nginx.htpasswd;
           proxy_set_header              X-Forwared-User     $remote_user;
           proxy_set_header              x-ditto-dummy-auth  "nginx:${remote_user}";
-          {{- end -}}
+          {{- end }}
         
           proxy_pass                    http://{{ include "ditto-digital-twins.fullname" . }}-gateway;
           proxy_http_version            1.1;
@@ -67,15 +67,15 @@ data:
         # ws
         location /ws {
 
-          {{- if .Values.global.jwtOnly -}}
-          proxy_pass_request_headers on;
-          proxy_set_header Authorization $http_authorization;
+          {{ if .Values.global.jwtOnly -}}
+          proxy_pass_request_headers    on;
+          proxy_set_header              Authorization       $http_authorization;
           {{ else }}
           auth_basic                    "Authentication required";
           auth_basic_user_file          nginx.htpasswd;
           proxy_set_header              X-Forwared-User     $remote_user;
           proxy_set_header              x-ditto-dummy-auth  "nginx:${remote_user}";
-          {{- end -}}
+          {{- end }}
           
           proxy_pass                    http://{{ include "ditto-digital-twins.fullname" . }}-gateway;
           proxy_http_version            1.1;
@@ -105,10 +105,10 @@ data:
         location /status {
           include nginx-cors.conf;
     
-          {{- if (and .Values.global.jwtOnly (not .Values.gateway.enableDummyAuth)) -}}
-          proxy_pass_request_headers on;
-          proxy_set_header Authorization $http_authorization;
-          {{- end -}}
+          {{ if (and .Values.global.jwtOnly (not .Values.gateway.enableDummyAuth)) -}}
+          proxy_pass_request_headers    on;
+          proxy_set_header              Authorization       $http_authorization;
+          {{- end }}
 
           proxy_pass                    http://{{ include "ditto-digital-twins.fullname" . }}-gateway/overall/status;
           proxy_http_version            1.1;
@@ -122,10 +122,10 @@ data:
         location /devops {
           include nginx-cors.conf;
     
-          {{- if (and .Values.global.jwtOnly .Values.gateway.secureDevops (not .Values.gateway.enableDummyAuth)) -}}
-          proxy_pass_request_headers on;
-          proxy_set_header Authorization $http_authorization;
-          {{- end -}}
+          {{ if (and .Values.global.jwtOnly .Values.gateway.secureDevops (not .Values.gateway.enableDummyAuth)) -}}
+          proxy_pass_request_headers    on;
+          proxy_set_header              Authorization       $http_authorization;
+          {{- end }}
 
           proxy_pass                    http://{{ include "ditto-digital-twins.fullname" . }}-gateway/devops;
           proxy_http_version            1.1;
