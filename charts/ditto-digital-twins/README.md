@@ -22,7 +22,9 @@ Furthermore we want to cover some other points:
 * Enhance flexibility
 * Enable Prometheus support
 * Usage of dedicated ServiceAccount
-* Add PodDisruptionBudget
+* PodDisruptionBudget
+* Ingress
+* OIDC support w/o manual change of nginx config
 
 ## Prerequisites
 
