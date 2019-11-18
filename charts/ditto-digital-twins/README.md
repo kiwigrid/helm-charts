@@ -55,7 +55,7 @@ Please view the `values.yaml` for the list of possible configuration values with
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```bash
-helm install --name hawkbit-update-server --set swaggerui.enabled=false kiwigrid/ditto-digital-twins
+helm install --name ditto-digital-twins --set swaggerui.enabled=false kiwigrid/ditto-digital-twins
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart.
