@@ -78,6 +78,16 @@ spec:
               value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=40 -XX:+ExitOnOutOfMemoryError"
             - name: DEVOPS_SECURE_STATUS
               value: "{{ .Values.gateway.devopsSecureStatus }}"
+            - name: DEVOPS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ditto-digital-twins.fullname" . }}-gateway-secret
+                  key: devops-password
+            - name: STATUS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ditto-digital-twins.fullname" . }}-gateway-secret
+                  key: status-password
           {{- if .Values.global.prometheus.enabled }}
             - name: PROMETHEUS_PORT
               value: "{{ .Values.global.prometheus.port }}"

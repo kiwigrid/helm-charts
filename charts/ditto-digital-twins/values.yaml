@@ -244,6 +244,12 @@ gateway:
   devopsSecureStatus: false
   ## enableDummyAuth is used as value for ENABLE_DUMMY_AUTH environment var
   enableDummyAuth: true
+  ## devopsPassword will be used for accessing /devops resource (username: devops)
+  ## if not set a random password will be set
+  devopsPassword:
+  ## statusPassword will be used for accessing /status resource (username: devops)
+  ## if not set a random password will be set
+  statusPassword:
   ## replicaCount for gateway service
   replicaCount: 1
   ## updateStrategy for gateway service
@@ -269,8 +275,8 @@ gateway:
   systemProps: []
   ## extraEnv to add arbritrary environment variabled to gateway container
   extraEnv: []
-    # - name: STATUS_PASSWORD
-    #   value: foobar
+    # - name: LOG_LEVEL_APPLICATION
+    #   value: "DEBUG"
   ## resources for the gateway container
   resources: {}
     # requests:
