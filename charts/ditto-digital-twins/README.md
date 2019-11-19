@@ -86,9 +86,6 @@ To secure /devops and /status resource adjust configuration to (username will be
 gateway:
   enableDummyAuth: false
   devopsSecureStatus: true
-  extraEnv:
-    - name: DEVOPS_PASSWORD
-      value: foo
-    - name: STATUS_PASSWORD
-      value: bar
+  devopsPassword: foo
+  statusPassword: bar
 ``
