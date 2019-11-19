@@ -117,7 +117,6 @@ concierge:
   ## systemProps used to define arbritrary system properties for concierge service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variable to concierge container
   extraEnv: []
   ## resources for the concierge container
@@ -191,7 +190,6 @@ connectivity:
   ## systemProps used to define arbritrary system properties for connectivity service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variable to connectivity container
   extraEnv: []
   ## resources for the connectivity container
@@ -241,8 +239,9 @@ connectivity:
 gateway:
   ## enabled controls whether gateway related resources should be created
   enabled: true
-  ## secureDevops is used as value for DEVOPS_SECURE_STATUS environment var
-  secureDevops: true
+  ## devopsSecureStatus is used as value for DEVOPS_SECURE_STATUS environment var
+  ## this controls whether /status resource is secured or not
+  devopsSecureStatus: false
   ## enableDummyAuth is used as value for ENABLE_DUMMY_AUTH environment var
   enableDummyAuth: true
   ## replicaCount for gateway service
@@ -268,9 +267,10 @@ gateway:
   ## systemProps used to define arbritrary system properties for gateway service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variabled to gateway container
   extraEnv: []
+    # - name: STATUS_PASSWORD
+    #   value: foobar
   ## resources for the gateway container
   resources: {}
     # requests:
@@ -402,7 +402,6 @@ policies:
   ## systemProps used to define arbritrary system properties for policies service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variable to policies container
   extraEnv: []
   ## resources for the policies container
@@ -522,7 +521,6 @@ things:
   ## systemProps used to define arbritrary system properties for things service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variable to things container
   extraEnv: []
   ## resources for the things container
@@ -596,7 +594,6 @@ thingsSearch:
   ## systemProps used to define arbritrary system properties for things-search service
   ## ref: https://www.eclipse.org/ditto/installation-operating.html#configuration
   systemProps: []
-    # - "-Dditto.gateway.authentication.devops.password=foobar"
   ## extraEnv to add arbritrary environment variable to things-search container
   extraEnv: []
   ## resources for the things-search container

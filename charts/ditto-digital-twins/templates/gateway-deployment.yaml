@@ -77,7 +77,7 @@ spec:
             - name: OPENJ9_JAVA_OPTIONS
               value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=40 -XX:+ExitOnOutOfMemoryError"
             - name: DEVOPS_SECURE_STATUS
-              value: "{{ .Values.gateway.secureDevops }}"
+              value: "{{ .Values.gateway.devopsSecureStatus }}"
           {{- if .Values.global.prometheus.enabled }}
             - name: PROMETHEUS_PORT
               value: "{{ .Values.global.prometheus.port }}"
