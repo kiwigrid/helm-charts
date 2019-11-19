@@ -77,3 +77,18 @@ gateway:
   systemProps:
     - "-Dditto.gateway.authentication.oauth.openid-connect-issuers.myprovider=openid-connect.onelogin.com/oidc"
 ```
+
+### Securing Devops Resource
+
+To secure /devops and /status resource adjust configuration to (username will be `devops`):
+
+```yaml
+gateway:
+  enableDummyAuth: false
+  devopsSecureStatus: true
+  extraEnv:
+    - name: DEVOPS_PASSWORD
+      value: foo
+    - name: STATUS_PASSWORD
+      value: bar
+``
