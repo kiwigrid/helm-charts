@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "enmasse.labels" . | indent 4 }}
+  name: {{ include "enmasse.fullname" . }}-api-server
+spec:
+  replicas: {{ .Values.apiServer.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "enmasse.fullname" . }}-api-server
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "enmasse.fullname" . }}-api-server
+        app.kubernetes.io/instance: {{ .Release.Name }}
+{{- with .Values.apiServer.annotations }}
+      annotations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: node-role.enmasse.io/operator-infra
+                    operator: In
+                    values:
+                      - "true"
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: -verbose:gc -Xlog:gc*
+        - name: CERT_DIR
+          value: /api-server-cert
+        - name: ENABLE_RBAC
+          value: "true"
+        - name: APISERVER_CLIENT_CA_CONFIG_NAME
+          value: extension-apiserver-authentication
+        - name: APISERVER_CLIENT_CA_CONFIG_NAMESPACE
+          value: kube-system
+        - name: APISERVER_ROUTE_NAME
+          value: restapi
+        image: "{{ .Values.apiServer.image.repository }}:{{ .Values.apiServer.image.tag }}"
+        imagePullPolicy: {{ .Values.apiServer.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+        name: api-server
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 8443
+          name: https
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+            scheme: HTTP
+        resources:
+{{ toYaml .Values.apiServer.resources | indent 10 }}
+        volumeMounts:
+        - mountPath: /api-server-cert
+          name: api-server-cert
+          readOnly: true
+{{- if .Values.rbac.enabled }}
+      serviceAccountName: {{ include "enmasse.fullname" . }}-api-server
+{{- end }}
+      volumes:
+      - name: api-server-cert
+        secret:
+          secretName: {{ include "enmasse.fullname" . }}-api-server-cert

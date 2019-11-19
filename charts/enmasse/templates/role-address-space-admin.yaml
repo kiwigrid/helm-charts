@@ -1,0 +1,27 @@
+{{- if .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "enmasse.fullname" . }}-address-space-admin
+  labels:
+{{ include "enmasse.labels" . | indent 4 }}
+rules:
+  - apiGroups: [ "admin.enmasse.io" ]
+    resources: [ "addressplans", "addressspaceplans", "brokeredinfraconfigs", "standardinfraconfigs", "authenticationservices", "consoleservices"]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "pods", "secrets" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "configmaps", "configmaps/finalizers" ]
+    verbs: [ "create", "update", "patch", "get", "list", "watch", "delete" ]
+  - apiGroups: [ "" ]
+    resources: [ "events" ]
+    verbs: [ "create", "update", "patch", "get", "list" ]
+  - apiGroups: [ "" ]
+    resources: [ "persistentvolumeclaims", "services" ]
+    verbs: [ "create", "update", "patch", "get", "list", "delete" ]
+  - apiGroups: [ "apps" ]
+    resources: [ "statefulsets", "deployments" ]
+    verbs: [ "create", "update", "patch", "get", "list", "delete" ]
+{{- end }}

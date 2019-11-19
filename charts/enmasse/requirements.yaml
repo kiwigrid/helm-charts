@@ -1,0 +1,5 @@
+dependencies:
+- name: enmasse-crd
+  version: 0.1.0
+  repository: https://kiwigrid.github.io/
+  condition: enmasse-crd.enabled

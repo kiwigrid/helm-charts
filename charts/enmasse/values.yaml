@@ -1,0 +1,118 @@
+# Default values for enmasse.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+enmasse-crd:
+  enabled: false
+
+rbac:
+  enabled: true
+
+operator:
+  replicaCount: 1
+  image:
+    repository: quay.io/enmasse/controller-manager
+    tag: 0.30.1
+    pullPolicy: IfNotPresent
+  annotations:
+  configEnv:
+    - name: OPERATOR_NAME
+      value: "enmasse-operator"
+    - name: IMAGE_PULL_POLICY
+      value: "IfNotPresent"
+    - name: CONTROLLER_DISABLE_ALL
+      value: "true"
+    - name: CONTROLLER_ENABLE_IOT_CONFIG
+      value: "true"
+    - name: CONTROLLER_ENABLE_AUTHENTICATION_SERVICE
+      value: "true"
+    - name: CONTROLLER_MANAGER_IMAGE
+      value: quay.io/enmasse/controller-manager:0.30.1
+    - name: IOT_AUTH_SERVICE_IMAGE
+      value: quay.io/enmasse/iot-auth-service:0.30.1
+    - name: IOT_DEVICE_REGISTRY_FILE_IMAGE
+      value: quay.io/enmasse/iot-device-registry-file:0.30.1
+    - name: IOT_DEVICE_REGISTRY_INFINISPAN_IMAGE
+      value: quay.io/enmasse/iot-device-registry-infinispan:0.30.1
+    - name: IOT_GC_IMAGE
+      value:
+    - name: IOT_HTTP_ADAPTER_IMAGE
+      value: quay.io/enmasse/iot-http-adapter:0.30.1
+    - name: IOT_MQTT_ADAPTER_IMAGE
+      value: quay.io/enmasse/iot-mqtt-adapter:0.30.1
+    - name: IOT_LORAWAN_ADAPTER_IMAGE
+      value: quay.io/enmasse/iot-lorawan-adapter:0.30.1
+    - name: IOT_SIGFOX_ADAPTER_IMAGE
+      value: quay.io/enmasse/iot-sigfox-adapter:0.30.1
+    - name: IOT_TENANT_SERVICE_IMAGE
+      value: quay.io/enmasse/iot-tenant-service:0.30.1
+    - name: IOT_PROXY_CONFIGURATOR_IMAGE
+      value: quay.io/enmasse/iot-proxy-configurator:0.30.1
+    - name: ROUTER_IMAGE
+      value: quay.io/interconnectedcloud/qdrouterd:1.9.0
+    - name: NONE_AUTHSERVICE_IMAGE
+      value: quay.io/enmasse/none-authservice:0.30.1
+    - name: KEYCLOAK_IMAGE
+      value: quay.io/enmasse/keycloak-openshift:4.8.3.Final
+    - name: KEYCLOAK_PLUGIN_IMAGE
+      value: quay.io/enmasse/keycloak-plugin:0.30.1
+    - name: CONTROLLER_ENABLE_CONSOLE_SERVICE
+      value: "true"
+    - name: CONSOLE_INIT_IMAGE
+      value: "quay.io/enmasse/console-init:0.30.1"
+    - name: CONSOLE_PROXY_OPENSHIFT_IMAGE
+      value: "openshift/oauth-proxy:latest"
+    - name: CONSOLE_PROXY_KUBERNETES_IMAGE
+      value: "quay.io/pusher/oauth2_proxy:latest"
+    - name: CONSOLE_HTTPD_IMAGE
+      value: "quay.io/enmasse/console-httpd:0.30.1"
+  resources: {}
+
+apiServer:
+  replicaCount: 1
+  image:
+    repository: quay.io/enmasse/api-server
+    tag: 0.30.1
+    pullPolicy: IfNotPresent
+  annotations:
+  service:
+    annotations: {}
+  resources: {}
+
+addressSpaceController:
+  replicaCount: 1
+  image:
+    repository: quay.io/enmasse/address-space-controller
+    tag: 0.30.1
+    pullPolicy: IfNotPresent
+  annotations:
+  service:
+    annotations: {}
+  configEnv:
+    - name: JAVA_OPTS
+      value: -verbose:gc
+    - name: ENABLE_EVENT_LOGGER
+      value: "true"
+    - name: IMAGE_PULL_POLICY
+      value: IfNotPresent
+    - name: ROUTER_IMAGE
+      value: quay.io/interconnectedcloud/qdrouterd:1.9.0
+    - name: STANDARD_CONTROLLER_IMAGE
+      value: quay.io/enmasse/standard-controller:0.30.1
+    - name: AGENT_IMAGE
+      value: quay.io/enmasse/agent:0.30.1
+    - name: BROKER_IMAGE
+      value: quay.io/enmasse/artemis-base:2.10.1
+    - name: BROKER_PLUGIN_IMAGE
+      value: quay.io/enmasse/broker-plugin:0.30.1
+    - name: TOPIC_FORWARDER_IMAGE
+      value: quay.io/enmasse/topic-forwarder:0.30.1
+    - name: MQTT_GATEWAY_IMAGE
+      value: quay.io/enmasse/mqtt-gateway:0.30.1
+    - name: MQTT_LWT_IMAGE
+      value: quay.io/enmasse/mqtt-lwt:0.30.1
+  resources: {}
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
