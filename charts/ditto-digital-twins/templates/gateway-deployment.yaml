@@ -31,6 +31,8 @@ spec:
         prometheus.io/path: "/"
         prometheus.io/port: "{{ .Values.global.prometheus.port }}"
         {{- end }}
+        checksum/password-config: {{ include (print $.Template.BasePath "/gateway-secret.yaml") . | sha256sum }}
+        checksum/mongodb-config: {{ include (print $.Template.BasePath "/mongodb-secret.yaml") . | sha256sum }}
         {{- with .Values.gateway.additionalAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
