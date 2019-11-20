@@ -25,6 +25,8 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
+        checksum/nginx-conf: {{ include (print $.Template.BasePath "/nginx-configmap.yaml") . | sha256sum }}
+        checksum/nginx-config: {{ include (print $.Template.BasePath "/nginx-config.yaml") . | sha256sum }}
         {{- with .Values.nginx.additionalAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
