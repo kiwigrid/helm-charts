@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "1.2.0"
 description: A Helm chart for a Kubernetes controller to manage Keycloak clients and realms.
 name: keycloak-controller
-version: 0.3.0
+version: 0.4.0
 home: https://github.com/kiwigrid/keycloak-controller
 sources:
 - https://github.com/kiwigrid/keycloak-controller
