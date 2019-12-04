@@ -5,8 +5,8 @@
 
 set -o errexit
 
-CONFIG_DIR=".circleci"
-GIT_REPO="https://github.com/kiwigrid/helm-charts"
+CONFIG_DIR=".ci"
+GIT_REPO="https://github.com/monotek/helm-charts"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
 git remote add k8s "${GIT_REPO}"

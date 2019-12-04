@@ -12,7 +12,7 @@ REPO_DIR="kiwigrid.github.io"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 TMP_DIR="tmp"
 
-if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
+if [ "${GITHUB_EVENT_NAME}" == 'push' ]; then
 
   # get kiwigrid.github.io
   test -d "${REPO_ROOT}"/"${REPO_DIR}" && rm -rf "${REPO_ROOT:=?}"/"${REPO_DIR:=?}"
@@ -48,6 +48,9 @@ if [ "${CIRCLECI}" == 'true' ] && [ -z "${CIRCLE_PULL_REQUEST}" ]; then
   mv "${REPO_ROOT}"/"${REPO_DIR}"/*.tgz "${REPO_ROOT}"/"${TMP_DIR}"
 
   #add helm repos
+  if ! helm repo list | grep -q "^stable"; then
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  fi
   helm repo add kiwigrid https://kiwigrid.github.io
   helm repo update
 
