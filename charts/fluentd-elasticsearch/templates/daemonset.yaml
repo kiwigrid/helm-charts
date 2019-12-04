@@ -54,18 +54,29 @@ spec:
       - name: {{ include "fluentd-elasticsearch.fullname" . }}
         image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        {{- if .Values.additionalPlugins }}
+        command:
+          - /bin/bash
+        args:
+          - '-c'
+          - >-
+            {{- range .Values.additionalPlugins }}
+            gem install {{ .name }} --version {{ .version }} &&
+            {{- end }}
+            /run.sh
+        {{- end }}
         env:
         - name: FLUENTD_ARGS
           value: {{ .Values.fluentdArgs | quote }}
         - name: OUTPUT_HOST
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: 'localhost'
+          value: {{ .Values.awsSigningSidecar.network.address | quote }}
           {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
           {{- end }}
         - name: OUTPUT_PORT
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: '8080'
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
           {{- else }}
           value: {{ .Values.elasticsearch.port | quote }}
           {{- end }}
@@ -122,12 +133,12 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: varlog
-          mountPath: /var/log
+          mountPath: {{ .Values.hostLogDir.varLog }}
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: {{ .Values.hostLogDir.dockerContainers }}
           readOnly: true
         - name: libsystemddir
-          mountPath: /usr/lib64
+          mountPath: {{ .Values.hostLogDir.libSystemdDir }}
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
@@ -135,38 +146,10 @@ spec:
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
 {{- end }}
       {{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
-        # Liveness probe is aimed to help in situarions where fluentd
-        # silently hangs for no apparent reasons until manual restart.
-        # The idea of this probe is that if fluentd is not queueing or
-        # flushing chunks for 5 minutes, something is not right. If
-        # you want to change the fluentd configuration, reducing amount of
-        # logs fluentd collects, consider changing the threshold or turning
-        # liveness probe off completely.
         livenessProbe:
-          initialDelaySeconds: 600
-          periodSeconds: 60
-          exec:
-            command:
-            - '/bin/sh'
-            - '-c'
-            - >
-              LIVENESS_THRESHOLD_SECONDS=${LIVENESS_THRESHOLD_SECONDS:-300};
-              STUCK_THRESHOLD_SECONDS=${STUCK_THRESHOLD_SECONDS:-900};
-              if [ ! -e /var/log/fluentd-buffers ];
-              then
-                exit 1;
-              fi;
-              touch -d "${STUCK_THRESHOLD_SECONDS} seconds ago" /tmp/marker-stuck;
-              if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-stuck -print -quit)" ];
-              then
-                rm -rf /var/log/fluentd-buffers;
-                exit 1;
-              fi;
-              touch -d "${LIVENESS_THRESHOLD_SECONDS} seconds ago" /tmp/marker-liveness;
-              if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-liveness -print -quit)" ];
-              then
-                exit 1;
-              fi;
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+{{ toYaml .Values.livenessProbe.kind | indent 10 }}
 {{- end }}
         ports:
 {{- range $port := .Values.service.ports }}
@@ -181,10 +164,13 @@ spec:
         image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
-               "-listen",   "127.0.0.1:8080"]
+               "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"]
         env:
         - name: PORT_NUM
-          value: "{{ .Values.elasticsearch.port }}"
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
+        resources:
+{{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
+        volumeMounts:
       {{- end }}
       terminationGracePeriodSeconds: 30
       volumes:

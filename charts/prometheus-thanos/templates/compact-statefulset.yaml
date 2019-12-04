@@ -1,5 +1,6 @@
+{{- if .Values.compact.enabled -}}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "prometheus-thanos.fullname" . }}-compact
   labels:
@@ -8,15 +9,14 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.compact.replicaCount }}
-  strategy:
-  {{- with .Values.compact.updateStrategy }}
-  {{- toYaml . | nindent 4 }}
-  {{- end }}
+  replicas: 1
+  updateStrategy:
+    type: {{ .Values.compact.updateStrategy }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
       app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.name" . }}-compact
   template:
     metadata:
       labels:
@@ -51,6 +51,8 @@ spec:
             --objstore.config=type: {{ .Values.compact.objStoreType }}
             config:
             {{- toYaml .Values.compact.objStoreConfig | nindent 14 }}
+          {{ else if .Values.compact.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.compact.objStoreConfigFile }}
           {{- end }}
           - --wait
           ports:
@@ -62,9 +64,11 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.compact.resources | nindent 12 }}
-          {{- with .Values.compact.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 14 }}
+            - mountPath: /data
+              name: storage-volume
+          {{- with .Values.compact.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.compact.nodeSelector }}
       nodeSelector:
@@ -82,3 +86,29 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.compact.persistentVolume.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.compact.persistentVolume.annotations }}
+        annotations:
+{{ toYaml .Values.compact.persistentVolume.annotations | indent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+{{ toYaml .Values.compact.persistentVolume.accessModes | indent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.compact.persistentVolume.size }}"
+      {{- if .Values.compact.persistentVolume.storageClass }}
+      {{- if (eq "-" .Values.compact.persistentVolume.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: "{{ .Values.compact.persistentVolume.storageClass }}"
+      {{- end }}
+      {{- end }}
+{{- else }}
+        - name: storage-volume
+          emptyDir: {}
+{{- end }}
+{{- end }}

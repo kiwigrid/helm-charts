@@ -37,7 +37,7 @@ The following table lists the configurable parameters of the GCP serviceaccount 
 | Parameter                 | Description                              | Default                                                                                                                                       |
 | ------------------------- | -----------------------------------------| --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `image.repository`        | gcp service account controller image     | `kiwigrid/gcp-serviceaccount-controller`                                                                                                      |
-| `image.tag`               | gcp service account controller image tag | `0.2.1`                                                                                                                                       |
+| `image.tag`               | gcp service account controller image tag | `0.2.4`                                                                                                                                       |
 | `image.pullPolicy`        | Image pull policy                        | `IfNotPresent`                                                                                                                                |
 | `gcpCredentials`          | Service account key JSON file            | Should be provided and base64 encoded when installing the chart and no existing secret is used, in this case a new secret will be created holding this service account |
 | `existingSecret`          | Existing secret containing the service account key JSON file | null|

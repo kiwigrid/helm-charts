@@ -55,8 +55,11 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
 | `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
-| `awsSigningSidecar.image.repository`         | AWS signing sidecard repository image                                          | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`                | AWS signing sidecard repository tag                                            | `0.9`                                  |
+| `awsSigningSidecar.resources`                | AWS Sidecar resources                                                   | `{}`               |
+| `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                                 | `8080`               |
+| `awsSigningSidecar.network.address`           | AWS Sidecar listen address                                                                 | `localhost`               |
+| `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
@@ -84,6 +87,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
+| `livenessProbe.initialDelaySeconds`          | livenessProbe initial delay seconds                                            | `600`                                  |
+| `livenessProbe.periodSeconds`                | livenessProbe period seconds                                                   | `60`                                   |
+| `livenessProbe.kind`                         | livenessProbe kind                                                             | `Set to a Linux compatible command`    |
 | `nodeSelector`                               | Optional daemonset nodeSelector                                                | `{}`                                   |
 | `podSecurityPolicy.annotations`              | Specify pod annotations in the pod security policy                             | `{}`                                   |
 | `podSecurityPolicy.enabled`                  | Specify if a pod security policy must be created                               | `false`                                |
@@ -105,6 +111,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `service.ports[].protocol`                   | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
 | `serviceAccount.create`                      | Specifies whether a service account should be created.                         | `true`                                 |
 | `serviceAccount.name`                        | Name of the service account.                                                   | `""`                                   |
+| `serviceAccount.annotations`                 | Specify annotations in the pod service account                                                   | `{}`                                   |
 | `serviceMonitor.enabled`                     | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
 | `serviceMonitor.port`                        | Define on which port the ServiceMonitor should scrape                          | `24231`                                |
 | `serviceMonitor.interval`                    | Interval at which metrics should be scraped                                    | `10s`                                  |
@@ -112,6 +119,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
 | `tolerations`                                | Optional daemonset tolerations                                                 | `{}`                                   |
 | `updateStrategy`                             | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
+| `additionalPlugins`                          | Optional additionnal plugins to install when pod starts                        | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
@@ -125,9 +133,29 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 $ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
 
+## Installation
+### IBM IKS
+
+For IBM IKS path `/var/log/pods` must be mounted, otherwise only kubelet logs would be available
+
+```yaml
+extraVolumeMounts: |
+    - name: pods
+      mountPath: /var/log/pods
+      readOnly: true
+
+extraVolumes: |
+    - name: pods
+      hostPath:
+        path: "/var/log/pods"
+        type: Directory
+```
+
 ## Upgrading
 
 When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+
+When upgrading this chart from a version &ge; 4.9.3 to version &ge; 5.0.0, you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
 
 ## AWS Elasticsearch Domains
 

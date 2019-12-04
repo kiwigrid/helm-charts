@@ -11,7 +11,7 @@ The following table lists the configurable parameters of the chart and their def
 | ------------------------- | ---------------------------------------------------------- | ------------------------------------- |
 | `replicaCount`            | Number of replicas                                         | 1                                     |
 | `image.repository`        | keycloak-controller image                                  | `kiwigrid/keycloak-controller`        |
-| `image.tag`               | keycloak-controller image tag                              | `1.0.0`                               |
+| `image.tag`               | keycloak-controller image tag                              | `1.2.0`                               |
 | `image.pullPolicy`        | Image pull policy                                          | `IfNotPresent`                        |
 | `rbac.enabled`            | Controls RBAC usage                                        | `true`                                |
 | `retryRate`               | Configure retry interval for failed resources              | `60s`                                 |
@@ -22,6 +22,7 @@ The following table lists the configurable parameters of the chart and their def
 | `prometheus.descriptions` | If meter descriptions should be sent to Prometheus         | `true`                                |
 | `javaToolOptions`         | Allows to specify the initialization of tools              | see `values.yaml`                     |
 | `gcpLogging`              | Enables Stackdriver conform logging                        | `true`                                |
+| `namespaced`              | Controls whether watching only for events in its namespace | `true`                                |
 | `resources`               | Resources                                                  | `{}`                                  |
 | `nodeSelector`            | NodeSelector                                               | `{}`                                  |
 | `tolerations`             | Tolerations                                                | `[]`                                  |

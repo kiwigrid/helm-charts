@@ -1,3 +1,4 @@
+{{- if .Values.querier.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,7 +65,7 @@ spec:
             timeoutSeconds: {{ .Values.querier.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /-/healthy
+              path: /-/ready
               port: http
             initialDelaySeconds: {{ .Values.querier.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.querier.readinessProbe.periodSeconds }}
@@ -92,3 +93,4 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+{{- end }}

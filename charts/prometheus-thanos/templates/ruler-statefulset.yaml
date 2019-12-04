@@ -1,3 +1,4 @@
+{{- if .Values.ruler.enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -54,6 +55,8 @@ spec:
             --objstore.config=type: {{ .Values.ruler.objStoreType }}
             config:
             {{- toYaml .Values.ruler.objStoreConfig | nindent 14 }}
+          {{ else if .Values.ruler.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.ruler.objStoreConfigFile }}
           {{- end }}
           {{- range $key, $value := .Values.ruler.additionalFlags }}
           - --{{ $key }}{{if $value }}={{ $value }}{{end}}
@@ -76,6 +79,22 @@ spec:
             - name: grpc
               containerPort: 10901
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}              
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
           volumeMounts:
@@ -105,8 +124,8 @@ spec:
           name: k8s-configmap-watcher
           resources:
             limits:
-              cpu: 10m
-              memory: 32Mi
+              cpu: 20m
+              memory: 64Mi
             requests:
               cpu: 10m
               memory: 32Mi
@@ -161,4 +180,5 @@ spec:
 {{- else }}
         - name: storage-volume
           emptyDir: {}
+{{- end }}
 {{- end }}

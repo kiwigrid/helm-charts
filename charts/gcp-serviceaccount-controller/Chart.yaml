@@ -1,8 +1,8 @@
 apiVersion: v1
-appVersion: "0.2.1"
+appVersion: "0.2.4"
 description: A Helm chart for a Kubernetes Controller to create secrets for GCP Service Accounts
 name: gcp-serviceaccount-controller
-version: 0.2.3
+version: 0.2.5
 home: https://github.com/kiwigrid/gcp-serviceaccount-controller
 sources:
 - https://github.com/kiwigrid/gcp-serviceaccount-controller

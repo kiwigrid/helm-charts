@@ -1,0 +1,26 @@
+{{- if .Values.swaggerui.networkPolicy.enabled }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "ditto-digital-twins.fullname" . }}-swaggerui
+  labels:
+    app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-swaggerui
+{{ include "ditto-digital-twins.labels" . | indent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-swaggerui
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-nginx
+          app.kubernetes.io/instance: {{ .Release.Name }}
+    ports:
+    - protocol: TCP
+      port: 8080
+{{- end }}

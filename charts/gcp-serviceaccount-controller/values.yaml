@@ -1,6 +1,6 @@
 image:
   repository: kiwigrid/gcp-serviceaccount-controller
-  tag: 0.2.1
+  tag: 0.2.4
   pullPolicy: IfNotPresent
 
 nameOverride: ""

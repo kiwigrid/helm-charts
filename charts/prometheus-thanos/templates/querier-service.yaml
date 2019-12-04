@@ -1,3 +1,4 @@
+{{- if .Values.querier.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -21,4 +22,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
     app.kubernetes.io/instance: {{ .Release.Name }}
-
+{{- end }}

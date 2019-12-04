@@ -50,3 +50,13 @@ pingdom:
   accountEmail: somebodyorelse@invalid
   # time (in seconds) between accessing the Pingdom  API
   wait: 10
+
+pod:
+  annotations: {}
+    # key: "true"
+    # example: "false"
+
+secret:
+  annotations: {}
+    # key: "true"
+    # example: "false"

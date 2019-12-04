@@ -3,10 +3,7 @@ apiVersion: v1
 metadata:
   name: {{ include "hawkbit-update-server.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
-    helm.sh/chart: {{ include "hawkbit-update-server.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "hawkbit-update-server.labels" . | indent 4 }}  
 data:
   application.yaml: |-
 {{ toYaml .Values.config.application | indent 4}}
