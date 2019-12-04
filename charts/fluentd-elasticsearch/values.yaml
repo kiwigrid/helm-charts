@@ -198,6 +198,12 @@ serviceMonitor:
   port: 24231
   labels: {}
 
+serviceMetric:
+  ## If true, the metrics service will be created
+  ## Alternative to implicit creation through serviceMonitor.enabled
+  ##
+  enabled: false
+
 prometheusRule:
   ## If true, a PrometheusRule CRD is created for a prometheus operator
   ## https://github.com/coreos/prometheus-operator
