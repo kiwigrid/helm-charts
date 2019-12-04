@@ -199,7 +199,8 @@ serviceMonitor:
   labels: {}
 
 serviceMetric:
-  ## If true, forces the metrics service to be created
+  ## If true, the metrics service will be created
+  ## Alternative to implicit creation through serviceMonitor.enabled
   ##
   enabled: false
 
