@@ -25,7 +25,7 @@ jobs:
       #   with:
       #     args: /github/workspace/.ci/lint-chart.sh
       - name: docker
-        run: docker run --rm --workdir=/github/workspace quay.io/helmpack/chart-testing:v2.4.0 .ci/lint-chart.sh
+        run: docker run --rm --workdir=/github/workspace -v /github/workspace:/github/workspace quay.io/helmpack/chart-testing:v2.4.0 .ci/lint-chart.sh
 
   install-chart:
     name: install-chart
