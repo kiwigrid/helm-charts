@@ -17,7 +17,7 @@ run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
 
     docker container run --rm --interactive --detach --network host --name "${DOCKER_NAME}" \
-        --volume "${REPO_ROOT}/.circleci/ct.yaml:/etc/ct/ct.yaml" \
+        --volume "${REPO_ROOT}/.ci/ct.yaml:/etc/ct/ct.yaml" \
         --volume "${REPO_ROOT}:${WORKDIR}" \
         --workdir ${WORKDIR} \
         "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" \
@@ -44,7 +44,7 @@ create_kind_cluster() {
     chmod +x kind
     sudo mv kind /usr/local/bin/kind
 
-    kind create cluster --name "${CLUSTER_NAME}" --config "${REPO_ROOT}"/.circleci/kind-config.yaml --image "kindest/node:${K8S_VERSION}"
+    kind create cluster --name "${CLUSTER_NAME}" --config "${REPO_ROOT}"/.ci/kind-config.yaml --image "kindest/node:${K8S_VERSION}"
 
     docker_exec mkdir -p /root/.kube
 
@@ -102,7 +102,7 @@ add_helm_repos() {
 }
 
 install_charts() {
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.circleci/ct.yaml
+    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml
     echo
 }
 
