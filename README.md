@@ -1,6 +1,6 @@
 # Kiwigrid Helm charts
 
-[![Github Action](https://github.com/kiwigrid/helm-charts/workflows/ci/badge.svg)](https://github.com/kiwigrid/helm-charts/actions?query=workflow%3Aci)
+[![Github Action](https://github.com/kiwigrid/helm-charts/workflows/ci/badge.svg)](https://github.com/kiwigrid/helm-charts/actions)
 
 
 
