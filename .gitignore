@@ -1,5 +1,5 @@
 *.tgz
-.circleci/test.sh
+.ci/test.sh
 charts/*/charts
 charts/*/requirements.lock
 kiwigrid.github.io

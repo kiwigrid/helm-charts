@@ -3,9 +3,13 @@ kind: Deployment
 metadata:
   name: {{ include "hawkbit-update-server.fullname" . }}
   labels:
-{{ include "hawkbit-update-server.labels" . | indent 4 }}  
+{{ include "hawkbit-update-server.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    {{- with .Values.updateStrategy }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}

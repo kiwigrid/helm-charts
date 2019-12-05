@@ -1,0 +1,12 @@
+{{- if .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "enmasse.fullname" . }}-standard-authservice
+  labels:
+{{ include "enmasse.labels" . | indent 4 }}
+rules:
+  - apiGroups: [ "authentication.k8s.io" ]
+    resources: [ "tokenreviews" ]
+    verbs: [ "create" ]
+{{- end }}

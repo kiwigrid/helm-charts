@@ -5,12 +5,25 @@ image:
 
 replicaCount: 1
 
+## podDisruptionBudget configuration
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+## strategy used to replace old Pods by new ones
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+updateStrategy:
+  ## default is re-create, because of possible database migrations
+  type: Recreate
+
 nameOverride: ""
 fullnameOverride: ""
 
 service:
   type: ClusterIP
   port: 80
+  annotations: {}
+    # traefik.ingress.kubernetes.io/affinity: "true"
 
 livenessProbe:
   initialDelaySeconds: 240
