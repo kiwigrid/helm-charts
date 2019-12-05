@@ -20,12 +20,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      # - name: lint chart
-      #   uses: docker://quay.io/helmpack/chart-testing:v2.4.0
-      #   with:
-      #     args: /github/workspace/.ci/lint-chart.sh
-      - name: docker
-        run: docker run --rm -v /home/pj/gitrepos/kiwigrid-helm-charts/:/github/workspace --workdir=/github/workspace quay.io/helmpack/chart-testing:v2.4.0 ct lint --config=/github/workspace/.ci/ct.yaml --lint-conf=/github/workspace/.ci/lintconf.yaml --chart-yaml-schema=/github/workspace/.ci/chart_schema.yaml 
+      - name: lint chart
+        uses: docker://quay.io/helmpack/chart-testing:v2.4.0
+        with:
+          workdir: /github/workspace  
+          args: /github/workspace/.ci/lint-chart.sh
+      # - name: docker
+      #   run: docker run --rm -v /home/pj/gitrepos/kiwigrid-helm-charts/:/github/workspace --workdir=/github/workspace quay.io/helmpack/chart-testing:v2.4.0 ct lint --config=/github/workspace/.ci/ct.yaml --lint-conf=/github/workspace/.ci/lintconf.yaml --chart-yaml-schema=/github/workspace/.ci/chart_schema.yaml 
 
 
   install-chart:
