@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-WORKDIR="/workdir"
+WORKDIR="/github/workspace"
 CLUSTER_NAME="chart-testing"
 DOCKER_NAME="ct"
 

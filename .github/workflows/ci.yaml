@@ -48,4 +48,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: install chart
-        run: ${RUNNER_WORKSPACE}/helm-charts/.ci/install-chart.sh
+        run: cd ${RUNNER_WORKSPACE}/helm-charts/; .ci/install-chart.sh
