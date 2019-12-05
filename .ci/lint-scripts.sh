@@ -5,7 +5,7 @@
 
 set -o errexit
 
-CONFIG_DIR="./.circleci"
+CONFIG_DIR="./.ci"
 
 TMP_FILE="$(mktemp)"
 
