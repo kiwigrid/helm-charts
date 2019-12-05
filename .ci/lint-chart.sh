@@ -18,5 +18,5 @@ CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)
 ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
   --lint-conf="${REPO_ROOT}/${CONFIG_DIR}"/lintconf.yaml \
   --chart-yaml-schema="${REPO_ROOT}/${CONFIG_DIR}"/chart_schema.yaml \
-  --charts="${CHART}"
+  --charts="${REPO_ROOT}/charts/${CHART}"
 
