@@ -13,10 +13,7 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 git remote add k8s "${GIT_REPO}"
 git fetch k8s master
 
-git rev-parse --is-inside-work-tree
-
-git diff --find-renames --name-only HEAD -- charts
-git diff --find-renames --name-only -- charts
+git diff --find-renames --name-only $(git rev-parse --abbrev-ref HEAD) remotes/k8s/master -- charts
 
 
 ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
