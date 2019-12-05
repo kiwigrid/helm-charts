@@ -4,6 +4,7 @@
 #
 
 set -o errexit
+set -x
 
 CONFIG_DIR=".ci"
 GIT_REPO="https://github.com/kiwigrid/helm-charts"
@@ -14,4 +15,5 @@ git fetch k8s master
 
 ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
   --lint-conf="${REPO_ROOT}/${CONFIG_DIR}"/lintconf.yaml \
-  --chart-yaml-schema="${REPO_ROOT}/${CONFIG_DIR}"/chart_schema.yaml
+  --chart-yaml-schema="${REPO_ROOT}/${CONFIG_DIR}"/chart_schema.yaml \
+
