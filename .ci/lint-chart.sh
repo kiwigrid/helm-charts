@@ -13,7 +13,7 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 git remote add k8s "${GIT_REPO}"
 git fetch k8s master
 
-CHART="$(git diff --find-renames --name-only \"$(git rev-parse --abbrev-ref HEAD)\" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/[cC]hart.yaml##g')"
+CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/[cC]hart.yaml##g')"
 
 ct lint --config="${REPO_ROOT}/${CONFIG_DIR}"/ct.yaml \
   --lint-conf="${REPO_ROOT}/${CONFIG_DIR}"/lintconf.yaml \
