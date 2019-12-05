@@ -23,7 +23,7 @@ jobs:
       - name: lint chart
         uses: docker://quay.io/helmpack/chart-testing:v2.4.0
         with:
-          args: /github/workspace/.ci/lint-chart.sh       
+          args: /github/workspace/.ci/lint-chart.sh
 
   install-chart:
     name: install-chart
