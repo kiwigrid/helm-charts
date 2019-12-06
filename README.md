@@ -2,8 +2,6 @@
 
 [![Github Action](https://github.com/kiwigrid/helm-charts/workflows/ci/badge.svg)](https://github.com/kiwigrid/helm-charts/actions)
 
-
-
 ## Add repo
 
 ```console
