@@ -42,15 +42,6 @@ docker_exec() {
     docker container exec --interactive "${DOCKER_NAME}" "$@"
 }
 
-#debug
-# run_ct_container
-# docker_exec pwd
-# docker_exec ls -al /workdir
-
-#exit 0
-
-
-
 create_kind_cluster() {
     echo 'Installing kind...'
 
@@ -123,11 +114,10 @@ install_charts() {
     CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     # workaround for ct chart detection 
 
-    ls -al "${RUNNER_WORKSPACE}"
-
     #docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml
     docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
     
+
     echo
 }
 
@@ -153,3 +143,4 @@ run_ct_container
 trap cleanup EXIT
 
 main
+/github/workspace/
