@@ -5,7 +5,6 @@
 
 set -o errexit
 set -o pipefail
-set -x
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 WORKDIR="/workdir"
@@ -107,13 +106,12 @@ install_charts() {
     GIT_REPO="https://github.com/kiwigrid/helm-charts"
     git remote add k8s "${GIT_REPO}"
     git fetch k8s master
-    #CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
-    # workaround for ct chart detection 
-
-    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
-    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
-    docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
+    CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     
+    docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    # workaround for ct chart detection 
+    
+    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
     echo
 }
 
