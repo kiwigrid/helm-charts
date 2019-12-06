@@ -14,10 +14,6 @@ DOCKER_NAME="ct"
 
 echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
 
-#debug
-
-pwd
-
 run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
 
@@ -114,10 +110,10 @@ install_charts() {
     CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     # workaround for ct chart detection 
 
-    #docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
+    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
     
-
     echo
 }
 
@@ -143,4 +139,3 @@ run_ct_container
 trap cleanup EXIT
 
 main
-/github/workspace/
