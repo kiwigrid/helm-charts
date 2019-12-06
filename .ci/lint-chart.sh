@@ -14,7 +14,7 @@ git fetch k8s master
 
 # workaround for ct chart detection
 if ! git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | grep -q '[cC]hart.yaml';then
-  echo "No changes in Chart.yaml detected - do you raised the chart version?"
+  echo "No changes in Chart.yaml detected! Have you raised the chart version?"
   exit 1
 fi  
 CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
