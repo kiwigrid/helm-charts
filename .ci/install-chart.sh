@@ -21,7 +21,7 @@ ls -al
 ls -al "${REPO_ROOT}"
 pwd
 
-exit 0
+
 
 run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
@@ -35,6 +35,11 @@ run_ct_container() {
     echo
 }
 
+
+
+
+
+
 cleanup() {
     echo "Removing ${DOCKER_NAME} container..."
 
@@ -46,6 +51,11 @@ cleanup() {
 docker_exec() {
     docker container exec --interactive ct "$@"
 }
+
+
+docker_exec pwd
+
+exit 0
 
 create_kind_cluster() {
     echo 'Installing kind...'
