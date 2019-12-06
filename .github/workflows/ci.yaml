@@ -24,6 +24,16 @@ jobs:
         uses: docker://quay.io/helmpack/chart-testing:v2.4.0
         with:
           args: /github/workspace/.ci/lint-chart.sh
+
+  lint-chart2:
+    name: Helm Chart Testing
+    runs-on: ubuntu-latest
+    needs: lint-scripts
+    steps:
+      - name: lint-chart2
+        uses: Flydiverny/chart-testing-action@v1.0.2
+        with:
+          args: lint
     
   install-chart:
     name: install-chart
