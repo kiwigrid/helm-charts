@@ -40,7 +40,7 @@ docker_exec() {
 
 create_kind_cluster() {
     echo 'Installing kind...'
-/home/runner/work/helm-charts/helm-charts/charts/fluentd-elasticse
+
     curl -sSLo kind "https://github.com/kubernetes-sigs/kind/releases/download/${KIND_VERSION}/kind-linux-amd64"
     chmod +x kind
     sudo mv kind /usr/local/bin/kind
