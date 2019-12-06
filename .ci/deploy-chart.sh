@@ -7,10 +7,16 @@ set -o errexit
 set -o pipefail
 
 CHART_DIR="charts"
-CHART_REPO="git@github.com:kiwigrid/kiwigrid.github.io.git"
+CHART_REPO="git@github.com:monotek/kiwigrid.github.io.git"
 REPO_DIR="kiwigrid.github.io"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 TMP_DIR="tmp"
+
+# ssh config
+mkdir -p /home/gkh/.ssh
+echo "${SSH_PRIVATE_KEY}" > /home/gkh/.ssh/id_rsa
+chmod 600 /home/gkh/.ssh/id_rsa
+ssh-keyscan github.com >> /home/gkh/.ssh/known_hosts
 
 # get kiwigrid.github.io
 test -d "${REPO_ROOT}"/"${REPO_DIR}" && rm -rf "${REPO_ROOT:=?}"/"${REPO_DIR:=?}"
@@ -72,5 +78,5 @@ cd "${REPO_ROOT}"/"${REPO_DIR}"
 git config --global user.email "ci@kiwigrid-robot.com"
 git config --global user.name "kiwigrid-ci-bot"
 git add --all .
-git commit -m "push kiwigrid charts"
+git commit -m "Push kiwigrid charts via Github actions"
 git push --set-upstream origin master
