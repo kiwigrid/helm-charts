@@ -40,7 +40,7 @@ docker_exec() {
 
 create_kind_cluster() {
     echo 'Installing kind...'
-
+/home/runner/work/helm-charts/helm-charts/charts/fluentd-elasticse
     curl -sSLo kind "https://github.com/kubernetes-sigs/kind/releases/download/${KIND_VERSION}/kind-linux-amd64"
     chmod +x kind
     sudo mv kind /usr/local/bin/kind
@@ -110,7 +110,9 @@ install_charts() {
     CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     # workaround for ct chart detection 
 
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/helm-charts/charts/${CHART}"
+    ls -al "${RUNNER_WORKSPACE}"
+
+    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/charts/${CHART}"
     echo
 }
 
