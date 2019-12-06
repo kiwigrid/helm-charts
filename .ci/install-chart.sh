@@ -107,7 +107,7 @@ install_charts() {
     GIT_REPO="https://github.com/kiwigrid/helm-charts"
     git remote add k8s "${GIT_REPO}"
     git fetch k8s master
-    CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
+    #CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     # workaround for ct chart detection 
 
     #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
