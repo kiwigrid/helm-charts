@@ -33,7 +33,7 @@ jobs:
       - name: lint-chart2
         uses: Flydiverny/chart-testing-action@v1.0.2
         with:
-          args: lint --config=/github/workspace/.ci/ct.yaml --lint-conf=/github/workspace/.ci/lintconf.yaml --chart-yaml-schema=/github/workspace/.ci/chart_schema.yaml
+          args: lint --config=.ci/ct.yaml --lint-conf=.ci/lintconf.yaml --chart-yaml-schema=.ci/chart_schema.yaml
 
 
 
