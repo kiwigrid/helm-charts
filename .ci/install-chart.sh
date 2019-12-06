@@ -12,9 +12,6 @@ WORKDIR="/github/workspace"
 CLUSTER_NAME="chart-testing"
 DOCKER_NAME="ct"
 
-# debug
-ls -al /github/workspace
-
 echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
 
 run_ct_container() {
