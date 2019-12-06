@@ -110,7 +110,7 @@ install_charts() {
     CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
     # workaround for ct chart detection 
 
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${REPO_ROOT}/charts/${CHART}"
+    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/helm-charts/charts/${CHART}"
     echo
 }
 
