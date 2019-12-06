@@ -37,9 +37,6 @@ run_ct_container() {
 
 
 
-
-
-
 cleanup() {
     echo "Removing ${DOCKER_NAME} container..."
 
@@ -49,10 +46,10 @@ cleanup() {
 }
 
 docker_exec() {
-    docker container exec --interactive ct "$@"
+    docker container exec --interactive "${DOCKER_NAME}" "$@"
 }
 
-
+run_ct_container
 docker_exec pwd
 
 exit 0
