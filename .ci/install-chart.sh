@@ -47,7 +47,7 @@ run_ct_container
 docker_exec pwd
 docker_exec ls -al /workdir
 
-exit 0
+#exit 0
 
 
 
@@ -125,7 +125,7 @@ install_charts() {
 
     ls -al "${RUNNER_WORKSPACE}"
 
-    docker_exec install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/charts/${CHART}"
+    docker_exec install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
     echo
 }
 
