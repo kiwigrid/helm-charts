@@ -8,11 +8,19 @@ set -o pipefail
 set -x
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-WORKDIR="/github/workspace"
+WORKDIR="/workdir"
 CLUSTER_NAME="chart-testing"
 DOCKER_NAME="ct"
 
 echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
+
+#debug
+
+ls -al /
+ls -al
+ls -al "${REPO_ROOT}"
+
+exit 0
 
 run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
