@@ -43,9 +43,9 @@ docker_exec() {
 }
 
 #debug
-run_ct_container
-docker_exec pwd
-docker_exec ls -al /workdir
+# run_ct_container
+# docker_exec pwd
+# docker_exec ls -al /workdir
 
 #exit 0
 
