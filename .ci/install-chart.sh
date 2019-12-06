@@ -19,6 +19,7 @@ echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
 ls -al /
 ls -al
 ls -al "${REPO_ROOT}"
+pwd
 
 exit 0
 
