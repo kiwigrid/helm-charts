@@ -86,7 +86,7 @@ install_hostpath-provisioner() {
 
     echo 'Installing hostpath-provisioner...'
 
-    # Remove default storage class. Will be recreated by hostpath -provisioner
+    # Remove default storage class. Will be recreated by hostpath-provisioner
     docker_exec kubectl delete storageclass standard
 
     docker_exec helm repo add rimusz https://charts.rimusz.net
@@ -103,7 +103,12 @@ add_helm_repos() {
 
 install_charts() {
     # workaround for ct chart detection 
+    GIT_REPO="https://github.com/kiwigrid/helm-charts"
+    git remote add k8s "${GIT_REPO}"
+    git fetch k8s master
     CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
+    # workaround for ct chart detection 
+
     docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${REPO_ROOT}/charts/${CHART}"
     echo
 }
