@@ -72,5 +72,5 @@ cd "${REPO_ROOT}"/"${REPO_DIR}"
 git config --global user.email "ci@kiwigrid-robot.com"
 git config --global user.name "kiwigrid-ci-bot"
 git add --all .
-git commit -m "push kiwigrid charts via circleci build nr: ${CIRCLE_BUILD_NUM}"
+git commit -m "push kiwigrid charts"
 git push --set-upstream origin master

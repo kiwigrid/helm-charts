@@ -17,7 +17,7 @@ run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
 
     docker container run --rm --interactive --detach --network host --name "${DOCKER_NAME}" \
-        --volume "${REPO_ROOT}/.circleci/ct.yaml:/etc/ct/ct.yaml" \
+        --volume "${REPO_ROOT}/.ci/ct.yaml:/etc/ct/ct.yaml" \
         --volume "${REPO_ROOT}:${WORKDIR}" \
         --workdir ${WORKDIR} \
         "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" \
@@ -34,7 +34,7 @@ cleanup() {
 }
 
 docker_exec() {
-    docker container exec --interactive ct "$@"
+    docker container exec --interactive "${DOCKER_NAME}" "$@"
 }
 
 create_kind_cluster() {
@@ -44,7 +44,7 @@ create_kind_cluster() {
     chmod +x kind
     sudo mv kind /usr/local/bin/kind
 
-    kind create cluster --name "${CLUSTER_NAME}" --config "${REPO_ROOT}"/.circleci/kind-config.yaml --image "kindest/node:${K8S_VERSION}"
+    kind create cluster --name "${CLUSTER_NAME}" --config "${REPO_ROOT}"/.ci/kind-config.yaml --image "kindest/node:${K8S_VERSION}"
 
     docker_exec mkdir -p /root/.kube
 
@@ -86,7 +86,7 @@ install_hostpath-provisioner() {
 
     echo 'Installing hostpath-provisioner...'
 
-    # Remove default storage class. Will be recreated by hostpath -provisioner
+    # Remove default storage class. Will be recreated by hostpath-provisioner
     docker_exec kubectl delete storageclass standard
 
     docker_exec helm repo add rimusz https://charts.rimusz.net
@@ -102,7 +102,16 @@ add_helm_repos() {
 }
 
 install_charts() {
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.circleci/ct.yaml
+    # workaround for ct chart detection 
+    GIT_REPO="https://github.com/kiwigrid/helm-charts"
+    git remote add k8s "${GIT_REPO}"
+    git fetch k8s master
+    CHART="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/k8s/master -- charts | head -n 1 | sed -e 's#charts/##g' -e 's#/.*##g')"
+    
+    docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    # workaround for ct chart detection 
+    
+    #docker_exec ct install --config=${WORKDIR}/.ci/ct.yaml
     echo
 }
 
