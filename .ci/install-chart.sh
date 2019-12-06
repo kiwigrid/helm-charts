@@ -16,12 +16,7 @@ echo -e "\\nTesting in Kubernetes ${K8S_VERSION}\\n"
 
 #debug
 
-ls -al /
-ls -al
-ls -al "${REPO_ROOT}"
 pwd
-
-
 
 run_ct_container() {
     echo "Running ${DOCKER_NAME} container..."
@@ -35,8 +30,6 @@ run_ct_container() {
     echo
 }
 
-
-
 cleanup() {
     echo "Removing ${DOCKER_NAME} container..."
 
@@ -49,9 +42,9 @@ docker_exec() {
     docker container exec --interactive "${DOCKER_NAME}" "$@"
 }
 
+#debug
 run_ct_container
 docker_exec pwd
-docker_exec "ls -al $(pwd)"
 ls -al /workdir
 
 exit 0
@@ -132,7 +125,7 @@ install_charts() {
 
     ls -al "${RUNNER_WORKSPACE}"
 
-    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/charts/${CHART}"
+    docker_exec install --config=${WORKDIR}/.ci/ct.yaml --charts="${RUNNER_WORKSPACE}/charts/${CHART}"
     echo
 }
 
