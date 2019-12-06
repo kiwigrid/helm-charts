@@ -125,7 +125,9 @@ install_charts() {
 
     ls -al "${RUNNER_WORKSPACE}"
 
-    docker_exec install --config=${WORKDIR}/.ci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    #docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.circleci/ct.yaml
+    docker_exec "${DOCKER_NAME}" install --config=${WORKDIR}/.circleci/ct.yaml --charts="${WORKDIR}/charts/${CHART}"
+    
     echo
 }
 
