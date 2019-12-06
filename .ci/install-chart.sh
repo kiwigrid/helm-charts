@@ -51,8 +51,11 @@ docker_exec() {
 
 run_ct_container
 docker_exec pwd
+docker_exec "ls -al $(pwd)"
 
 exit 0
+
+
 
 create_kind_cluster() {
     echo 'Installing kind...'
