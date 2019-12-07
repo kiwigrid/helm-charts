@@ -52,23 +52,23 @@ mv "${REPO_ROOT}"/"${REPO_DIR}"/index.yaml "${REPO_ROOT}"/"${TMP_DIR}" || true
 mv "${REPO_ROOT}"/"${REPO_DIR}"/*.tgz "${REPO_ROOT}"/"${TMP_DIR}"
 
 #add helm repos
-if ! helm repo list | grep -q "^stable"; then
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
+if ! helm --home=/home/gkh/.helm repo list | grep -q "^stable"; then
+  helm --home=/home/gkh/.helm repo add stable https://kubernetes-charts.storage.googleapis.com
 fi
-helm repo add kiwigrid https://kiwigrid.github.io
-helm repo update
+helm --home=/home/gkh/.helm repo add kiwigrid https://kiwigrid.github.io
+helm --home=/home/gkh/.helm repo update
 
 # build helm dependencies for all charts
-find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm dependency build {} \;
+find "${REPO_ROOT}"/"${CHART_DIR}" -mindepth 1 -maxdepth 1 -type d -exec helm --home=/home/gkh/.helm dependency build {} \;
 
 # package only changed charts
 for CHART in ${CHARTS}; do
   echo "building ${CHART} chart..."
-  helm package "${REPO_ROOT}"/"${CHART_DIR}"/"${CHART}" --destination "${REPO_ROOT}"/"${REPO_DIR}"
+  helm --home=/home/gkh/.helm package "${REPO_ROOT}"/"${CHART_DIR}"/"${CHART}" --destination "${REPO_ROOT}"/"${REPO_DIR}"
 done
 
 # Create index and merge with previous index which contains the non-changed charts
-helm repo index --merge "${REPO_ROOT}"/"${TMP_DIR}"/index.yaml --url https://"${REPO_DIR}" "${REPO_ROOT}"/"${REPO_DIR}"
+helm --home=/home/gkh/.helm repo index --merge "${REPO_ROOT}"/"${TMP_DIR}"/index.yaml --url https://"${REPO_DIR}" "${REPO_ROOT}"/"${REPO_DIR}"
 
 # move old charts back into git repo
 mv "${REPO_ROOT}"/"${TMP_DIR}"/*.tgz "${REPO_ROOT}"/"${REPO_DIR}"
