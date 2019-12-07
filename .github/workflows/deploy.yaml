@@ -24,8 +24,6 @@ jobs:
         uses: actions/checkout@master
       - name: Set user permissions
         run: chmod -R 777 /home/runner/work
-      - name: Set user permissions
-        run: chmod -R 777 /home/runner/work
       - name: Deploy Helm chart
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_KIWIGRID_GITHUB_IO }}
