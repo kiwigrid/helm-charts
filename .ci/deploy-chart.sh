@@ -11,6 +11,7 @@ CHART_REPO="git@github.com:monotek/kiwigrid.github.io.git"
 REPO_DIR="kiwigrid.github.io"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 TMP_DIR="tmp"
+HOME="/home/gkh"
 
 # ssh config
 mkdir -p /home/gkh/.ssh
