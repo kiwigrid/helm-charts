@@ -43,7 +43,7 @@ while read -r FILE; do
   ORG_FILE_TIME=$(git log --pretty=format:%cd --date=format:'%y%m%d%H%M' "${FILE}" | tail -n 1)
   echo "set original time ${ORG_FILE_TIME} to ${FILE}"
   touch -c -t "${ORG_FILE_TIME}" "${FILE}"
-done < <(git ls-files)
+done < <(git ls-files charts)
 )
 
 # preserve dates in index.yaml by moving old charts and index out of the repo before packaging the new version
