@@ -55,9 +55,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
 | `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
-| `awsSigningSidecar.resources`                | AWS Sidecar resources                                                   | `{}`               |
-| `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                                 | `8080`               |
-| `awsSigningSidecar.network.address`           | AWS Sidecar listen address                                                                 | `localhost`               |
+| `awsSigningSidecar.resources`                | AWS Sidecar resources                                                          | `{}`                                   |
+| `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                      | `8080`                                 |
+| `awsSigningSidecar.network.address`          | AWS Sidecar listen address                                                     | `localhost`                             |
 | `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
 | `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
@@ -73,7 +73,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
 | `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
-| `elasticsearch.logLevel`		               | Elasticsearch global log level							                        | `info`			                   	 |
+| `elasticsearch.logLevel`		                 | Elasticsearch global log level							                                    | `info`	      		                   	 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
@@ -83,7 +83,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                           | Image                                                                          | `quay.io/fluentd_elasticsearch/fluentd`|
-| `image.tag`                                  | Image tag                                                                      | `v2.7.0`                               |
+| `image.tag`                                  | Image tag                                                                      | `v2.8.0`                               |
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
@@ -111,7 +111,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `service.ports[].protocol`                   | Service protocol(optional, can be TCP/UDP)                                     | Not Set                                |
 | `serviceAccount.create`                      | Specifies whether a service account should be created.                         | `true`                                 |
 | `serviceAccount.name`                        | Name of the service account.                                                   | `""`                                   |
-| `serviceAccount.annotations`                 | Specify annotations in the pod service account                                                   | `{}`                                   |
+| `serviceAccount.annotations`                 | Specify annotations in the pod service account                                 | `{}`                                   |
 | `serviceMetric.enabled`                      | Generate the metric service regardless of whether serviceMonitor is enabled.   | `false`                                |
 | `serviceMonitor.enabled`                     | Whether to enable Prometheus serviceMonitor                                    | `false`                                |
 | `serviceMonitor.port`                        | Define on which port the ServiceMonitor should scrape                          | `24231`                                |
