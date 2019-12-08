@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: User perm
+      - name: Set user permissions
         run: chmod -R 777 /home/runner/work
       - name: Deploy Helm chart
         env:

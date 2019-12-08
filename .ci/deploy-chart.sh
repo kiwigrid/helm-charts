@@ -7,10 +7,12 @@ set -o errexit
 set -o pipefail
 
 CHART_DIR="charts"
-CHART_REPO="git@github.com:monotek/kiwigrid.github.io.git"
+CHART_REPO="git@github.com:kiwigrid/kiwigrid.github.io.git"
 REPO_DIR="kiwigrid.github.io"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 TMP_DIR="tmp"
+# needed for github actions as home dir would be /github/home/ otherwise
+HOME="/home/gkh"
 
 # ssh config
 mkdir -p /home/gkh/.ssh
@@ -43,7 +45,7 @@ while read -r FILE; do
   ORG_FILE_TIME=$(git log --pretty=format:%cd --date=format:'%y%m%d%H%M' "${FILE}" | tail -n 1)
   echo "set original time ${ORG_FILE_TIME} to ${FILE}"
   touch -c -t "${ORG_FILE_TIME}" "${FILE}"
-done < <(git ls-files)
+done < <(git ls-files charts)
 )
 
 # preserve dates in index.yaml by moving old charts and index out of the repo before packaging the new version
