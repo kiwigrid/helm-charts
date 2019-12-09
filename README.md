@@ -1,6 +1,6 @@
 # Kiwigrid Helm charts
 
-[![Github Action](https://github.com/kiwigrid/helm-charts/workflows/ci/badge.svg)](https://github.com/kiwigrid/helm-charts/actions)
+[![Github Action](https://github.com/kiwigrid/helm-charts/workflows/deploy/badge.svg)](https://github.com/kiwigrid/helm-charts/actions)
 
 ## Add repo
 
