@@ -15,15 +15,6 @@ spec:
   - Ingress
   - Egress
   ingress:
-  # Allow access from gateway
-  - from:
-    - podSelector:
-        matchLabels:
-            app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-gateway
-            app.kubernetes.io/instance: {{ .Release.Name }}
-    ports:
-    - protocol: TCP
-      port: http
   # Allow inner cluster communication
   - from:
     - podSelector:
