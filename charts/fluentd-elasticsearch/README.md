@@ -1,11 +1,11 @@
 # Fluentd Elasticsearch
 
--   Installs [Fluentd](https://www.fluentd.org/) log forwarder.
+- Installs [Fluentd](https://www.fluentd.org/) log forwarder.
 
-## TL;DR;
+## TL;DR
 
 ```console
-$ helm install kiwigrid/fluentd-elasticsearch
+helm install kiwigrid/fluentd-elasticsearch
 ```
 
 ## Introduction
@@ -16,14 +16,14 @@ The used Docker image also contains Google's detect exceptions (for Java multili
 
 ## Prerequisites
 
--   Kubernetes 1.8+ with Beta APIs enabled
+- Kubernetes 1.8+ with Beta APIs enabled
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install --name my-release kiwigrid/fluentd-elasticsearch
+helm install --name my-release kiwigrid/fluentd-elasticsearch
 ```
 
 The command deploys fluentd-elasticsearch on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -33,7 +33,7 @@ The command deploys fluentd-elasticsearch on the Kubernetes cluster in the defau
 To uninstall/delete the `my-release` deployment:
 
 ```console
-$ helm delete my-release
+helm delete my-release
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -53,11 +53,11 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `configMaps.useDefaults.forwardInputConf`    | Use default forward.input.conf                                                 | true                                   |
 | `configMaps.useDefaults.monitoringConf`      | Use default monitoring.conf                                                    | true                                   |
 | `configMaps.useDefaults.outputConf`          | Use default output.conf                                                        | true                                   |
-| `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | ``                                     |
+| `extraConfigMaps`                            | Add additional Configmap or overwrite disabled default                         | `{}`                                   |
 | `awsSigningSidecar.enabled`                  | Enable AWS request signing sidecar                                             | `false`                                |
 | `awsSigningSidecar.resources`                | AWS Sidecar resources                                                          | `{}`                                   |
 | `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                      | `8080`                                 |
-| `awsSigningSidecar.network.address`          | AWS Sidecar listen address                                                     | `localhost`                             |
+| `awsSigningSidecar.network.address`          | AWS Sidecar listen address                                                     | `localhost`                            |
 | `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
 | `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
@@ -73,12 +73,12 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
 | `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
-| `elasticsearch.logLevel`		                 | Elasticsearch global log level							                                    | `info`	      		                   	 |
+| `elasticsearch.logLevel`                     | Elasticsearch global log level                                                 | `info`                                 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
 | `fluentdArgs`                                | Fluentd args                                                                   | `--no-supervisor -q`                   |
 | `secret`                                     | List of env vars that are set from secrets and added to the fluentd pods       | `[]`                                   |
-| `extraVolumeMounts`                          | Mount extra volume, required to mount ssl certificates when ES has tls enabled | ``                                     |
-| `extraVolume`                                | Extra volume                                                                   | ``                                     |
+| `extraVolumeMounts`                          | Mount extra volume, required to mount ssl certificates when ES has tls enabled | `[]`                                   |
+| `extraVolume`                                | Extra volume                                                                   | `[]`                                   |
 | `hostLogDir.varLog`                          | Specify where fluentd can find var log                                         | `/var/log`                             |
 | `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
@@ -118,23 +118,24 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceMonitor.interval`                    | Interval at which metrics should be scraped                                    | `10s`                                  |
 | `serviceMonitor.path`                        | Path for Metrics                                                               | `/metrics`                             |
 | `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
-| `tolerations`                                | Optional daemonset tolerations                                                 | `{}`                                   |
+| `tolerations`                                | Optional daemonset tolerations                                                 | `[]`                                   |
 | `updateStrategy`                             | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
 | `additionalPlugins`                          | Optional additionnal plugins to install when pod starts                        | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
-$ helm install --name my-release kiwigrid/fluentd-elasticsearch
+helm install --name my-release kiwigrid/fluentd-elasticsearch
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
+helm install --name my-release -f values.yaml kiwigrid/fluentd-elasticsearch
 ```
 
 ## Installation
+
 ### IBM IKS
 
 For IBM IKS path `/var/log/pods` must be mounted, otherwise only kubelet logs would be available
