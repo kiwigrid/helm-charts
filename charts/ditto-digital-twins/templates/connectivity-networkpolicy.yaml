@@ -15,15 +15,6 @@ spec:
   - Ingress
   - Egress
   ingress:
-  # Allow access from concierge
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-concierge
-          app.kubernetes.io/instance: {{ .Release.Name }}
-    ports:
-    - protocol: TCP
-      port: http
   # Allow inner cluster communication
   - from:
     - podSelector:
