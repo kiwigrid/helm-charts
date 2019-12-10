@@ -19,6 +19,7 @@ rules:
   - keycloaks
   - keycloakrealms
   - keycloakclients
+  - keycloakclientscopes
   verbs:
   - get
   - list
