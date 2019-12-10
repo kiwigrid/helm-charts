@@ -167,7 +167,7 @@ podAnnotations: {}
 updateStrategy:
   type: RollingUpdate
 
-tolerations: {}
+tolerations: []
   # - key: node-role.kubernetes.io/master
   #   operator: Exists
   #   effect: NoSchedule
@@ -223,18 +223,19 @@ configMaps:
     outputConf: true
 
 # can be used to add new config or overwrite the default configmaps completely after the configmaps default has been disabled above
-extraConfigMaps:
+extraConfigMaps: {}
   # system.conf: |-
   #   <system>
   #     root_dir /tmp/fluentd-buffers/
   #   </system>
 
-# extraVolumes:
+extraVolumes: []
 #   - name: es-certs
 #     secret:
 #       defaultMode: 420
 #       secretName: es-certs
-# extraVolumeMounts:
+
+extraVolumeMounts: []
 #   - name: es-certs
 #     mountPath: /certs
 #     readOnly: true
