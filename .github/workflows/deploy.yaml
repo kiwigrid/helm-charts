@@ -4,17 +4,6 @@ on:
     branches: [master]
 
 jobs:
-  lint-scripts:
-    name: lint-scripts
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-      - name: Lint Bash scripts
-        uses: docker://koalaman/shellcheck-alpine:v0.7.0
-        with:
-          args: /github/workspace/.ci/lint-scripts.sh
-
   deploy-chart:
     name: deploy-chart
     runs-on: ubuntu-latest
@@ -22,6 +11,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+      - name: Lint Bash scripts
+        uses: docker://koalaman/shellcheck-alpine:v0.7.0
+        with:
+          args: /github/workspace/.ci/lint-scripts.sh        
       - name: Set user permissions
         run: chmod -R 777 /home/runner/work
       - name: Deploy Helm chart
@@ -30,3 +23,4 @@ jobs:
         uses: docker://kiwigrid/gcloud-kubectl-helm:2.16.1-272.0.0-184
         with:
           args: /github/workspace/.ci/deploy-chart.sh
+
