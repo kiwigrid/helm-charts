@@ -7,8 +7,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: debug  
-        run: printenv | sort
       - name: Run chart-testing (lint)
         uses: monotek/chart-testing-action@lintwithoutkind
         with:
