@@ -5,7 +5,7 @@
 
 set -o errexit
 
-CONFIG_DIR="./.ci"
+CONFIG_DIR=".ci"
 
 TMP_FILE="$(mktemp)"
 
