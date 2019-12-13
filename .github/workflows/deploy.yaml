@@ -2,6 +2,8 @@ name: deploy
 on:
   push:
     branches: [master]
+    paths:
+    - 'charts/**'    
 
 jobs:
   deploy-chart:
