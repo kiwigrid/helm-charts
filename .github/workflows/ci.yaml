@@ -1,5 +1,8 @@
 name: ci
-on: [pull_request]
+on: 
+  pull_request:
+    paths:
+    - 'charts/**'
 
 jobs:
   lint-chart:
@@ -8,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Run chart-testing (lint)
-        uses: monotek/chart-testing-action@lintwithoutkind
+        uses: helm/chart-testing-action@master
         with:
           command: lint
           config: /home/runner/work/helm-charts/helm-charts/.ci/ct.yaml
@@ -31,12 +34,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Create kind cluster
-        uses: monotek/kind-action@checkforchanges
+        uses: helm/kind-action@master
         with:
           config: /home/runner/work/helm-charts/helm-charts/.ci/kind-config.yaml
           installLocalPathProvisioner: true
           node-image: ${{ matrix.k8s }}
       - name: Run chart-testing (install)
-        uses: monotek/chart-testing-action@lintwithoutkind
+        uses: helm/chart-testing-action@master
         with:
           command: install
