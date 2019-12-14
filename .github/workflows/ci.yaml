@@ -14,9 +14,9 @@ jobs:
         with:
           args: /github/workspace/.ci/lint-scripts.sh
       - name: debug
-        run: ls -al; ls -al /github/workspace/
+        run: ls -al; ls -al /home/runner/work/helm-charts/helm-charts/
       - name: Check for chart changes    
-        run: /github/workspace/.ci/check-for-chart-changes.sh
+        run: /home/runner/work/helm-charts/helm-charts/.ci/check-for-chart-changes.sh
 
   lint-chart:
     runs-on: ubuntu-latest
