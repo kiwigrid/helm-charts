@@ -14,8 +14,8 @@ git remote add chart-changes "${CHART_REPO}"
 git fetch chart-changes master
 
 if [ -z "$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/chart-changes/master -- charts)" ]; then
-  echo "Error! No chart changes detected! Exiting..."
+  echo -e "\n Error! No chart changes detected! Exiting... \n"
   exit 1
 else
-  echo "Changes found... Continue with next job..."
+  echo -e "\n Changes found... Continue with next job... \n"
 fi

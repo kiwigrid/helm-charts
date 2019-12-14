@@ -13,8 +13,6 @@ jobs:
         uses: docker://koalaman/shellcheck-alpine:v0.7.0
         with:
           args: /github/workspace/.ci/lint-scripts.sh
-      - name: debug
-        run: ls -al; ls -al /home/runner/work/helm-charts/helm-charts/
       - name: Check for chart changes    
         run: /home/runner/work/helm-charts/helm-charts/.ci/check-for-chart-changes.sh
 
