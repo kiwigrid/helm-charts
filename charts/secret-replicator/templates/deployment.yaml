@@ -31,8 +31,10 @@ spec:
             value: {{ .Values.ignoreNamespaces }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+      {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
-      - name: registry-secret
+      - name: {{ .Values.image.pullSecrets }}
+      {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
