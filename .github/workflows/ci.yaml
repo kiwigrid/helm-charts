@@ -1,29 +1,32 @@
 name: ci
-on: [pull_request]
+
+on: 
+  pull_request:
 
 jobs:
-  lint-scripts:
-    name: lint-scripts
+  check-for-chart-changes:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Lint Bash scripts
         uses: docker://koalaman/shellcheck-alpine:v0.7.0
         with:
           args: /github/workspace/.ci/lint-scripts.sh
+      - name: Check for chart changes    
+        run: /home/runner/work/helm-charts/helm-charts/.ci/check-for-chart-changes.sh
 
   lint-chart:
-    name: lint-chart
     runs-on: ubuntu-latest
-    needs: lint-scripts
+    needs: check-for-chart-changes
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-      - name: Lint Helm chart
-        uses: docker://quay.io/helmpack/chart-testing:v2.4.0
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Run chart-testing (lint)
+        uses: helm/chart-testing-action@master
         with:
-          args: /github/workspace/.ci/lint-chart.sh
+          command: lint
+          config: /home/runner/work/helm-charts/helm-charts/.ci/ct.yaml
 
   install-chart:
     name: install-chart
@@ -38,14 +41,17 @@ jobs:
           - v1.14.6
           - v1.15.3
           - v1.16.2
-    env:
-      CHART_TESTING_IMAGE: quay.io/helmpack/chart-testing
-      CHART_TESTING_TAG: v2.4.0
-      CHARTS_REPO: https://github.com/kiwigrid/helm-charts
-      KIND_VERSION: v0.5.1
-      K8S_VERSION: ${{ matrix.k8s }}
+          - v1.17.0
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-      - name: Install Helm chart
-        run: ${RUNNER_WORKSPACE}/helm-charts/.ci/install-chart.sh
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Create kind cluster
+        uses: helm/kind-action@master
+        with:
+          config: /home/runner/work/helm-charts/helm-charts/.ci/kind-config.yaml
+          installLocalPathProvisioner: true
+          node-image: ${{ matrix.k8s }}
+      - name: Run chart-testing (install)
+        uses: helm/chart-testing-action@master
+        with:
+          command: install
