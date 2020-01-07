@@ -1,0 +1,216 @@
+# use dependency charts
+useElasticsearch: true
+useMemcached: true
+usePostgresql: true
+
+image:
+  repository: zammad/zammad-docker-compose
+  tag: 3.2.0-10
+
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: ["/"]
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+# zammad container config
+envConfig:
+  elasticsearch:
+    # host env var is only used when useElasticsearch is false
+    host: zammad-elasticsearch-client
+    port: 9200
+  memcached:
+    # host env var is only used when useMemcached is false
+    host: zammad-memcached
+    port: 11211
+  postgresql:
+    # host env var is only used when usePostgresql is false
+    host: zammad-postgresql
+    port: 5432
+    # needs to be the same as the postgresql.postgresqlUsername
+    user: zammad
+    # needs to be the same as the postgresql.postgresqlPassword
+    pass: "zammad"
+    # needs to be the same as the postgresql.postgresqlDatabase
+    db: zammad_production
+    dbCreate: false
+
+# additional environemnt vars
+extraEnv: {}
+
+# autowizard config
+# if a token is used the url hast to look like: http://zammad/#getting_started/auto_wizard/your_token_here
+autoWizard:
+  enabled: false
+  # string with the autowizard config as json
+  # config: |
+  #   {
+  #     "Token": "secret_zammad_autowizard_token",
+  #     "TextModuleLocale": {
+  #       "Locale": "en-us"
+  #     },
+  #     "Users": [
+  #       {
+  #         "login": "email@example.org",
+  #         "firstname": "Zammad",
+  #         "lastname": "Admin",
+  #         "email": "email@example.org",
+  #         "organization": "ZammadTest",
+  #         "password": "test1234"
+  #       }
+  #     ],
+  #     "Settings": [
+  #       {
+  #         "name": "product_name",
+  #         "value": "ZammadTestSystem"
+  #       },
+  #       {
+  #         "name": "system_online_service",
+  #         "value": true
+  #       }
+  #     ],
+  #     "Organizations": [
+  #       {
+  #         "name": "ZammadTest"
+  #       }
+  #     ]
+  #   }
+
+
+persistence:
+  enabled: true
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+
+  ## Zammad data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 15Gi
+
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+resources:
+  nginx: {}
+    # requests:
+    #   cpu: 50m
+    #   memory: 32Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 64Mi
+  railsserver: {}
+    # requests:
+    #   cpu: 100m
+    #   memory: 512Mi
+    # limits:
+    #   cpu: 200m
+    #   memory: 1024Mi
+  scheduler: {}
+    # requests:
+    #   cpu: 100m
+    #   memory: 256Mi
+    # limits:
+    #   cpu: 200m
+    #   memory: 512Mi
+  websocket: {}
+    # requests:
+    #   cpu: 100m
+    #   memory: 256Mi
+    # limits:
+    #   cpu: 200m
+    #   memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+elasticsearch:
+  cluster:
+    name: zammad
+    xpackEnable: false
+    # See README for proper configuration
+    env:
+      EXPECTED_MASTER_NODES: "1"
+      MINIMUM_MASTER_NODES: "1"
+      RECOVER_AFTER_MASTER_NODES: "1"
+      XPACK_MONITORING_ENABLED: false
+    plugins:
+      - ingest-attachment
+  client:
+    replicas: 1
+    # resources:
+    #   requests:
+    #     cpu: "25m"
+    #     memory: "512Mi"
+    #   limits:
+    #     cpu: "300m"
+    #     memory: "1024Mi"
+  data:
+    terminationGracePeriodSeconds: 60
+    replicas: 1
+    # resources:
+    #   requests:
+    #     cpu: "175m"
+    #     memory: "1536Mi"
+    #   limits:
+    #     cpu: "350m"
+    #     memory: "2048Mi"
+  master:
+    replicas: 1
+    # resources:
+    #   requests:
+    #     cpu: "25m"
+    #     memory: "512Mi"
+    #   limits:
+    #     cpu: "300m"
+    #     memory: "1024Mi"
+
+
+memcached:
+  replicaCount: 1
+  # resources:
+  #   requests:
+  #     cpu: 50m
+  #     memory: 64Mi
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+
+
+postgresql:
+  postgresqlUsername: zammad
+  postgresqlPassword: zammad
+  postgresqlDatabase: zammad_production
+  # resources:
+  #   requests:
+  #     cpu: 250m
+  #     memory: 256Mi
+  #   limits:
+  #     cpu: 500m
+  #     memory: 512Mi

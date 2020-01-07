@@ -1,0 +1,275 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "zammad.fullname" . }}
+  labels:
+    {{- include "zammad.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  serviceName: {{ include "zammad.name" . }}  
+  selector:
+    matchLabels:
+      {{- include "zammad.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "zammad.selectorLabels" . | nindent 8 }}
+    spec:
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        args: [ "zammad-init" ]
+        env:
+        - name: "ELASTICSEARCH_HOST"
+          value: "{{ if .Values.useElasticsearch }}{{ .Release.Name }}-elasticsearch-client{{ else }}{{ .Values.envConfig.elasticsearch.host }}{{ end }}"
+        - name: "ELASTICSEARCH_PORT"
+          value: "{{ .Values.envConfig.elasticsearch.port }}"
+        - name: "MEMCACHED_HOST"
+          value: "{{ if .Values.useMemcached }}{{ .Release.Name }}-memcached{{ else }}{{ .Values.envConfig.memcached.host }}{{ end }}"
+        - name: "MEMCACHED_PORT"
+          value: "{{ .Values.envConfig.memcached.port }}"
+        - name: "POSTGRESQL_HOST"
+          value: "{{ if .Values.usePostgresql }}{{ .Release.Name }}-postgresql{{ else }}{{ .Values.envConfig.postgresql.host }}{{ end }}"
+        - name: "POSTGRESQL_PORT"
+          value: "{{ .Values.envConfig.postgresql.port }}"
+        - name: "POSTGRESQL_USER"
+          value: "{{ .Values.envConfig.postgresql.user }}"
+        - name: "POSTGRESQL_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-postgresql-pass"
+              key: "postgresql-pass"
+        - name: "POSTGRESQL_DB"
+          value: "{{ .Values.envConfig.postgresql.db }}"
+        - name: "POSTGRESQL_DB_CREATE"
+          value: "{{ .Values.envConfig.postgresql.dbCreate }}"
+        {{ if .Values.autoWizard.enabled }}
+        - name: "AUTOWIZARD_JSON"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-autowizard"
+              key: "autowizard"
+        {{ end }}
+        {{- range $key, $value := .Values.extraEnv }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+         - name: {{ template "zammad.fullname" . }}
+           mountPath: /opt/zammad
+      containers:
+      - name: {{ .Chart.Name }}-nginx
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        args: [ "zammad-nginx" ]
+        env:
+        - name: "ELASTICSEARCH_HOST"
+          value: "{{ if .Values.useElasticsearch }}{{ .Release.Name }}-elasticsearch-client{{ else }}{{ .Values.envConfig.elasticsearch.host }}{{ end }}"
+        - name: "ELASTICSEARCH_PORT"
+          value: "{{ .Values.envConfig.elasticsearch.port }}"
+        - name: "MEMCACHED_HOST"
+          value: "{{ if .Values.useMemcached }}{{ .Release.Name }}-memcached{{ else }}{{ .Values.envConfig.memcached.host }}{{ end }}"
+        - name: "MEMCACHED_PORT"
+          value: "{{ .Values.envConfig.memcached.port }}"
+        - name: "POSTGRESQL_HOST"
+          value: "{{ if .Values.usePostgresql }}{{ .Release.Name }}-postgresql{{ else }}{{ .Values.envConfig.postgresql.host }}{{ end }}"
+        - name: "POSTGRESQL_PORT"
+          value: "{{ .Values.envConfig.postgresql.port }}"
+        - name: "POSTGRESQL_USER"
+          value: "{{ .Values.envConfig.postgresql.user }}"
+        - name: "POSTGRESQL_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-postgresql-pass"
+              key: "postgresql-pass"
+        - name: "POSTGRESQL_DB"
+          value: "{{ .Values.envConfig.postgresql.db }}"
+        - name: "POSTGRESQL_DB_CREATE"
+          value: "{{ .Values.envConfig.postgresql.dbCreate }}"
+        {{ if .Values.autoWizard.enabled }}
+        - name: "AUTOWIZARD_JSON"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-autowizard"
+              key: "autowizard"
+        {{ end }}
+        {{- range $key, $value := .Values.extraEnv }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        ports:
+        - containerPort: 80
+          name: http
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+         - name: {{ template "zammad.fullname" . }}
+           mountPath: /opt/zammad
+         - name: {{ template "zammad.fullname" . }}-nginx
+           mountPath: /etc/nginx/sites-enabled
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        resources:
+{{ toYaml .Values.resources.nginx | indent 10 }}
+      - name: {{ .Chart.Name }}-railsserver
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        args: ["zammad-railsserver"]
+        env:
+        {{- range $key, $value := .Values.env }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: railsserver
+          containerPort: 3000
+        volumeMounts:
+         - name: {{ template "zammad.fullname" . }}
+           mountPath: /opt/zammad
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 90
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 90
+          periodSeconds: 10
+        resources:
+{{ toYaml .Values.resources.railsserver | indent 10 }}
+      - name: {{ .Chart.Name }}-scheduler
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        args: [ "zammad-scheduler" ]
+        env:
+        - name: "ELASTICSEARCH_HOST"
+          value: "{{ if .Values.useElasticsearch }}{{ .Release.Name }}-elasticsearch-client{{ else }}{{ .Values.envConfig.elasticsearch.host }}{{ end }}"
+        - name: "ELASTICSEARCH_PORT"
+          value: "{{ .Values.envConfig.elasticsearch.port }}"
+        - name: "MEMCACHED_HOST"
+          value: "{{ if .Values.useMemcached }}{{ .Release.Name }}-memcached{{ else }}{{ .Values.envConfig.memcached.host }}{{ end }}"
+        - name: "MEMCACHED_PORT"
+          value: "{{ .Values.envConfig.memcached.port }}"
+        - name: "POSTGRESQL_HOST"
+          value: "{{ if .Values.usePostgresql }}{{ .Release.Name }}-postgresql{{ else }}{{ .Values.envConfig.postgresql.host }}{{ end }}"
+        - name: "POSTGRESQL_PORT"
+          value: "{{ .Values.envConfig.postgresql.port }}"
+        - name: "POSTGRESQL_USER"
+          value: "{{ .Values.envConfig.postgresql.user }}"
+        - name: "POSTGRESQL_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-postgresql-pass"
+              key: "postgresql-pass"
+        - name: "POSTGRESQL_DB"
+          value: "{{ .Values.envConfig.postgresql.db }}"
+        - name: "POSTGRESQL_DB_CREATE"
+          value: "{{ .Values.envConfig.postgresql.dbCreate }}"
+        {{ if .Values.autoWizard.enabled }}
+        - name: "AUTOWIZARD_JSON"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-autowizard"
+              key: "autowizard"
+        {{ end }}
+        {{- range $key, $value := .Values.extraEnv }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+         - name: {{ template "zammad.fullname" . }}
+           mountPath: /opt/zammad
+        resources:
+{{ toYaml .Values.resources.scheduler | indent 10 }}
+      - name: {{ .Chart.Name }}-websocket
+        image: {{ .Values.image.repository }}:{{if eq .Values.image.repository "zammad/zammad-docker-compose"}}zammad-{{ end }}{{ .Values.image.tag }}
+        args: [ "zammad-websocket" ]
+        env:
+        - name: "ELASTICSEARCH_HOST"
+          value: "{{ if .Values.useElasticsearch }}{{ .Release.Name }}-elasticsearch-client{{ else }}{{ .Values.envConfig.elasticsearch.host }}{{ end }}"
+        - name: "ELASTICSEARCH_PORT"
+          value: "{{ .Values.envConfig.elasticsearch.port }}"
+        - name: "MEMCACHED_HOST"
+          value: "{{ if .Values.useMemcached }}{{ .Release.Name }}-memcached{{ else }}{{ .Values.envConfig.memcached.host }}{{ end }}"
+        - name: "MEMCACHED_PORT"
+          value: "{{ .Values.envConfig.memcached.port }}"
+        - name: "POSTGRESQL_HOST"
+          value: "{{ if .Values.usePostgresql }}{{ .Release.Name }}-postgresql{{ else }}{{ .Values.envConfig.postgresql.host }}{{ end }}"
+        - name: "POSTGRESQL_PORT"
+          value: "{{ .Values.envConfig.postgresql.port }}"
+        - name: "POSTGRESQL_USER"
+          value: "{{ .Values.envConfig.postgresql.user }}"
+        - name: "POSTGRESQL_PASS"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-postgresql-pass"
+              key: "postgresql-pass"
+        - name: "POSTGRESQL_DB"
+          value: "{{ .Values.envConfig.postgresql.db }}"
+        - name: "POSTGRESQL_DB_CREATE"
+          value: "{{ .Values.envConfig.postgresql.dbCreate }}"
+        {{ if .Values.autoWizard.enabled }}
+        - name: "AUTOWIZARD_JSON"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ template "zammad.fullname" . }}-autowizard"
+              key: "autowizard"
+        {{ end }}
+        {{- range $key, $value := .Values.extraEnv }}
+        - name: "{{ $key }}"
+          value: "{{ $value }}"
+        {{- end }}
+        imagePullPolicy: Always
+        ports:
+        - name: websocket
+          containerPort: 6042
+        volumeMounts:
+         - name: {{ template "zammad.fullname" . }}
+           mountPath: /opt/zammad
+        readinessProbe:
+          tcpSocket:
+            port: 6042
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 6042
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        resources:
+{{ toYaml .Values.resources.websocket | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+      - name: {{ template "zammad.fullname" . }}-nginx
+        configMap:
+          name: {{ template "zammad.fullname" . }}-nginx
+      - name: {{ template "zammad.fullname" . }}
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "zammad.fullname" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}
