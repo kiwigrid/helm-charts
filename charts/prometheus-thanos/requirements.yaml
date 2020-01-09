@@ -1,6 +1,6 @@
 dependencies:
 - name: minio
-  version: 2.5.16
+  version: 5.0.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: minio.enabled
 - name: any-resource

@@ -6,6 +6,10 @@ image:
   repository: kiwigrid/secret-replicator
   tag: 0.1.1
   pullPolicy: IfNotPresent
+  ## Specify ImagePullSecrets for Pods
+  ## ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+  # pullSecrets: myregistrykey
+
 # csv list of secrets
 secretList: ""
 # secretList: "secret1,secret2

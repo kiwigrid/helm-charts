@@ -33,6 +33,7 @@ The following table lists the configurable parameters of the chart and their def
 | `image.repository`                           | image name                        | `kiwigrid/secret-replicator`                                                        |
 | `image.tag`                        | image tag                      | `0.1.1`                                                                                      |
 | `image.pullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
+| `image.pullSecrets`                  | Image pull secrets                              | `nil`                                                      |
 | `secretList`                           | list of pull secrets                          | empty string                                                        |
 | `ignoreNamespaces`             | namespaces which should be excluded from sync                                     | `kube-system,kube-pulic`               |
 | `resources`                    | Resource limits for pod             | `{}`                                   |
