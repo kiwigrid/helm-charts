@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  check-for-chart-changes:
+  lint-bash-scripts:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -13,6 +13,12 @@ jobs:
         uses: docker://koalaman/shellcheck-alpine:v0.7.0
         with:
           args: /github/workspace/.ci/lint-scripts.sh
+
+  check-for-chart-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Check for chart changes    
         run: /home/runner/work/helm-charts/helm-charts/.ci/check-for-chart-changes.sh
 
@@ -26,7 +32,7 @@ jobs:
         uses: helm/chart-testing-action@master
         with:
           command: lint
-          config: /home/runner/work/helm-charts/helm-charts/.ci/ct.yaml
+          config: .ci/ct.yaml
 
   install-chart:
     name: install-chart
@@ -37,10 +43,10 @@ jobs:
         k8s: 
           - v1.11.10
           - v1.12.10
-          - v1.13.10
-          - v1.14.6
-          - v1.15.3
-          - v1.16.2
+          - v1.13.12
+          - v1.14.9
+          - v1.15.6
+          - v1.16.3
           - v1.17.0
     steps:
       - name: Checkout
@@ -55,3 +61,4 @@ jobs:
         uses: helm/chart-testing-action@master
         with:
           command: install
+          config: .ci/ct.yaml
