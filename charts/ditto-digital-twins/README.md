@@ -1,9 +1,4 @@
-# Ditto - Digital Twins
-
-Open issues:
-
-* NGINX config
-  * create password for default user dynamically
+# This chart is deprecated. Ditto is now maintained within the [Eclipse Packages project](https://github.com/eclipse/packages/tree/master/charts/ditto)
 
 ## Introduction
 
