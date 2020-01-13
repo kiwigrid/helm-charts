@@ -155,6 +155,8 @@ data:
       key message
       multiline_end_regexp /\n$/
       separator ""
+      timeout_label @NORMAL
+      flush_interval 5
     </filter>
 
     # Enriches records with Kubernetes metadata
@@ -467,6 +469,13 @@ data:
 
 {{- if .Values.configMaps.useDefaults.outputConf }}
   output.conf: |-
+    # handle timeout log lines from concat plugin
+    <match **>
+      @type relabel
+      @label @NORMAL
+    </match>
+
+    <label @NORMAL>
     <match **>
       @id elasticsearch
       @type elasticsearch
@@ -502,6 +511,7 @@ data:
         overflow_action block
       </buffer>
     </match>
+    </label>
 {{- end }}
 
 {{- range $key, $value := .Values.extraConfigMaps }}
