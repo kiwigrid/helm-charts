@@ -153,12 +153,81 @@ extraVolumes: |
         type: Directory
 ```
 
-## Upgrading
-
-When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
-
-When upgrading this chart from a version &ge; 4.9.3 to version &ge; 5.0.0, you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
-
-## AWS Elasticsearch Domains
+### AWS Elasticsearch Domains
 
 AWS Elasticsearch requires requests to upload data to be signed using [AWS Signature V4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). In order to support this, you can add `awsSigningSidecar: {enabled: true}` to your configuration. This results in a sidecar container being deployed that proxies all requests to your Elasticsearch domain and signs them appropriately.
+
+
+## Upgrading
+
+### From a version < 2.0.0 
+
+When you upgrade this chart you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+
+### From a version &ge; 4.9.3 to version &ge; 5.0.0
+
+When upgrading this chart you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
+
+### From a version &lt; 6.0.0 to version &ge; 6.0.0
+
+When upgrading this chart  you have to perform updates for any system that 
+uses fluentd output from systemd logs, because now:
+
+- field names have removed leading underscores (`_pid` becomes `pid`)
+- field names from systemd are now lowercase (`PROCESS` becomes `process`)
+
+This means any system that uses fluend output needs to be updated,
+especially:
+
+- in Kibana go to `Management > Index Patterns`, for each index click on
+   `Refresh field list` icon
+- fix renamed fields in other places - such as Kibana or Grafana, in items
+  such as dashboards queries/vars/annotations
+
+It is strongly suggested to set up temporarily new fluend instance with output 
+to another elasticsearch index prefix to see the differences and then apply changes. The amount of fields altered can be noticeable and hard to list them all in this document.
+
+Some dashboards can be easily fixed with sed:
+
+```bash
+cat dashboard.json | sed -e 's/_PID/pid/g'
+```
+
+Below list of most commonly used systemd fields:
+
+```text
+__MONOTONIC_TIMESTAMP
+__REALTIME_TIMESTAMP
+_BOOT_ID
+_CAP_EFFECTIVE
+_CMDLINE
+_COMM
+_EXE
+_GID
+_HOSTNAME
+_MACHINE_ID
+_PID
+_SOURCE_REALTIME_TIMESTAMP
+_SYSTEMD_CGROUP
+_SYSTEMD_SLICE
+_SYSTEMD_UNIT
+_TRANSPORT
+_UID
+CODE_FILE
+CODE_FUNC
+CODE_FUNCTION
+CODE_LINE
+MESSAGE
+MESSAGE_ID
+NM_LOG_DOMAINS
+NM_LOG_LEVEL
+PRIORITY
+SYSLOG_FACILITY
+SYSLOG_IDENTIFIER
+SYSLOG_PID
+TIMESTAMP_BOOTTIME
+TIMESTAMP_MONOTONIC
+UNIT
+```
+
+
