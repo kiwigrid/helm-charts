@@ -155,17 +155,25 @@ extraVolumes: |
 
 ## Upgrading
 
-When you upgrade this chart from a version &lt; 2.0.0 you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
+### From a version < 2.0.0 
 
-When upgrading this chart from a version &ge; 4.9.3 to version &ge; 5.0.0, you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
+When you upgrade this chart you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
 
-When upgrading this chart from a version &lt; 6.0.0 to version &ge; 6.0.0
-you have to perform updates for any system that uses fluentd output from
-systemd logs, because now:
+### From a version &ge; 4.9.3 to version &ge; 5.0.0
+
+When upgrading this chart you need to rename `livenessProbe.command` parameter to `livenessProbe.kind.exec.command` (only applicable if `livenessProbe.command` parameter was used).
+
+### From a version &lt; 6.0.0 to version &ge; 6.0.0
+
+When upgrading this chart  you have to perform updates for any system that 
+uses fluentd output from systemd logs, because now:
+
 - field names have removed leading underscores (`_pid` becomes `pid`)
 - field names from systemd are now lowercase (`PROCESS` becomes `process`)
+
 This means any system that uses fluend output needs to be updated,
 especially:
+
 - in Kibana go to `Management > Index Patterns`, for each index click on
    `Refresh field list` icon
 - fix renamed fields in other places - such as Kibana or Grafana, in items
