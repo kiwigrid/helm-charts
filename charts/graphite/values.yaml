@@ -58,6 +58,8 @@ tolerations: []
 
 affinity: {}
 
+timeZone: Etc/UTC
+
 configMaps:
   aggregation-rules.conf: |-
     # The form of each line in this file should be as follows:

@@ -43,6 +43,8 @@ spec:
         env:
         - name: "STATSD_INTERFACE"
           value: {{ .Values.statsd.interface | lower }}
+        - name: "GRAPHITE_TIME_ZONE"
+          value: {{ .Values.timeZone }}
         livenessProbe:
           httpGet:
             path: /
