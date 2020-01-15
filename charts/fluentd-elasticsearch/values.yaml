@@ -197,6 +197,8 @@ serviceMonitor:
   path: /metrics
   port: 24231
   labels: {}
+  metricRelabelings: []
+  relabelings: []
 
 serviceMetric:
   ## If true, the metrics service will be created
