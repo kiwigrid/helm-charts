@@ -60,6 +60,16 @@ affinity: {}
 
 timeZone: Etc/UTC
 
+initContainers: []
+#  - name: init-sysctl
+#    image: busybox
+#    command:
+#      - sysctl
+#      - -w
+#      - net.core.somaxconn=65535
+#    securityContext:
+#      privileged: true
+
 configMaps:
   aggregation-rules.conf: |-
     # The form of each line in this file should be as follows:
