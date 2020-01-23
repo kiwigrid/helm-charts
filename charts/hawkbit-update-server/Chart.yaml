@@ -8,11 +8,4 @@ sources:
 - https://github.com/eclipse/hawkbit
 - https://github.com/kiwigrid/helm-charts/tree/master/charts/hawkbit-update-server
 icon: https://www.eclipse.org/hawkbit/images/hawkbit_icon.png
-maintainers:
-- name: fabian-schlegel
-  email: fabian.schlegel@kiwigrid.com
-- name: monotek
-  email: andre.bauer@kiwigrid.com
-- name: axdotl
-  email: axel.koehler@kiwigrid.com
 deprecated: true
