@@ -1,4 +1,4 @@
-helm-extra-args: --timeout 7200
+helm-extra-args: --timeout 1200
 check-version-increment: true
 debug: true
 chart-repos:
