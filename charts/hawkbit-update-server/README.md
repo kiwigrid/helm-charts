@@ -1,4 +1,7 @@
-# Hawkbit update server
+# Hawkbit update server (DEPRECATED!)
+
+## THIS CHART IS DEPRECATED AS WAS MOVED TO:
+* https://github.com/eclipse/packages/tree/master/charts/hawkbit
 
 ## Introduction
 
