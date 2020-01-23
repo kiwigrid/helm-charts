@@ -52,10 +52,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Create kind cluster
-        uses: helm/kind-action@master
+        uses: helm/monotek@kind070
         with:
           config: .ci/kind-config.yaml
-          installLocalPathProvisioner: true
           node-image: ${{ matrix.k8s }}
       - name: Run chart-testing (install)
         uses: helm/chart-testing-action@master
