@@ -52,7 +52,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Create kind cluster
-        uses: helm/monotek@kind070
+        uses: monotek/kind-action@kind070
         with:
           config: .ci/kind-config.yaml
           node-image: ${{ matrix.k8s }}
