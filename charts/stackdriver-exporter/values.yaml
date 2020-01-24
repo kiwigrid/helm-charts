@@ -46,3 +46,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+prometheusScrapeSlow: false

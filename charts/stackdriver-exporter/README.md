@@ -47,7 +47,7 @@ The following table lists the configurable parameters of the chart and their def
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
 | `tolerations`                  | Tolerations                                  | `[]`                                   |
 | `affinity`                     | Affinity                                     | `{}`                                   |
-
+| `prometheusScrapeSlow`         | Enables prometheus.io/scrape-slow annotation | `false`                                |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
