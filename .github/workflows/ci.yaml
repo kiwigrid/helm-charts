@@ -55,7 +55,7 @@ jobs:
         uses: monotek/kind-action@kind070
         with:
           config: .ci/kind-config.yaml
-          node-image: ${{ matrix.k8s }}
+          node-image: kindest/node:${{ matrix.k8s }}
       - name: Run chart-testing (install)
         uses: helm/chart-testing-action@master
         with:
