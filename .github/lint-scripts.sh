@@ -5,7 +5,7 @@
 
 set -o errexit
 
-CONFIG_DIR="./github"
+CONFIG_DIR=".github"
 
 TMP_FILE="$(mktemp)"
 
