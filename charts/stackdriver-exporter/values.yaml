@@ -23,11 +23,11 @@ gcp:
 #  metricsInterval: 5m
   metricsTypePrefixes:
   - logging.googleapis.com/
-  #- pubsub.googleapis.com/
-  #- cloudsql.googleapis.com/
-  #- container.googleapis.com/
-  #- dataproc.googleapis.com/
-  #- compute.googleapis.com/instance/cpu  
+  # - pubsub.googleapis.com/
+  # - cloudsql.googleapis.com/
+  # - container.googleapis.com/
+  # - dataproc.googleapis.com/
+  # - compute.googleapis.com/instance/cpu  
 
 usingGCPController: false
 # has to bae base64 encoded
