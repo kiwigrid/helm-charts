@@ -11,7 +11,7 @@ This chart is for the stackdriver exporter.
 Install from remote URL with the release name `stackdriver-exporter` into namespace `default`:
 
 ```console
-$ helm upgrade -i stackdriver-exporter kiwigrid/stackdriver-exporter
+helm upgrade -i stackdriver-exporter kiwigrid/stackdriver-exporter
 ```
 
 ## Uninstalling the Chart
@@ -19,7 +19,7 @@ $ helm upgrade -i stackdriver-exporter kiwigrid/stackdriver-exporter
 To uninstall/delete the `stackdriver-exporter` deployment:
 
 ```console
-$ helm delete stackdriver-exporter --purge
+helm delete stackdriver-exporter --purge
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -47,14 +47,14 @@ The following table lists the configurable parameters of the chart and their def
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
 | `tolerations`                  | Tolerations                                  | `[]`                                   |
 | `affinity`                     | Affinity                                     | `{}`                                   |
-
+| `prometheusScrapeSlow`         | Enables prometheus.io/scrape-slow annotation | `false`                                |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml kiwigrid/stackdriver-exporter
+helm install --name my-release -f values.yaml kiwigrid/stackdriver-exporter
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

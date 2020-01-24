@@ -54,8 +54,8 @@ jobs:
       - name: Create kind cluster
         uses: monotek/kind-action@kind070
         with:
-          config: ./github/kind-config.yaml
-          node-image: ${{ matrix.k8s }}
+          config: .ci/kind-config.yaml
+          node-image: kindest/node:${{ matrix.k8s }}
       - name: Run chart-testing (install)
         uses: helm/chart-testing-action@master
         with:
