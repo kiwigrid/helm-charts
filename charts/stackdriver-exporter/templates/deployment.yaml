@@ -24,9 +24,12 @@ spec:
 {{ else }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}        
 {{ end }}
-        prometheus.io/port : "{{ .Values.web.port }}"
-        prometheus.io/scrape : "true"
-        prometheus.io/path : "{{ .Values.web.path }}"
+        prometheus.io/port: "{{ .Values.web.port }}"
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "{{ .Values.web.path }}"
+{{- if .Values.prometheusScrapeSlow }}
+        prometheus.io/scrape-slow: "true"
+{{ end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
