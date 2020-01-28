@@ -33,6 +33,9 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.storeGateway.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-store-gateway
           imagePullPolicy: {{ .Values.storeGateway.image.pullPolicy }}
@@ -48,7 +51,7 @@ spec:
           {{- end }}
           {{- if .Values.storeGateway.objStoreType }}
           - |
-            --objstore.config=type: {{ .Values.storeGateway.objStoreType }} 
+            --objstore.config=type: {{ .Values.storeGateway.objStoreType }}
             config:
             {{- toYaml .Values.storeGateway.objStoreConfig | nindent 14 }}
           {{ else if .Values.storeGateway.objStoreConfigFile }}
@@ -63,7 +66,7 @@ spec:
               protocol: TCP
           {{- if .Values.storeGateway.extraEnv }}
           env:
-            {{- toYaml .Values.storeGateway.extraEnv | nindent 12 }}  
+            {{- toYaml .Values.storeGateway.extraEnv | nindent 12 }}
           {{- end }}
           livenessProbe:
             httpGet:

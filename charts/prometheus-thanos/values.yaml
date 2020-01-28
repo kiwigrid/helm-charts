@@ -41,6 +41,11 @@ querier:
     repository: quay.io/thanos/thanos
     tag: v0.10.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  #  annotations: eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
+  ## See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+  ## for IAM Role for your Service Account usage
   additionalLabels: {}
   additionalAnnotations: {}
   replicaLabel: replica
@@ -70,6 +75,8 @@ storeGateway:
     repository: quay.io/thanos/thanos
     tag: v0.10.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
   additionalLabels: {}
   additionalAnnotations: {}
   extraEnv: []
@@ -125,6 +132,8 @@ compact:
     repository: quay.io/thanos/thanos
     tag: v0.10.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
   additionalLabels: {}
   additionalAnnotations: {}
   logLevel: info
@@ -181,6 +190,7 @@ ruler:
       repository: kiwigrid/k8s-configmap-watcher
       tag: 0.1.1
       pullPolicy: IfNotPresent
+  serviceAccount: {}
   replicaLabel: replica
   logLevel: info
   ## Ruler configuration
@@ -252,6 +262,8 @@ bucketWebInterface:
     repository: quay.io/thanos/thanos
     tag: v0.10.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
   logLevel: info
   objStoreType: null
   objStoreConfig: {}
