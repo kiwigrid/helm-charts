@@ -170,13 +170,13 @@ data:
       @id filter_parser
       @type parser
       key_name log
+      reserve_time true
       reserve_data true
       remove_key_name_field true
       <parse>
         @type multi_format
         <pattern>
           format json
-          time_key ""
         </pattern>
         <pattern>
           format none
