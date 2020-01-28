@@ -74,6 +74,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
 | `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.10.0` |
 | `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
+| `bucketWebInterface.serviceAccount.create` | Create service account | `true` |
+| `bucketWebInterface.serviceAccount.annotations` | Service account annotations | `nil` |
 | `bucketWebInterface.logLevel` | Bucket web interface log level | `info` |
 | `bucketWebInterface.nodeSelector` | NodeSelector | `{}` |
 | `bucketWebInterface.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
@@ -95,6 +97,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
 | `compact.image.tag` | Docker image tag for store gateway | `v0.10.0` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
+| `compact.serviceAccount.create` | Create service account | `true` |
+| `compact.serviceAccount.annotations` | Service account annotations | `nil` |
 | `compact.logLevel` | Store gateway log level | `info` |
 | `compact.nodeSelector` | NodeSelector | `{}` |
 | `compact.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
@@ -122,6 +126,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
 | `querier.image.tag` | Docker image tag for querier | `v0.10.0` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
+| `querier.serviceAccount.create` | Create service account | `true` |
+| `querier.serviceAccount.annotations` | Service account annotations | `nil` |
 | `querier.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `querier.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
 | `querier.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
@@ -152,6 +158,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
 | `ruler.image.tag` | Docker image tag for ruler | `v0.10.0` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
+| `ruler.serviceAccount.annotations` | Service account annotations | `nil` |
 | `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `ruler.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
 | `ruler.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
@@ -205,6 +212,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.10.0` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
+| `storeGateway.serviceAccount.create` | Create service account | `true` |
+| `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
 | `storeGateway.indexCacheSize` | Index cache size | `500MB` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `storeGateway.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |

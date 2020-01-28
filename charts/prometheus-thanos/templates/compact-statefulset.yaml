@@ -32,6 +32,9 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.compact.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-compact
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-compact
           imagePullPolicy: {{ .Values.compact.image.pullPolicy }}

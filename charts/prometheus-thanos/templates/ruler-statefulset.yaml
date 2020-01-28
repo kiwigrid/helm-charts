@@ -94,7 +94,7 @@ spec:
             initialDelaySeconds: {{ .Values.ruler.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.ruler.readinessProbe.periodSeconds }}
             successThreshold: {{ .Values.ruler.readinessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}              
+            timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
           volumeMounts:
