@@ -70,6 +70,26 @@ querier:
     successThreshold: 1
     timeoutSeconds: 30
 
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    # List of MetricSpecs to decide whether to scale
+    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
 storeGateway:
   enabled: true
   replicaCount: 1
@@ -130,6 +150,26 @@ storeGateway:
     existingClaim: ""
     size: 2Gi
     storageClass: ""
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    # List of MetricSpecs to decide whether to scale
+    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 compact:
   enabled: true

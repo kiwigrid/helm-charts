@@ -1,0 +1,22 @@
+{{- if and .Values.storeGateway.enabled .Values.storeGateway.autoscaling.enabled -}}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+  minReplicas: {{ .Values.storeGateway.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.storeGateway.autoscaling.maxReplicas }}
+{{ with  .Values.storeGateway.autoscaling.metrics }}
+  metrics:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+{{- end }}

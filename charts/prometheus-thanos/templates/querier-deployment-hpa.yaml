@@ -1,0 +1,22 @@
+{{- if and .Values.querier.enabled .Values.querier.autoscaling.enabled -}}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-querier
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "prometheus-thanos.fullname" . }}-querier
+  minReplicas: {{ .Values.querier.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.querier.autoscaling.maxReplicas }}
+{{- with .Values.querier.autoscaling.metrics }}
+  metrics: 
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+{{- end }}
