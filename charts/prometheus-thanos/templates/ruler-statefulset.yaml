@@ -156,7 +156,7 @@ spec:
     {{- with .Values.ruler.volumes }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- if ne .Values.ruler.podPriority -1.0 }}
+    {{- if .Values.ruler.podNumericalPriorityEnabled }}
       priority: {{ .Values.ruler.podPriority }}
     {{- else if .Values.ruler.podPriorityClassName }}
       priorityClassName: {{ .Values.ruler.podPriorityClassName }}

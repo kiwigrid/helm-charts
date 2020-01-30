@@ -108,7 +108,7 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- if ne .Values.storeGateway.podPriority -1.0 }}
+    {{- if .Values.storeGateway.podNumericalPriorityEnabled }}
       priority: {{ .Values.storeGateway.podPriority }}
     {{- else if .Values.storeGateway.podPriorityClassName }}
       priorityClassName: {{ .Values.storeGateway.podPriorityClassName }}

@@ -54,8 +54,8 @@ querier:
   additionalFlags: {}
   resources: {}
   nodeSelector: {}
-  # -1 is used to disable adding a podPriority as 0 is a valid value for pod priorities
-  podPriority: -1
+  podNumericalPriorityEnabled: false
+  podPriority: 0
   podPriorityClassName: ""
   tolerations: []
   affinity: {}
@@ -102,8 +102,8 @@ storeGateway:
   #  endpoint: a
   #  insecure: true
   objStoreConfigFile: null
-  # -1 is used to disable adding a podPriority as 0 is a valid value for pod priorities
-  podPriority: -1
+  podNumericalPriorityEnabled: false
+  podPriority: 0
   podPriorityClassName: ""
 
   resources: {}
@@ -161,8 +161,8 @@ compact:
   #  endpoint: a
   #  insecure: true
   objStoreConfigFile: null
-  # -1 is used to disable adding a podPriority as 0 is a valid value for pod priorities
-  podPriority: -1
+  podNumericalPriorityEnabled: false
+  podPriority: 0
   podPriorityClassName: ""
 
   extraEnv: []
@@ -259,8 +259,8 @@ ruler:
     existingClaim: ""
     size: 2Gi
     storageClass: ""
-  # -1 is used to disable adding a podPriority as 0 is a valid value for pod priorities
-  podPriority: -1
+  podNumericalPriorityEnabled: true
+  podPriority: 0
   podPriorityClassName: ""
 
 bucketWebInterface:
@@ -290,8 +290,8 @@ bucketWebInterface:
   #  insecure: true
   objStoreConfigFile: null
   nodeSelector: {}
-  # -1 is used to disable adding a podPriority as 0 is a valid value for pod priorities
-  podPriority: -1
+  podNumericalPriorityEnabled: false
+  podPriority: 0
   podPriorityClassName: ""
   replicaCount: 1
   resources: {}
