@@ -156,6 +156,11 @@ spec:
     {{- with .Values.ruler.volumes }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if ne .Values.ruler.podPriority -1.0 }}
+      priority: {{ .Values.ruler.podPriority }}
+    {{- else if .Values.ruler.podPriorityClassName }}
+      priorityClassName: {{ .Values.ruler.podPriorityClassName }}
+    {{- end }}
 {{- if .Values.ruler.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
