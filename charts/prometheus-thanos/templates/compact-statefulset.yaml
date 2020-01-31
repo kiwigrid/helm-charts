@@ -89,6 +89,11 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.compact.podNumericalPriorityEnabled }}
+      priority: {{ .Values.compact.podPriority }}
+    {{- else if .Values.compact.podPriorityClassName }}
+      priorityClassName: {{ .Values.compact.podPriorityClassName }}
+    {{- end }}
     {{- if .Values.compact.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:

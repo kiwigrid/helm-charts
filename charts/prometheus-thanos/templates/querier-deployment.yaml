@@ -96,4 +96,9 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.querier.podNumericalPriorityEnabled }}
+      priority: {{ .Values.querier.podPriority }}
+    {{- else if .Values.querier.podPriorityClassName }}
+      priorityClassName: {{ .Values.querier.podPriorityClassName }}
+    {{- end }}
 {{- end }}

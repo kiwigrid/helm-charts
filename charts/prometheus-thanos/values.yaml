@@ -54,6 +54,9 @@ querier:
   additionalFlags: {}
   resources: {}
   nodeSelector: {}
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
   tolerations: []
   affinity: {}
   livenessProbe:
@@ -99,6 +102,9 @@ storeGateway:
   #  endpoint: a
   #  insecure: true
   objStoreConfigFile: null
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
 
   resources: {}
   nodeSelector: {}
@@ -155,6 +161,9 @@ compact:
   #  endpoint: a
   #  insecure: true
   objStoreConfigFile: null
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
 
   extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -250,6 +259,9 @@ ruler:
     existingClaim: ""
     size: 2Gi
     storageClass: ""
+  podNumericalPriorityEnabled: true
+  podPriority: 0
+  podPriorityClassName: ""
 
 bucketWebInterface:
   enabled: false
@@ -278,6 +290,9 @@ bucketWebInterface:
   #  insecure: true
   objStoreConfigFile: null
   nodeSelector: {}
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
   replicaCount: 1
   resources: {}
   tolerations: []

@@ -81,6 +81,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
 | `bucketWebInterface.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
 | `bucketWebInterface.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
+| `bucketWebInterface.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `bucketWebInterface.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `bucketWebInterface.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `bucketWebInterface.replicaCount` | Replica count for bucket web interface | `1` |
 | `bucketWebInterface.resources` | Resources | `{}` |
 | `bucketWebInterface.tolerations` | Tolerations | `[]` |
@@ -110,6 +113,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
 | `compact.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `compact.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
+| `compact.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `compact.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `compact.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `compact.resources` | Resources | `{}` |
 | `compact.retentionResolutionRaw` | Retention for raw buckets | `30d` |
 | `compact.retentionResolution5m` | Retention for 5m buckets | `120d` |
@@ -134,6 +140,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.livenessProbe.timeoutSeconds` | Liveness probe timeoutSeconds | `30` |
 | `querier.logLevel` | Querier log level | `info` |
 | `querier.nodeSelector` | NodeSelector | `{}` |
+| `querier.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `querier.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `querier.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `querier.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
 | `querier.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
 | `querier.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
@@ -174,6 +183,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
 | `ruler.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `ruler.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
+| `ruler.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`.| `false` |
+| `ruler.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `ruler.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `ruler.queries` | Ruler quieries endpoints | `[]` |
 | `ruler.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
 | `ruler.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
@@ -230,6 +242,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.persistentVolume.existingClaim` | Persistent volume existingClaim | `` |
 | `storeGateway.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `storeGateway.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
+| `storeGateway.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `storeGateway.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `storeGateway.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `storeGateway.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
 | `storeGateway.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
 | `storeGateway.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |

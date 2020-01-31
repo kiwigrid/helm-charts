@@ -86,4 +86,9 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.bucketWebInterface.podNumericalPriorityEnabled }}
+      priority: {{ .Values.bucketWebInterface.podPriority }}
+    {{- else if .Values.bucketWebInterface.podPriorityClassName }}
+      priorityClassName: {{ .Values.bucketWebInterface.podPriorityClassName }}
+    {{- end }}
 {{- end }}
