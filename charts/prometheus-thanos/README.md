@@ -129,6 +129,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.additionalFlags` | Additional command line flags | `{}` |
 | `querier.additionalLabels` | Additional labels on querier pods| `{}` |
 | `querier.affinity` | Affinity | `{}` |
+| `querier.autoscaling.enabled` | Controls whether StoreGateway autoscaling is enabled | `false` |
+| `querier.autoscaling.maxReplicas` | Maximum number of replicas to scale to | `10` |
+| `querier.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
+| `querier.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
 | `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
 | `querier.image.tag` | Docker image tag for querier | `v0.10.0` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
@@ -219,6 +223,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}` |
 | `storeGateway.additionalFlags` | Additional command line flags | `{}` |
 | `storeGateway.additionalLabels` | Additional labels on store gateway pods| `{}` |
+| `storeGateway.autoscaling.enabled` | Controls whether StoreGateway autoscaling is enabled | `false` |
+| `storeGateway.autoscaling.maxReplicas` | Maximum number of replicas to scale to | `10` |
+| `storeGateway.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
+| `storeGateway.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
 | `storeGateway.chunkPoolSize` | Chunk pool size | `500MB` |
 | `storeGateway.extraEnv` | Extra env vars | `nil` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
