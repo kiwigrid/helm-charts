@@ -71,6 +71,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.additionalLabels` | Additional labels on bucket web interface pods| `{}` |
 | `bucketWebInterface.affinity` | Affinity | `{}` |
 | `bucketWebInterface.extraEnv` | Extra env vars | `nil` |
+| `bucketWebInterface.httpServerPort` | The port to expose from the bucket web interface container | `10902` |
 | `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
 | `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.10.0` |
 | `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
