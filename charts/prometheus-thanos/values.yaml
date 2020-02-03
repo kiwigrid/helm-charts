@@ -310,6 +310,7 @@ bucketWebInterface:
   additionalLabels: {}
   affinity: {}
   extraEnv: []
+  httpServerPort: 10902
   image:
     repository: quay.io/thanos/thanos
     tag: v0.10.0

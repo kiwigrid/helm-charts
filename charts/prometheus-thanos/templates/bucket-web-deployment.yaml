@@ -58,7 +58,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.bucketWebInterface.httpServerPort }}
               protocol: TCP
           {{- if .Values.bucketWebInterface.extraEnv }}
           env:
