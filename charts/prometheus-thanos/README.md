@@ -73,7 +73,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.extraEnv` | Extra env vars | `nil` |
 | `bucketWebInterface.httpServerPort` | The port to expose from the bucket web interface container | `10902` |
 | `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
-| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.10.0` |
+| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.10.1` |
 | `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
 | `bucketWebInterface.serviceAccount.create` | Create service account | `true` |
 | `bucketWebInterface.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -99,7 +99,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.consistencyDelay` | Consistency delay | `30m` |
 | `compact.extraEnv` | Extra env vars | `nil` |
 | `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `compact.image.tag` | Docker image tag for store gateway | `v0.10.0` |
+| `compact.image.tag` | Docker image tag for store gateway | `v0.10.1` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `compact.serviceAccount.create` | Create service account | `true` |
 | `compact.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -135,7 +135,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
 | `querier.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
 | `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
-| `querier.image.tag` | Docker image tag for querier | `v0.10.0` |
+| `querier.image.tag` | Docker image tag for querier | `v0.10.1` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
 | `querier.serviceAccount.create` | Create service account | `true` |
 | `querier.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -170,7 +170,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.evalInterval` | Ruler evaluation interval | `1m` |
 | `ruler.extraEnv` | Extra env vars | `nil` |
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
-| `ruler.image.tag` | Docker image tag for ruler | `v0.10.0` |
+| `ruler.image.tag` | Docker image tag for ruler | `v0.10.1` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
 | `ruler.serviceAccount.annotations` | Service account annotations | `nil` |
 | `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
@@ -231,7 +231,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.chunkPoolSize` | Chunk pool size | `500MB` |
 | `storeGateway.extraEnv` | Extra env vars | `nil` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.10.0` |
+| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.10.1` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `storeGateway.serviceAccount.create` | Create service account | `true` |
 | `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
