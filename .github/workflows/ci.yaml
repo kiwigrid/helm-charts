@@ -52,7 +52,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Create kind cluster
-        uses: monotek/kind-action@kind070
+        uses: helm/kind-action@master
         with:
           config: .github/kind-config.yaml
           node-image: kindest/node:${{ matrix.k8s }}
