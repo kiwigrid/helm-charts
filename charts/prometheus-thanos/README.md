@@ -233,9 +233,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.10.1` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
-| `storeGateway.serviceAccount.create` | Create service account | `true` |
-| `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
-| `storeGateway.indexCacheSize` | Index cache size | `500MB` |
+| `storeGateway.indexCache.config` | Config for the index cache, see [the docs](https://thanos.io/components/store.md/#index-cache) | `max_size: 500MB` |
+| `storeGateway.indexCache.type` | Type of the index cache, either `IN-MEMORY` or `MEMCACHED` | `IN-MEMORY` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `storeGateway.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
 | `storeGateway.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
@@ -260,6 +259,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.readinessProbe.timeoutSeconds` |Readiness probe timeoutSeconds | `30` |
 | `storeGateway.replicaCount` | Replica count for store gateway | `1` |
 | `storeGateway.resources` | Resources | `{}` |
+| `storeGateway.serviceAccount.create` | Create service account | `true` |
+| `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
 | `storeGateway.tolerations` | Tolerations | `[]` |
 | `storeGateway.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `storeGateway.volumeMounts` | Additional volume mounts | `nil` |
