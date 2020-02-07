@@ -59,6 +59,26 @@ The command removes all the Kubernetes components associated with the chart and 
 
 > **Tip**: To completely remove the release, run `helm delete --purge prometheus-thanos`
 
+## Upgrading
+
+This section describes instructions on how to upgrade from a previous version of this chart and breaking changes.
+
+### 3.x
+
+There was a breaking change in version 3.0.0 which removed the `storeGateway.indexCacheSize` setting in favour of a `storeGateway.indexCache` config object.
+If you're upgrading from a pre-3.0.0 version of this chart, your config needs to adapt the new format.
+
+For example, if you had previously set `storeGateway.indexCacheSize` to `500MB`, you need to set `storeGateway.indexCache` to the following:
+
+```yaml
+indexCache:
+  type: IN-MEMORY
+  config:
+    max_size: 500MB
+```
+
+All configuration options can be found in [the documentation](https://thanos.io/components/store.md/#index-cache).
+
 ## Configuration
 
 The following table lists the configurable parameters of the prometheus-thanos chart and their default values.
@@ -233,9 +253,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
 | `storeGateway.image.tag` | Docker image tag for store gateway | `v0.10.1` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
-| `storeGateway.serviceAccount.create` | Create service account | `true` |
-| `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
-| `storeGateway.indexCacheSize` | Index cache size | `500MB` |
+| `storeGateway.indexCache.config` | Config for the index cache, see [the docs](https://thanos.io/components/store.md/#index-cache) | `max_size: 500MB` |
+| `storeGateway.indexCache.type` | Type of the index cache, either `IN-MEMORY` or `MEMCACHED` | `IN-MEMORY` |
 | `storeGateway.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `storeGateway.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
 | `storeGateway.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
@@ -260,6 +279,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.readinessProbe.timeoutSeconds` |Readiness probe timeoutSeconds | `30` |
 | `storeGateway.replicaCount` | Replica count for store gateway | `1` |
 | `storeGateway.resources` | Resources | `{}` |
+| `storeGateway.serviceAccount.create` | Create service account | `true` |
+| `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
 | `storeGateway.tolerations` | Tolerations | `[]` |
 | `storeGateway.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `storeGateway.volumeMounts` | Additional volume mounts | `nil` |

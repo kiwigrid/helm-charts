@@ -106,7 +106,11 @@ storeGateway:
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
   logLevel: info
-  indexCacheSize: 500MB
+  # IndexCache configuraiton. See https://thanos.io/components/store.md/#index-cache for available options
+  indexCache:
+    type: IN-MEMORY
+    config:
+      max_size: 500MB
   chunkPoolSize: 500MB
 
   objStoreType: GCS  # WARNING: this is default to null in other sections

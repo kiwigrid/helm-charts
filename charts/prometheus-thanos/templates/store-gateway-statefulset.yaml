@@ -44,7 +44,10 @@ spec:
           - store
           - --data-dir=/data
           - --log.level={{ .Values.storeGateway.logLevel }}
-          - --index-cache-size={{ .Values.storeGateway.indexCacheSize }}
+          - |
+            --index-cache.config=type: {{ .Values.storeGateway.indexCache.type }}
+            config:
+            {{- toYaml .Values.storeGateway.indexCache.config | nindent 14 }}
           - --chunk-pool-size={{ .Values.storeGateway.chunkPoolSize }}
           {{- range $key, $value := .Values.storeGateway.additionalFlags }}
           - --{{ $key }}{{if $value }}={{ $value }}{{end}}
