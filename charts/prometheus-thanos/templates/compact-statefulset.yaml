@@ -85,14 +85,14 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if (.Values.compact.volumes) or (not .Values.compact.persistentVolume.enabled) }}
       volumes:
-        {{- toYaml .Values.compact.volumes | nindent 8 }}
+        {{- with .Values.compact.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- if not .Values.compact.persistentVolume.enabled }}
         - name: storage-volume
           emptyDir: {}
         {{- end }}
-      {{- end }}
       {{- if .Values.compact.podNumericalPriorityEnabled }}
       priority: {{ .Values.compact.podPriority }}
       {{- else if .Values.compact.podPriorityClassName }}
@@ -108,7 +108,7 @@ spec:
         {{- end }}
       spec:
         accessModes:
-        {{ toYaml .Values.compact.persistentVolume.accessModes | nindent 10 }}
+        {{- toYaml .Values.compact.persistentVolume.accessModes | nindent 10 }}
         resources:
           requests:
             storage: "{{ .Values.compact.persistentVolume.size }}"
