@@ -24,14 +24,14 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         prometheus-thanos-peer: "true"
         {{- with .Values.ruler.additionalLabels }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "10902"
         checksum/config: {{ include (print $.Template.BasePath "/ruler-configmap.yaml") . | sha256sum }}
         {{- with .Values.ruler.additionalAnnotations }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
       serviceAccount: {{ include "prometheus-thanos.fullname" . }}-ruler
@@ -98,16 +98,16 @@ spec:
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /etc/thanos-ruler
-              name: config
-            - mountPath: /etc/thanos-ruler/external
-              name: external-config-volume
-            - mountPath: /data
-              name: storage-volume
+          - mountPath: /etc/thanos-ruler
+            name: config
+          - mountPath: /etc/thanos-ruler/external
+            name: external-config-volume
+          - mountPath: /data
+            name: storage-volume
           {{- with .Values.ruler.volumeMounts }}
-            {{- toYaml . | nindent 12 }}
+          {{- toYaml . | nindent 10 }}
           {{- end }}
-{{- if .Values.ruler.sidecar.enabled }}
+        {{- if .Values.ruler.sidecar.enabled }}
         - env:
           - name: LABEL
             value: {{ .Values.ruler.sidecar.watchLabel }}
@@ -134,56 +134,57 @@ spec:
           volumeMounts:
           - mountPath: /etc/config
             name: external-config-volume
-{{- end }}
+        {{- end }}
       {{- with .Values.ruler.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.ruler.affinity }}
+      {{- with .Values.ruler.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.ruler.tolerations }}
+      {{- end }}
+      {{- with .Values.ruler.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
       volumes:
-        - name: external-config-volume
-          emptyDir: {}
-        - configMap:
-            name: {{ include "prometheus-thanos.fullname" . }}-ruler
-          name: config
-    {{- with .Values.ruler.volumes }}
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- if .Values.ruler.podNumericalPriorityEnabled }}
+      - name: external-config-volume
+        emptyDir: {}
+      - configMap:
+          name: {{ include "prometheus-thanos.fullname" . }}-ruler
+        name: config
+      {{- with .Values.ruler.volumes }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if not .Values.ruler.persistentVolume.enabled }}
+      - name: storage-volume
+        emptyDir: {}
+      {{- end }}
+      {{- if .Values.ruler.podNumericalPriorityEnabled }}
       priority: {{ .Values.ruler.podPriority }}
-    {{- else if .Values.ruler.podPriorityClassName }}
+      {{- else if .Values.ruler.podPriorityClassName }}
       priorityClassName: {{ .Values.ruler.podPriorityClassName }}
-    {{- end }}
-{{- if .Values.ruler.persistentVolume.enabled }}
+      {{- end }}
+  {{- if .Values.ruler.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
         name: storage-volume
         {{- if .Values.ruler.persistentVolume.annotations }}
         annotations:
-{{ toYaml .Values.ruler.persistentVolume.annotations | indent 10 }}
+          {{- toYaml .Values.ruler.persistentVolume.annotations | nindent 10 }}
         {{- end }}
       spec:
         accessModes:
-{{ toYaml .Values.ruler.persistentVolume.accessModes | indent 10 }}
+          {{- toYaml .Values.ruler.persistentVolume.accessModes | nindent 10 }}
         resources:
           requests:
             storage: "{{ .Values.ruler.persistentVolume.size }}"
-      {{- if .Values.ruler.persistentVolume.storageClass }}
-      {{- if (eq "-" .Values.ruler.persistentVolume.storageClass) }}
+        {{- if .Values.ruler.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.ruler.persistentVolume.storageClass) }}
         storageClassName: ""
-      {{- else }}
+        {{- else }}
         storageClassName: "{{ .Values.ruler.persistentVolume.storageClass }}"
-      {{- end }}
-      {{- end }}
-{{- else }}
-        - name: storage-volume
-          emptyDir: {}
-{{- end }}
+        {{- end }}
+        {{- end }}
+  {{- end }}
 {{- end }}
