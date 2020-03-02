@@ -80,5 +80,5 @@ cd "${REPO_ROOT}"/"${REPO_DIR}"
 git config --global user.email "ci@kiwigrid-robot.com"
 git config --global user.name "kiwigrid-ci-bot"
 git add --all .
-git commit -m "Push kiwigrid charts via Github actions"
+git commit -m "Push Kiwigrid charts via Github action build nr. ${GITHUB_RUN_NUMBER}"
 git push --set-upstream origin master

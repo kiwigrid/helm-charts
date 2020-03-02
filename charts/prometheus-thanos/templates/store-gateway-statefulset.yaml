@@ -99,46 +99,47 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.storeGateway.affinity }}
+      {{- with .Values.storeGateway.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.storeGateway.tolerations }}
+      {{- end }}
+      {{- with .Values.storeGateway.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.storeGateway.volumes }}
+      {{- end }}
       volumes:
+        {{- with .Values.storeGateway.volumes }}
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- if .Values.storeGateway.podNumericalPriorityEnabled }}
+        {{- end }}
+        {{- if not .Values.storeGateway.persistentVolume.enabled }}
+        - name: storage-volume
+          emptyDir: {}
+        {{- end }}
+      {{- if .Values.storeGateway.podNumericalPriorityEnabled }}
       priority: {{ .Values.storeGateway.podPriority }}
-    {{- else if .Values.storeGateway.podPriorityClassName }}
+      {{- else if .Values.storeGateway.podPriorityClassName }}
       priorityClassName: {{ .Values.storeGateway.podPriorityClassName }}
-    {{- end }}
-{{- if .Values.storeGateway.persistentVolume.enabled }}
+      {{- end }}
+  {{- if .Values.storeGateway.persistentVolume.enabled }}
   volumeClaimTemplates:
     - metadata:
         name: storage-volume
         {{- if .Values.storeGateway.persistentVolume.annotations }}
         annotations:
-{{ toYaml .Values.storeGateway.persistentVolume.annotations | indent 10 }}
+        {{- toYaml .Values.storeGateway.persistentVolume.annotations | nindent 10 }}
         {{- end }}
       spec:
         accessModes:
-{{ toYaml .Values.storeGateway.persistentVolume.accessModes | indent 10 }}
+        {{- toYaml .Values.storeGateway.persistentVolume.accessModes | nindent 10 }}
         resources:
           requests:
             storage: "{{ .Values.storeGateway.persistentVolume.size }}"
-      {{- if .Values.storeGateway.persistentVolume.storageClass }}
-      {{- if (eq "-" .Values.storeGateway.persistentVolume.storageClass) }}
+        {{- if .Values.storeGateway.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.storeGateway.persistentVolume.storageClass) }}
         storageClassName: ""
-      {{- else }}
+        {{- else }}
         storageClassName: "{{ .Values.storeGateway.persistentVolume.storageClass }}"
-      {{- end }}
-      {{- end }}
-{{- else }}
-        - name: storage-volume
-          emptyDir: {}
-{{- end }}
+        {{- end }}
+        {{- end }}
+  {{- end }}
 {{- end }}
