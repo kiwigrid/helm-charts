@@ -14,7 +14,7 @@ if [ -z "${CHART_CHANGES}" ]; then
   echo -e "\n\n Error! No chart changes detected! Exiting... \n"
   exit 1
 else
-  echo -e "\n Changes found in:"
-  echo "${CHART_CHANGES}"
-  echo -e "Continue with next job... \n"
+  echo -e "\nChanges found in:"
+  echo " ${CHART_CHANGES}"
+  echo -e "\nContinue with next job... \n"
 fi
