@@ -59,7 +59,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                      | `8080`                                 |
 | `awsSigningSidecar.network.address`          | AWS Sidecar listen address                                                     | `localhost`                            |
 | `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `latest`                               |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
@@ -84,7 +84,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `hostLogDir.dockerContainers`                | Specify where fluentd can find logs for docker container                       | `/var/lib/docker/containers`           |
 | `hostLogDir.libSystemdDir`                   | Specify where fluentd can find logs for lib Systemd                            | `/usr/lib64`                           |
 | `image.repository`                           | Image                                                                          | `quay.io/fluentd_elasticsearch/fluentd`|
-| `image.tag`                                  | Image tag                                                                      | `v2.8.0`                               |
+| `image.tag`                                  | Image tag                                                                      | `v3.0.0`                               |
 | `image.pullPolicy`                           | Image pull policy                                                              | `IfNotPresent`                         |
 | `image.pullSecrets`                          | Image pull secrets                                                             | ``                                     |
 | `livenessProbe.enabled`                      | Whether to enable livenessProbe                                                | `true`                                 |
