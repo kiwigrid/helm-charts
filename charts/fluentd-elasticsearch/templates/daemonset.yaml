@@ -63,7 +63,7 @@ spec:
             {{- range .Values.additionalPlugins }}
             gem install {{ .name }} --version {{ .version }} &&
             {{- end }}
-            /run.sh
+            /entrypoint.sh
         {{- end }}
         env:
         - name: FLUENTD_ARGS
