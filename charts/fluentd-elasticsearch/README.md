@@ -72,6 +72,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
+| `elasticsearch.outputType`                   | Elasticsearch output type                                                      | `elasticsearch`                        |
 | `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
 | `elasticsearch.logLevel`                     | Elasticsearch global log level                                                 | `info`                                 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
