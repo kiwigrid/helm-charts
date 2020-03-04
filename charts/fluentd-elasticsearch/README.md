@@ -160,10 +160,9 @@ extraVolumes: |
 
 AWS Elasticsearch requires requests to upload data to be signed using [AWS Signature V4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). In order to support this, you can add `awsSigningSidecar: {enabled: true}` to your configuration. This results in a sidecar container being deployed that proxies all requests to your Elasticsearch domain and signs them appropriately.
 
-
 ## Upgrading
 
-### From a version < 2.0.0 
+### From a version < 2.0.0
 
 When you upgrade this chart you have to add the "--force" parameter to your helm upgrade command as there have been changes to the lables which makes a normal upgrade impossible.
 
@@ -173,7 +172,7 @@ When upgrading this chart you need to rename `livenessProbe.command` parameter t
 
 ### From a version &lt; 6.0.0 to version &ge; 6.0.0
 
-When upgrading this chart  you have to perform updates for any system that 
+When upgrading this chart  you have to perform updates for any system that
 uses fluentd output from systemd logs, because now:
 
 - field names have removed leading underscores (`_pid` becomes `pid`)
@@ -187,7 +186,7 @@ especially:
 - fix renamed fields in other places - such as Kibana or Grafana, in items
   such as dashboards queries/vars/annotations
 
-It is strongly suggested to set up temporarily new fluentd instance with output 
+It is strongly suggested to set up temporarily new fluentd instance with output
 to another elasticsearch index prefix to see the differences and then apply changes. The amount of fields altered can be noticeable and hard to list them all in this document.
 
 Some dashboards can be easily fixed with sed:
@@ -232,5 +231,3 @@ TIMESTAMP_BOOTTIME
 TIMESTAMP_MONOTONIC
 UNIT
 ```
-
-

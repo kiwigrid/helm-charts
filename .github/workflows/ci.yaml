@@ -33,6 +33,8 @@ jobs:
         with:
           command: lint
           config: .github/ct.yaml
+      - name: Run kubeval    
+        run: .github/kubeval.sh
 
   install-chart:
     name: install-chart
