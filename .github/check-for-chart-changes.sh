@@ -15,6 +15,6 @@ if [ -z "${CHART_CHANGES}" ]; then
   exit 1
 else
   echo -e "\nChanges found in:"
-  echo " ${CHART_CHANGES}"
+  echo "${CHART_CHANGES}"
   echo -e "\nContinue with next job... \n"
 fi
