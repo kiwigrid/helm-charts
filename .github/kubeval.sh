@@ -10,8 +10,6 @@ set -o pipefail
 HOME="/home/gkh"
 CHART_DIRS="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/origin/master -- charts | grep '[cC]hart.yaml' | sed -e 's#/[Cc]hart.yaml##g')"
 
-echo "${CHART_DIRS}"
-
 helm repo add kiwigrid https://kiwigrid.github.io/
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
