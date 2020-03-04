@@ -8,7 +8,7 @@ set -o pipefail
 
 # needed for github actions as home dir would be /github/home/ otherwise
 HOME="/home/gkh"
-CHART_DIRS="$(git diff --name-only remotes/origin/master | grep '[cC]hart.yaml' | sed -e 's#/[Cc]hart.yaml##g')"
+CHART_DIRS="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/origin/master -- charts | grep '[cC]hart.yaml' | sed -e 's#/[Cc]hart.yaml##g')"
 
 git diff --name-only remotes/origin/master
 
