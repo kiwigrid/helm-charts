@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 
 ls -al
-git branch
+git branch --all
 
 CHART_DIRS="$(git diff --name-only master | grep '[cC]hart.yaml' | sed -e 's#/[Cc]hart.yaml##g')"
 
