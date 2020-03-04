@@ -72,6 +72,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.scheme`                       | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                    | Elasticsearch Auth SSL verify                                                  | `true`                                 |
 | `elasticsearch.sslVersion`                   | Elasticsearch tls version setting                                              | `TLSv1_2`                              |
+| `elasticsearch.outputType`                   | Elasticsearch output type                                                      | `elasticsearch`                        |
 | `elasticsearch.typeName`                     | Elasticsearch type name                                                        | `_doc`                                 |
 | `elasticsearch.logLevel`                     | Elasticsearch global log level                                                 | `info`                                 |
 | `env`                                        | List of env vars that are added to the fluentd pods                            | `{}`                                   |
@@ -186,7 +187,7 @@ especially:
 - fix renamed fields in other places - such as Kibana or Grafana, in items
   such as dashboards queries/vars/annotations
 
-It is strongly suggested to set up temporarily new fluend instance with output 
+It is strongly suggested to set up temporarily new fluentd instance with output 
 to another elasticsearch index prefix to see the differences and then apply changes. The amount of fields altered can be noticeable and hard to list them all in this document.
 
 Some dashboards can be easily fixed with sed:

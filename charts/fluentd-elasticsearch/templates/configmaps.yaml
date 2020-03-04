@@ -494,7 +494,7 @@ data:
     <label @NORMAL>
     <match **>
       @id elasticsearch
-      @type elasticsearch
+      @type "#{ENV['OUTPUT_TYPE']}"
       @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
       include_tag_key true
       host "#{ENV['OUTPUT_HOST']}"
