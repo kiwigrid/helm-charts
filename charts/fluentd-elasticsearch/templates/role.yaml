@@ -10,7 +10,11 @@ metadata:
     {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
 rules:
+{{- if semverCompare "> 1.15" .Capabilities.KubeVersion.GitVersion }}
+- apiGroups: ['policy']
+{{- else }}
 - apiGroups: ['extensions']
+{{- end }}
   resources: ['podsecuritypolicies']
   verbs:     ['use']
   resourceNames:
