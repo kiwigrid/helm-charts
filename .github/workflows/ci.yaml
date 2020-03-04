@@ -41,8 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Set user permissions
-        run: chmod -R 777 /home/runner/work        
-      - name: Run kubeval    
+        run: chmod -R 777 /home/runner/work
+      - name: Run kubeval
         uses: docker://kiwigrid/gcloud-kubectl-helm
         with:
           args: .github/kubeval.sh
