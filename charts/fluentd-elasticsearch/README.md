@@ -187,7 +187,7 @@ especially:
 - fix renamed fields in other places - such as Kibana or Grafana, in items
   such as dashboards queries/vars/annotations
 
-It is strongly suggested to set up temporarily new fluend instance with output 
+It is strongly suggested to set up temporarily new fluentd instance with output 
 to another elasticsearch index prefix to see the differences and then apply changes. The amount of fields altered can be noticeable and hard to list them all in this document.
 
 Some dashboards can be easily fixed with sed:
