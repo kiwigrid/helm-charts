@@ -18,5 +18,5 @@ for CHART_DIR in ${CHART_DIRS};do
   helm dependency build "${CHART_DIR}"
 
   echo "kubeval(idating) ${CHART_DIR##charts/} chart..."
-  helm template "${CHART_DIR}" | kubeval
+  helm template "${CHART_DIR}" | kubeval --strict
 done
