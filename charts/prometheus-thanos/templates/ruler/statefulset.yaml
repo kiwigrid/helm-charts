@@ -29,7 +29,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "10902"
-        checksum/config: {{ include (print $.Template.BasePath "/ruler-configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/ruler/configmap.yaml") . | sha256sum }}
         {{- with .Values.ruler.additionalAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
