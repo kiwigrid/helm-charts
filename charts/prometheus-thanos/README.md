@@ -80,7 +80,7 @@ All configuration options can be found in [the documentation](https://thanos.io/
 
 ### 4.x
 
-The compactor persistence is now enabled by default and the default size was raised to 10GB.
+The compactor persistence is now enabled by default and the default PVC size was raised to 10GB.
 
 ## Configuration
 
