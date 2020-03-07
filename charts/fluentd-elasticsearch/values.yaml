@@ -29,7 +29,7 @@ awsSigningSidecar:
     address: localhost
   image:
     repository: abutaha/aws-es-proxy
-    tag: latest
+    tag: 0.9
 
 # Specify to use specific priorityClass for pods
 # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
