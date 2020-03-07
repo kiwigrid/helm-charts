@@ -59,7 +59,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `awsSigningSidecar.network.port`             | AWS Sidecar exposure port                                                      | `8080`                                 |
 | `awsSigningSidecar.network.address`          | AWS Sidecar listen address                                                     | `localhost`                            |
 | `awsSigningSidecar.image.repository`         | AWS signing sidecar repository image                                           | `abutaha/aws-es-proxy`                 |
-| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `latest`                               |
+| `awsSigningSidecar.image.tag`                | AWS signing sidecar repository tag                                             | `0.9`                                  |
 | `elasticsearch.auth.enabled`                 | Elasticsearch Auth enabled                                                     | `false`                                |
 | `elasticsearch.auth.user`                    | Elasticsearch Auth User                                                        | `""`                                   |
 | `elasticsearch.auth.password`                | Elasticsearch Auth Password                                                    | `""`                                   |
