@@ -92,13 +92,17 @@ spec:
         {{- if not .Values.compact.persistentVolume.enabled }}
         - name: storage-volume
           emptyDir: {}
+        {{- else if .Values.compact.persistentVolume.existingClaim }}
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.compact.persistentVolume.existingClaim }}
         {{- end }}
       {{- if .Values.compact.podNumericalPriorityEnabled }}
       priority: {{ .Values.compact.podPriority }}
       {{- else if .Values.compact.podPriorityClassName }}
       priorityClassName: {{ .Values.compact.podPriorityClassName }}
       {{- end }}
-  {{- if .Values.compact.persistentVolume.enabled }}
+  {{- if and .Values.compact.persistentVolume.enabled (not .Values.compact.persistentVolume.existingClaim) }}
   volumeClaimTemplates:
     - metadata:
         name: storage-volume
