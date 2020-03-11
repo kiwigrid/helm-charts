@@ -131,11 +131,11 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
 | `compact.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
 | `compact.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
-| `compact.persistentVolume.enabled` | Persistent volume enabled | `false` |
+| `compact.persistentVolume.enabled` | Persistent volume enabled | `true` |
 | `compact.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
 | `compact.persistentVolume.annotations` | Persistent volume annotations | `{}` |
 | `compact.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
-| `compact.persistentVolume.size` | Persistent volume size | `2Gi` |
+| `compact.persistentVolume.size` | Persistent volume size | `10Gi` |
 | `compact.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `compact.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
 | `compact.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
@@ -205,7 +205,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `nil` |
 | `ruler.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
 | `ruler.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
-| `ruler.persistentVolume.enabled` | Persistent volume enabled | `enabled` |
+| `ruler.persistentVolume.enabled` | Persistent volume enabled | `true` |
 | `ruler.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
 | `ruler.persistentVolume.annotations` | Persistent volume annotations | `{}` |
 | `ruler.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
@@ -267,10 +267,10 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
 | `storeGateway.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
 | `storeGateway.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
-| `storeGateway.persistentVolume.enabled` | Persistent volume enabled | `enabled` |
+| `storeGateway.persistentVolume.enabled` | Persistent volume enabled | `true` |
 | `storeGateway.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
 | `storeGateway.persistentVolume.annotations` | Persistent volume annotations | `{}` |
-| `storeGateway.persistentVolume.existingClaim` | Persistent volume existingClaim | `` |
+| `storeGateway.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
 | `storeGateway.persistentVolume.size` | Persistent volume size | `2Gi` |
 | `storeGateway.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
 | `storeGateway.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
