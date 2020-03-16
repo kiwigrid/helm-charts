@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: kiwigrid/keycloak-controller
-  tag: 1.4.1
+  tag: 2.0.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
