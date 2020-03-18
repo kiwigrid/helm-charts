@@ -200,6 +200,7 @@ serviceMonitor:
   labels: {}
   metricRelabelings: []
   relabelings: []
+  type: ClusterIP
 
 serviceMetric:
   ## If true, the metrics service will be created

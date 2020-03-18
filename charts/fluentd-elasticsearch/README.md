@@ -121,6 +121,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceMonitor.labels`                      | Optional labels for serviceMonitor                                             | `{}`                                   |
 | `serviceMonitor.metricRelabelings`           | Optional metric relabel configs to apply to samples before ingestion           | `[]`                                   |
 | `serviceMonitor.relabelings`                 | Optional relabel configs to apply to samples before scraping                   | `[]`                                   |
+| `serviceMonitor.type`                        | Optional the type of the metrics service                                       | `ClusterIP`                            |
 | `tolerations`                                | Optional daemonset tolerations                                                 | `[]`                                   |
 | `updateStrategy`                             | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
 | `additionalPlugins`                          | Optional additionnal plugins to install when pod starts                        | `{}`                                   |
