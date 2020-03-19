@@ -12,22 +12,26 @@ service:
       port: 9090
     grpc:
       port: 10901
+    annotations: {}
   storeGateway:
     type: ClusterIP
     http:
       port: 9090
     grpc:
       port: 10901
+    annotations: {}
   ruler:
     type: ClusterIP
     http:
       port: 9090
     grpc:
       port: 10901
+    annotations: {}
   bucketWebInterface:
     type: ClusterIP
     http:
       port: 9090
+    annotations: {}
 
 querier:
   enabled: true
