@@ -80,19 +80,19 @@ fluentdArgs: "--no-supervisor -q"
 # If you want to add custom environment variables, use the env dict
 # You can then reference these in your config file e.g.:
 #     user "#{ENV['OUTPUT_USER']}"
-env:
+env: {}
   # OUTPUT_USER: my_user
   # LIVENESS_THRESHOLD_SECONDS: 300
   # STUCK_THRESHOLD_SECONDS: 900
 
 # If you want to add custom environment variables from secrets, use the secret list
-secret:
+secret: []
 # - name: ELASTICSEARCH_PASSWORD
 #   secret_name: elasticsearch
 #   secret_key: password
 
 # If you want to add plugins at start time
-additionalPlugins:
+additionalPlugins: []
 # - name: fluent-plugin-s3
 #   version: 1.1.11
 
