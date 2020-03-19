@@ -200,6 +200,7 @@ serviceMonitor:
   labels: {}
   metricRelabelings: []
   relabelings: []
+  jobLabel: "app.kubernetes.io/instance"
   type: ClusterIP
 
 serviceMetric:
