@@ -233,15 +233,19 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.volumes` | Additional volumes | `nil` |
 | `service.bucketWebInterface.type` | Service type for the bucket web interface | `ClusterIP` |
 | `service.bucketWebInterface.http.port` | Service http port for the bucket web interface  | `9090` |
+| `service.bucketWebInterface.annotations` | Service annotations for the bucket web interface  | `{}` |
 | `service.querier.type` | Service type for the querier | `ClusterIP` |
 | `service.querier.http.port` | Service http port for the querier  | `9090` |
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901` |
+| `service.querier.annotations` | Service annotations for the querier  | `{}` |
 | `service.storeGateway.type` | Service type for the store gateway | `ClusterIP` |
 | `service.storeGateway.http.port` | Service http port for the store gateway | `9090` |
 | `service.storeGateway.grpc.port` | Service grpc port for the store gateway | `10901` |
+| `service.storeGateway.annotations` | Service annotations for the store gateway | `{}` |
 | `service.ruler.type` | Service type for ruler | `ClusterIP` |
 | `service.ruler.http.port` | Service http port for ruler | `9090` |
 | `service.ruler.grpc.port` | Service grpc port for ruler | `10901` |
+| `service.ruler.annotations` | Service annotations for the ruler | `{}` |
 | `storeGateway.enabled` | Controls whether StoreGateway related resources should be created | `true` |
 | `storeGateway.affinity` | Affinity | `{}` |
 | `storeGateway.additionalAnnotations` | Additional annotations on store gateway pods| `{}` |

@@ -3,6 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "prometheus-thanos.fullname" . }}-querier
+{{- if .Values.service.querier.annotations }}
+  annotations:
+{{ toYaml .Values.service.querier.annotations | indent 4 }}
+{{- end }}
   labels:
     app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
     helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
