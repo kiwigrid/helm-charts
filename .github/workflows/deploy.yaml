@@ -9,8 +9,10 @@ jobs:
     name: deploy-chart
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Fetch history
+        run: git fetch --prune --unshallow  
       - name: Lint Bash scripts
         uses: docker://koalaman/shellcheck-alpine:v0.7.0
         with:
