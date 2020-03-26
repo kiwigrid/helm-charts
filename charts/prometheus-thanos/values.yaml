@@ -116,6 +116,8 @@ storeGateway:
     config:
       max_size: 500MB
   chunkPoolSize: 500MB
+  binaryIndexHeader:
+    enabled: false
 
   objStoreType: GCS  # WARNING: this is default to null in other sections
   additionalFlags: {}
