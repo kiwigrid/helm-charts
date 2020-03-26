@@ -33,7 +33,7 @@ jobs:
       - name: Fetch history
         run: git fetch --prune --unshallow          
       - name: Run chart-testing (lint)
-        uses: helm/chart-testing-action@master
+        uses: helm/chart-testing-action@dev-v2
         with:
           command: lint
           config: .github/ct.yaml
@@ -86,7 +86,7 @@ jobs:
           config: .github/kind-config.yaml
           node_image: kindest/node:${{ matrix.k8s }}
       - name: Run chart-testing (install)
-        uses: helm/chart-testing-action@master
+        uses: helm/chart-testing-action@dev-v2
         with:
           command: install
           config: .github/ct.yaml
