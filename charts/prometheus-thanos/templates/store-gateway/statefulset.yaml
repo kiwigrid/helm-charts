@@ -60,9 +60,9 @@ spec:
           {{ else if .Values.storeGateway.objStoreConfigFile }}
           - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
           {{- end }}
-          {{- if .Values.storeGateway.binaryIndexHeader.enabled -}}
+          {{- if .Values.storeGateway.binaryIndexHeader.enabled }}
           - --experimental.enable-index-header
-          {{- end -}}
+          {{- end }}
           ports:
             - name: http
               containerPort: 10902
