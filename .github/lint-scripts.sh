@@ -16,4 +16,3 @@ while read -r FILE; do
   shellcheck -x "${FILE}"
 done < "${TMP_FILE}"
 
-rm "${TMP_FILE}"
