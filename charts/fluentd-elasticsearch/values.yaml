@@ -27,9 +27,10 @@ awsSigningSidecar:
   network:
     port: 8080
     address: localhost
+    remoteReadTimeoutSeconds: 15
   image:
     repository: abutaha/aws-es-proxy
-    tag: 0.9
+    tag: v1.0
 
 # Specify to use specific priorityClass for pods
 # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
