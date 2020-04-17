@@ -60,8 +60,8 @@ spec:
           {{ else if .Values.storeGateway.objStoreConfigFile }}
           - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
           {{- end }}
-          {{- if .Values.storeGateway.binaryIndexHeader.enabled }}
-          - --experimental.enable-index-header
+          {{- if .Values.storeGateway.disableIndexHeader }}
+          - --store.disable-index-header
           {{- end }}
           ports:
             - name: http
