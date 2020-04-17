@@ -255,7 +255,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.autoscaling.maxReplicas` | Maximum number of replicas to scale to | `10` |
 | `storeGateway.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
 | `storeGateway.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
-| `storeGateway.binaryIndexHeader.enabled` | Whether or not to enable [binary index headers](https://thanos.io/proposals/201912_thanos_binary_index_header.md/) | `false` |
+| `storeGateway.disableIndexHeader` | Whether or not to disable [binary index headers](https://thanos.io/proposals/201912_thanos_binary_index_header.md/) | `false` |
 | `storeGateway.chunkPoolSize` | Chunk pool size | `500MB` |
 | `storeGateway.extraEnv` | Extra env vars | `nil` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
