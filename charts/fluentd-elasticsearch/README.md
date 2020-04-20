@@ -66,9 +66,8 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.auth.password`                        | Elasticsearch Auth Password                                                    | `""`                                   |
 | `elasticsearch.bufferChunkLimit`                     | Elasticsearch buffer chunk limit                                               | `2M`                                   |
 | `elasticsearch.bufferQueueLimit`                     | Elasticsearch buffer queue limit                                               | `8`                                    |
-| `elasticsearch.host`                                 | Elasticsearch Host                                                             | `elasticsearch-client`                 |
+| `elasticsearch.hosts`                                | Elasticsearch Hosts List (host and port)                                       | `["elasticsearch-client:9200"]`        |
 | `elasticsearch.logstashPrefix`                       | Elasticsearch Logstash prefix                                                  | `logstash`                             |
-| `elasticsearch.port`                                 | Elasticsearch Port                                                             | `9200`                                 |
 | `elasticsearch.path`                                 | Elasticsearch Path                                                             | `""`                                   |
 | `elasticsearch.scheme`                               | Elasticsearch scheme setting                                                   | `http`                                 |
 | `elasticsearch.sslVerify`                            | Elasticsearch Auth SSL verify                                                  | `true`                                 |
@@ -237,3 +236,31 @@ UNIT
 ### From a version <= 6.3.0 to version => 7.0.0
 
 The additional plugins option has been removed as the used container image does not longer contains the build tools needed to build the plugins. Please use an own container image containing the plugins you want to use.
+
+### From a version < 8.0.0 to version => 8.0.0
+
+> Both `elasticsearch.host` and `elasticsearch.port` are removed in favor of `elasticsearch.hosts`
+
+You can now [configure multiple elasticsearch hosts](https://docs.fluentd.org/output/elasticsearch#hosts-optional) as target for fluentd.
+
+The following parameters are deprecated and will be replaced by `elasticsearch.hosts` with a default value of `["elasticsearch-client:9200"]`
+```yaml
+elasticsearch:
+  host: elasticsearch-client
+  port: 9200
+```
+
+You can use any yaml array syntax:
+```yaml
+elasticsearch:
+  hosts: ["elasticsearch-node-1:9200", "elasticsearch-node-2:9200"]
+```
+```yaml
+elasticsearch:
+  hosts:
+    - "elasticsearch-node-1:9200"
+    - "elasticsearch-node-2:9200"
+```
+
+Note:
+> If you are using the AWS Sidecar, only the first host in the array is used. [Aws-es-proxy](https://github.com/abutaha/aws-es-proxy) is limited to one endpoint.

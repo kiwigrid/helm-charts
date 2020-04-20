@@ -57,17 +57,11 @@ spec:
         env:
         - name: FLUENTD_ARGS
           value: {{ .Values.fluentdArgs | quote }}
-        - name: OUTPUT_HOST
+        - name: OUTPUT_HOSTS
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: {{ .Values.awsSigningSidecar.network.address | quote }}
+          value: "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"
           {{- else }}
-          value: {{ .Values.elasticsearch.host | quote }}
-          {{- end }}
-        - name: OUTPUT_PORT
-          {{- if .Values.awsSigningSidecar.enabled }}
-          value: {{ .Values.awsSigningSidecar.network.port | quote }}
-          {{- else }}
-          value: {{ .Values.elasticsearch.port | quote }}
+          value: "{{- join "," .Values.elasticsearch.hosts }}"
           {{- end }}
         - name: OUTPUT_PATH
           value: {{ .Values.elasticsearch.path | quote }}
@@ -154,7 +148,7 @@ spec:
       - name: {{ include "fluentd-elasticsearch.fullname" . }}-aws-es-proxy
         image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
+        args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ index .Values.elasticsearch.hosts 0 }}",
                "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}",
                "-timeout",  "{{ .Values.awsSigningSidecar.network.remoteReadTimeoutSeconds }}"]
         env:
