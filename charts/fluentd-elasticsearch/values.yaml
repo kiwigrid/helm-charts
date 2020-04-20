@@ -62,10 +62,8 @@ elasticsearch:
     password: "yourPass"
   bufferChunkLimit: "2M"
   bufferQueueLimit: 8
-  #host: "elasticsearch-client"
-  hosts: ["elasticsearch-node-1:9200", "elasticsearch-node-2:9200"]
+  hosts: ["elasticsearch-client:9200"]
   logstashPrefix: "logstash"
-  port: 9200
   path: ""
   scheme: "http"
   sslVerify: true
