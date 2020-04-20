@@ -19,7 +19,7 @@ anyways when it is merged. Thanks.
 
 For fast feedback, please @-mention maintainers that are listed in the Chart.yaml file.
 
-Please make sure you test your changes before you push them. Once pushed, a CircleCI
+Please make sure you test your changes before you push them. Once pushed, a Github Action
 will run across your changes and do some initial checks and linting. These checks run
 very quickly. Please check the results. We would like these checks to pass before we
 even continue reviewing your changes.
