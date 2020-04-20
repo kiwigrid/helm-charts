@@ -66,7 +66,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.auth.password`                        | Elasticsearch Auth Password                                                    | `""`                                   |
 | `elasticsearch.bufferChunkLimit`                     | Elasticsearch buffer chunk limit                                               | `2M`                                   |
 | `elasticsearch.bufferQueueLimit`                     | Elasticsearch buffer queue limit                                               | `8`                                    |
-| `elasticsearch.hosts`                                | Elasticsearch Host List                                                        | `["elasticsearch-client:9200"]`        |
+| `elasticsearch.hosts`                                | Elasticsearch Hosts List (host and port)                                       | `["elasticsearch-client:9200"]`        |
 | `elasticsearch.logstashPrefix`                       | Elasticsearch Logstash prefix                                                  | `logstash`                             |
 | `elasticsearch.path`                                 | Elasticsearch Path                                                             | `""`                                   |
 | `elasticsearch.scheme`                               | Elasticsearch scheme setting                                                   | `http`                                 |
@@ -238,6 +238,8 @@ UNIT
 The additional plugins option has been removed as the used container image does not longer contains the build tools needed to build the plugins. Please use an own container image containing the plugins you want to use.
 
 ### From a version < 8.0.0 to version => 8.0.0
+
+> Both `elasticsearch.host` and `elasticsearch.port` are removed in favor of `elasticsearch.hosts`
 
 You can now [configure multiple elasticsearch hosts](https://docs.fluentd.org/output/elasticsearch#hosts-optional) as target for fluentd.
 
