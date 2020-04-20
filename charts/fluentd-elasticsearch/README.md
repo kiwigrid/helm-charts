@@ -126,7 +126,6 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `serviceMonitor.type`                                | Optional the type of the metrics service                                       | `ClusterIP`                            |
 | `tolerations`                                        | Optional daemonset tolerations                                                 | `[]`                                   |
 | `updateStrategy`                                     | Optional daemonset update strategy                                             | `type: RollingUpdate`                  |
-| `additionalPlugins`                                  | Optional additionnal plugins to install when pod starts                        | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
@@ -234,3 +233,7 @@ TIMESTAMP_BOOTTIME
 TIMESTAMP_MONOTONIC
 UNIT
 ```
+
+### From a version <= 6.3.0 to version => 7.0.0
+
+The additional plugins option has been removed as the used container image does not longer contains the build tools needed to build the plugins. Please use an own container image containing the plugins you want to use.
