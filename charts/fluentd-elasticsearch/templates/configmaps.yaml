@@ -497,6 +497,7 @@ data:
       @type "#{ENV['OUTPUT_TYPE']}"
       @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
       include_tag_key true
+      hosts "#{ENV['OUTPUT_HOSTS']}"
       host "#{ENV['OUTPUT_HOST']}"
       port "#{ENV['OUTPUT_PORT']}"
       path "#{ENV['OUTPUT_PATH']}"

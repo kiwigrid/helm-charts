@@ -63,6 +63,8 @@ spec:
           {{- else }}
           value: {{ .Values.elasticsearch.host | quote }}
           {{- end }}
+        - name: OUTPUT_HOSTS
+          value: "{{- join "," .Values.elasticsearch.hosts }}"
         - name: OUTPUT_PORT
           {{- if .Values.awsSigningSidecar.enabled }}
           value: {{ .Values.awsSigningSidecar.network.port | quote }}
