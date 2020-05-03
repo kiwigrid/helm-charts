@@ -496,7 +496,7 @@ data:
       @id elasticsearch
       @type "#{ENV['OUTPUT_TYPE']}"
       @log_level "#{ENV['OUTPUT_LOG_LEVEL']}"
-      include_tag_key true
+      include_tag_key "#{ENV['OUTPUT_INCLUDE_TAG_KEY']}"
       hosts "#{ENV['OUTPUT_HOSTS']}"
       path "#{ENV['OUTPUT_PATH']}"
       scheme "#{ENV['OUTPUT_SCHEME']}"
@@ -509,22 +509,30 @@ data:
       user "#{ENV['OUTPUT_USER']}"
       password "#{ENV['OUTPUT_PASSWORD']}"
 {{- end }}
-      logstash_format true
+{{- if .Values.elasticsearch.logstash.enabled }}
+      logstash_format "#{ENV['LOGSTASH_FORMAT']}"
       logstash_prefix "#{ENV['LOGSTASH_PREFIX']}"
-      reconnect_on_error true
+{{- else }}
+      logstash_format "#{ENV['LOGSTASH_FORMAT']}"
+{{- end }}
+      reconnect_on_error "#{ENV['OUTPUT_RECONNECT_ON_ERROR']}"
+      reload_on_failure "#{ENV['OUTPUT_RELOAD_ON_FAILURE']}"
+      reload_connections "#{ENV['OUTPUT_RELOAD_CONNECTIONS']}"
+{{- if .Values.elasticsearch.buffer.enabled }}
       <buffer>
-        @type file
-        path /var/log/fluentd-buffers/kubernetes.system.buffer
-        flush_mode interval
-        retry_type exponential_backoff
-        flush_thread_count 2
-        flush_interval 5s
-        retry_forever
-        retry_max_interval 30
+        @type "#{ENV['OUTPUT_BUFFER_TYPE']}"
+        path "#{ENV['OUTPUT_BUFFER_PATH']}"
+        flush_mode "#{ENV['OUTPUT_BUFFER_FLUSH_MODE']}"
+        retry_type "#{ENV['OUTPUT_BUFFER_RETRY_TYPE']}"
+        flush_thread_count "#{ENV['OUTPUT_BUFFER_FLUSH_THREAD_TYPE']}"
+        flush_interval "#{ENV['OUTPUT_BUFFER_FLUSH_INTERVAL']}"
+        retry_forever "#{ENV['OUTPUT_BUFFER_RETRY_FOREVER']}"
+        retry_max_interval "#{ENV['OUTPUT_BUFFER_RETRY_MAX_INTERVAL']}"
         chunk_limit_size "#{ENV['OUTPUT_BUFFER_CHUNK_LIMIT']}"
         queue_limit_length "#{ENV['OUTPUT_BUFFER_QUEUE_LIMIT']}"
-        overflow_action block
+        overflow_action "#{ENV['OUTPUT_BUFFER_OVERFLOW_ACTION']}"
       </buffer>
+{{- end }}
     </match>
     </label>
 {{- end }}
