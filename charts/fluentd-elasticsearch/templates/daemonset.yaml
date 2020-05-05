@@ -74,7 +74,9 @@ spec:
 {{- end }}
 {{- end }}
         - name: LOGSTASH_PREFIX
-          value: {{ .Values.elasticsearch.logstashPrefix | quote }}
+          value: {{ .Values.elasticsearch.logstash.prefix | quote }}
+        - name: LOGSTASH_FORMAT
+          value: {{ .Values.elasticsearch.logstash.enabled | quote }}
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'
@@ -90,11 +92,37 @@ spec:
         - name: OUTPUT_TYPE_NAME
           value: {{ .Values.elasticsearch.typeName | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
-          value: {{ .Values.elasticsearch.bufferChunkLimit | quote }}
+          value: {{ .Values.elasticsearch.buffer.chunkLimitSize | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT
-          value: {{ .Values.elasticsearch.bufferQueueLimit | quote }}
+          value: {{ .Values.elasticsearch.buffer.queueLimitLength | quote }}
+        - name: OUTPUT_BUFFER_TYPE
+          value: {{ .Values.elasticsearch.buffer.type | quote }}
+        - name: OUTPUT_BUFFER_PATH
+          value: {{ .Values.elasticsearch.buffer.path | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_MODE
+          value: {{ .Values.elasticsearch.buffer.flushMode | quote }}
+        - name: OUTPUT_BUFFER_RETRY_TYPE
+          value: {{ .Values.elasticsearch.buffer.retryType | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_THREAD_TYPE
+          value: {{ .Values.elasticsearch.buffer.flushThreadCount | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.flushInterval | quote }}
+        - name: OUTPUT_BUFFER_RETRY_FOREVER
+          value: {{ .Values.elasticsearch.buffer.retryForever | quote }}
+        - name: OUTPUT_BUFFER_RETRY_MAX_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.retryMaxInterval | quote }}
+        - name: OUTPUT_BUFFER_OVERFLOW_ACTION
+          value: {{ .Values.elasticsearch.buffer.overflowAction | quote }}
         - name: OUTPUT_LOG_LEVEL
           value: {{ .Values.elasticsearch.logLevel | quote }}
+        - name: OUTPUT_INCLUDE_TAG_KEY
+          value: {{ .Values.elasticsearch.includeTagKey | quote }}
+        - name: OUTPUT_RECONNECT_ON_ERROR
+          value: {{ .Values.elasticsearch.reconnectOnError | quote }}
+        - name: OUTPUT_RELOAD_ON_FAILURE
+          value: {{ .Values.elasticsearch.reloadOnFailure | quote }}
+        - name: OUTPUT_RELOAD_CONNECTIONS
+          value: {{ .Values.elasticsearch.reloadConnections | quote }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}

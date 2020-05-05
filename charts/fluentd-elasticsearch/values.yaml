@@ -60,10 +60,11 @@ elasticsearch:
     enabled: false
     user: "yourUser"
     password: "yourPass"
-  bufferChunkLimit: "2M"
-  bufferQueueLimit: 8
+  includeTagKey: true
   hosts: ["elasticsearch-client:9200"]
-  logstashPrefix: "logstash"
+  logstash:
+    enabled: true
+    prefix: "logstash"
   path: ""
   scheme: "http"
   sslVerify: true
@@ -71,7 +72,22 @@ elasticsearch:
   outputType: "elasticsearch"
   typeName: "_doc"
   logLevel: "info"
-
+  reconnectOnError: true
+  reloadOnFailure: false
+  reloadConnections: false
+  buffer:
+    enabled: true
+    type: "file"
+    path: "/var/log/fluentd-buffers/kubernetes.system.buffer"
+    flushMode: "interval"
+    retryType: "exponential_backoff"
+    flushThreadCount: 2
+    flushInterval: "5s"
+    retryForever: true
+    retryMaxInterval: 30
+    chunkLimitSize: "2M"
+    queueLimitLength: 8
+    overflowAction: "block"
 
 # If you want to change args of fluentd process
 # by example you can add -vv to launch with trace log
