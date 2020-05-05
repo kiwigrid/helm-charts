@@ -279,3 +279,28 @@ elasticsearch:
 
 Note:
 > If you are using the AWS Sidecar, only the first host in the array is used. [Aws-es-proxy](https://github.com/abutaha/aws-es-proxy) is limited to one endpoint.
+
+### From a version < 8.0.0 to version => 9.0.0
+In this version elasticsearch template in `output.conf` configmap was expanded to be fully configured from `values.yaml`
+ - decide if to add a `logstash` - toggle `logstash.enabled`
+ - decide if to add a `buffer` - toggle `buffer.enabled`
+#### The following fields were removed from the elasticsearch block in vlaues.yaml
+ - `bufferChunkLimit` in favor of `buffer.chunkLimitSize`
+ - `bufferQueueLimit` in favor of `buffer.queueLimitLength`
+ - `logstashPrefix` in favor of `logstash.enabled` and `logstash.prefix`
+#### The following fields were added
+ - `reconnectOnError`
+ - `reloadOnFailure`
+ - `reloadConnections`
+ - `buffer.enabled`
+ - `buffer.type`
+ - `buffer.path`
+ - `buffer.flushMode`
+ - `buffer.retryType`
+ - `buffer.flushThreadCount`
+ - `buffer.flushInterval`
+ - `buffer.retryForever`
+ - `buffer.retryMaxInterval`
+ - `buffer.chunkLimitSize`
+ - `buffer.queueLimitLength`
+ - `buffer.overflowAction`
