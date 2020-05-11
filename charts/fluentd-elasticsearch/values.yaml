@@ -62,6 +62,7 @@ elasticsearch:
     password: "yourPass"
   includeTagKey: true
   hosts: ["elasticsearch-client:9200"]
+  indexName: "fluentd"
   logstash:
     enabled: true
     prefix: "logstash"
