@@ -516,6 +516,7 @@ data:
       logstash_prefix "#{ENV['LOGSTASH_PREFIX']}"
 {{- else }}
       logstash_format "#{ENV['LOGSTASH_FORMAT']}"
+      index_name "#{ENV['INDEX_NAME']}"
 {{- end }}
       reconnect_on_error "#{ENV['OUTPUT_RECONNECT_ON_ERROR']}"
       reload_on_failure "#{ENV['OUTPUT_RELOAD_ON_FAILURE']}"

@@ -83,6 +83,8 @@ spec:
           value: {{ .Values.elasticsearch.logstash.prefix | quote }}
         - name: LOGSTASH_FORMAT
           value: {{ .Values.elasticsearch.logstash.enabled | quote }}
+        - name: INDEX_NAME
+          value: {{ .Values.elasticsearch.indexName | quote }}
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'

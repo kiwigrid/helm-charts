@@ -66,8 +66,9 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.auth.password`                        | Elasticsearch Auth Password                                                    | `""`                                               |
 | `elasticsearch.hosts`                                | Elasticsearch Hosts List (host and port)                                       | `["elasticsearch-client:9200"]`                    |
 | `elasticsearch.includeTagKey`                        | Elasticsearch Including of Tag key                                             | `true`                                             |
-| `elasticsearch.logstash.enabled`                     | Elasticsearch Logstash enabled                                                 | `true`                                             |
+| `elasticsearch.logstash.enabled`                     | Elasticsearch Logstash enabled (supersedes indexName)                          | `true`                                             |
 | `elasticsearch.logstash.prefix`                      | Elasticsearch Logstash prefix                                                  | `logstash`                                         |
+| `elasticsearch.indexName`                            | Elasticsearch Index Name                                                       | `fluentd`                                         |
 | `elasticsearch.path`                                 | Elasticsearch Path                                                             | `""`                                               |
 | `elasticsearch.scheme`                               | Elasticsearch scheme setting                                                   | `http`                                             |
 | `elasticsearch.sslVerify`                            | Elasticsearch Auth SSL verify                                                  | `true`                                             |
