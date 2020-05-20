@@ -1,10 +1,16 @@
+
+{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
+{{- if semverCompare ">= 1.9" $striped_version -}}
 apiVersion: apps/v1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
 kind: DaemonSet
 metadata:
   name: {{ include "fluentd-elasticsearch.fullname" . }}
   labels:
 {{ include "fluentd-elasticsearch.labels" . | indent 4 }}
-    {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
+    {{- if semverCompare "< 1.6" $striped_version }}
     kubernetes.io/cluster-service: "true"
     {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
@@ -23,11 +29,11 @@ spec:
     metadata:
       labels:
 {{ include "fluentd-elasticsearch.labels" . | indent 8 }}
-        {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "< 1.6" $striped_version }}
         kubernetes.io/cluster-service: "true"
         {{- end }}
       annotations:
-        {{- if semverCompare "< 1.13" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "< 1.13" $striped_version }}
         # This annotation ensures that fluentd does not get evicted if the node
         # supports critical pod annotation based priority scheme.
         # Note that this does not guarantee admission on the nodes (#40573).
@@ -141,6 +147,9 @@ spec:
         - name: K8S_NODE_NAME
           valueFrom:
             fieldRef:
+              {{- if semverCompare ">= 1.9" $striped_version }}
+              apiVersion: v1
+              {{- end }}
               fieldPath: spec.nodeName
         resources:
 {{ toYaml .Values.resources | indent 10 }}

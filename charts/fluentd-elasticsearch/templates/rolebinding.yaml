@@ -1,12 +1,13 @@
 
 {{- if .Values.podSecurityPolicy.enabled }}
+{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   name: {{ template "fluentd-elasticsearch.fullname" . }}
   labels:
 {{ include "fluentd-elasticsearch.labels" . | indent 4 }}
-    {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
+    {{- if semverCompare "< 1.6" $striped_version }}
     kubernetes.io/cluster-service: "true"
     {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
