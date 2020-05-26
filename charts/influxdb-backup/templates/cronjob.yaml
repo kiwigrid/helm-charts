@@ -50,12 +50,6 @@ spec:
                 - name: {{ $instances.name | upper }}_ADMIN_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: {{ include "influxdb-backup.fullname" $ }}
-                      key: {{ $instances.name }}-admin-password
-
-                - name: {{ $instances.name | upper }}_ADMIN_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
                       {{- if $instances.existingSecret }}
                       name: {{ $instances.existingSecret }}
                       {{- else }}
