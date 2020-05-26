@@ -61,6 +61,8 @@ elasticsearch:
     user: "yourUser"
     password: "yourPass"
   includeTagKey: true
+  setOutputHostEnvVar: true
+  # If setOutputHostEnvVar is false this value is ignored
   hosts: ["elasticsearch-client:9200"]
   indexName: "fluentd"
   logstash:

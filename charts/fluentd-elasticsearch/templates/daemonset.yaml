@@ -63,12 +63,14 @@ spec:
         env:
         - name: FLUENTD_ARGS
           value: {{ .Values.fluentdArgs | quote }}
+        {{- if .Values.elasticsearch.setOutputHostEnvVar }}
         - name: OUTPUT_HOSTS
           {{- if .Values.awsSigningSidecar.enabled }}
           value: "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"
           {{- else }}
           value: "{{- join "," .Values.elasticsearch.hosts }}"
           {{- end }}
+        {{- end }}
         - name: OUTPUT_PATH
           value: {{ .Values.elasticsearch.path | quote }}
 {{- if .Values.elasticsearch.auth.enabled }}
