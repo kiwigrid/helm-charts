@@ -8,5 +8,5 @@ The following InfluxDB Backups are set up:
 Cronjob will run at: {{ .Values.backup.schedule }}
 
 {{ else }}
-No Instances defined for backup!
+InfluxDB backup chart installed but no instances defined for backup!
 {{ end }}

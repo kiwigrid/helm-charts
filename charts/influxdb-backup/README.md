@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This Helm chart is able to backup multiple InfluxDB instances and upload it to a storage provider.
+This Helm chart is able to backup multiple InfluxDB instances and upload it to a storage provider like Google or Azure storage.
 
 ## InfluxDB is an Open-Source Time Series Database
 
@@ -25,7 +25,7 @@ helm upgrade --install influxdb-backup kiwigrid/influxdb-backup --namespace infl
 To install the chart with the release name `my-release`:
 
 ```bash
-helm upgrade --install my-release kiwigrid/influxdb-backup
+helm upgrade --install influxdb-backup kiwigrid/influxdb-backup
 ```
 
 The command deploys InfluxDB-backup on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -35,7 +35,7 @@ The command deploys InfluxDB-backup on the Kubernetes cluster in the default con
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-helm uninstall my-release
+helm uninstall influxdb-backup
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -82,9 +82,7 @@ The [full image documentation](https://hub.docker.com/_/influxdb/) contains more
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```bash
-helm upgrade --install my-release \
-  --set persistence.enabled=true,persistence.size=200Gi \
-    influxdata/influxdb
+helm upgrade --install my-release --set persistence.enabled=true,persistence.size=200Gi kiwigrid/influxdb-backup
 ```
 
 The above command enables persistence and changes the size of the requested data volume to 200GB.
@@ -92,18 +90,18 @@ The above command enables persistence and changes the size of the requested data
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm upgrade --install my-release -f values.yaml influxdata/influxdb
+helm upgrade --install influxdb-backup -f values.yaml kiwigrid/influxdb-backup
 ```
 
 ## Persistence
 
-The [InfluxDB](https://hub.docker.com/_/influxdb/) image stores data in the `/var/lib/influxdb` directory in the container.
+The image stores data in the `/backup` directory in the container.
 
-If persistence is enabled, a [Persistent Volume](http://kubernetes.io/docs/user-guide/persistent-volumes/) associated with Statefulset will be provisioned. The volume is created using dynamic volume provisioning. In case of a disruption e.g. a node drain, kubernetes ensures that the same volume will be reatached to the Pod, preventing any data loss. Althought, when persistence is not enabled, InfluxDB data will be stored in an empty directory thus, in a Pod restart, data will be lost.
+If persistence is enabled, a [Persistent Volume](http://kubernetes.io/docs/user-guide/persistent-volumes/) associated with the Cronjob will be provisioned. The volume is created using dynamic volume provisioning. In case of a disruption e.g. a node drain, kubernetes ensures that the same volume will be reatached to the Pod, preventing any data loss. Althought, when persistence is not enabled, influxdb-backup data will be stored in an empty directory thus, in a Pod restart, data will be lost.
 
 ## Backing up and restoring
 
-Before proceeding, please read [Backing up and restoring in InfluxDB OSS](https://docs.influxdata.com/influxdb/v1.7/administration/backup_and_restore/). While the chart offers backups by means of the [`backup-cronjob`](./templates/backup-cronjob.yaml), restores do not fall under the chart's scope today but can be achieved by one-off kubernetes jobs.
+Before proceeding, please read [Backing up and restoring in InfluxDB OSS](https://docs.influxdata.com/influxdb/v1.7/administration/backup_and_restore/). While the chart offers backups by means of the [`cronjob`](./templates/cronjob.yaml), restores do not fall under the chart's scope today but can be achieved by one-off kubernetes jobs.
 
 ### Backups
 
@@ -122,14 +120,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   generateName: influxdb-restore-
-  namespace: monitoring
+  namespace: influxdb-backup
 spec:
   template:
     spec:
       volumes:
         - name: backup
           emptyDir: {}
-      serviceAccountName: influxdb
       initContainers:
         - name: init-gsutil-cp
           image: google/cloud-sdk:alpine
@@ -161,9 +158,12 @@ spec:
             - "-c"
             - |
               #!/bin/sh
-              INFLUXDB_HOST=influxdb.monitoring.svc
+              BACKUP_DIR="/backuop"
+              DB_NAME="foobar"
+              INFLUXDB_HOST="influxdb.monitoring.svc"
+              INFLUXDB_INSTANCE_NAME="influxdb"
               for db in $(influx -host $INFLUXDB_HOST -execute 'SHOW DATABASES' | tail -n +5); do
-                influxd restore -host $INFLUXDB_HOST:8088 -portable -db "$db" -newdb "$db"_bak /backup
+                influxd restore -host $INFLUXDB_HOST:8088 -portable -db "$db" -newdb "$db"_bak ${BACKUP_DIR}/${INFLUXDB_INSTANCE_NAME}/${DB_NAME}
               done
           resources:
             requests:
