@@ -8,3 +8,6 @@ sources:
   - https://github.com/kiwigrid/helm-charts
   - https://github.com/influxdata/influxdb
 icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Influxdb_logo.svg/512px-Influxdb_logo.svg.png
+maintainers:
+- name: monotek
+  email: andre.bauer@kiwigrid.com
