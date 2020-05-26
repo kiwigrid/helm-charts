@@ -56,7 +56,7 @@ spec:
               command:
                 - "/tmp/backup.sh"
               volumeMounts:
-                - name: {{ include "influxdb-backup.fullname" . }}-backups
+                - name: {{ include "influxdb-backup.fullname" . }}
                   mountPath: {{ .Values.backup.directory | quote }}
                 - name: backup-scripts
                   mountPath: /tmp/backup.sh
@@ -76,7 +76,7 @@ spec:
               command:
                 - "/tmp/upload-google.sh"
               volumeMounts:
-                - name: {{ include "influxdb-backup.fullname" . }}-backups
+                - name: {{ include "influxdb-backup.fullname" . }}
                   mountPath: {{ .Values.backup.directory | quote }}
                 - name: backup-scripts
                   mountPath: /tmp/upload-google.sh
