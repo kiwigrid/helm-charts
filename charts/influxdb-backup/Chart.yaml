@@ -3,3 +3,4 @@ name: influxdb-backup
 description: InfluxDB backup Helm chart for Kubernetes
 version: 0.1.0
 appVersion: 1.7.10
+home: https://github.com/kiwigrid/helm-charts
