@@ -3,6 +3,8 @@
 ## Introduction
 
 This Helm chart is able to backup multiple InfluxDB instances and upload it to a storage provider like Google or Azure storage.
+It's influenced by backup function of the [official InfluxDB chart]<https://github.com/influxdata/helm-charts/tree/master/charts/influxdb>.
+Parts of this Readme are copied from there.
 
 ## InfluxDB is an Open-Source Time Series Database
 
