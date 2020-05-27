@@ -1,13 +1,2 @@
 backup:
-  instances: []
-    # - name: "influxdb"
-    #   host: "influxdb.svc.cluster.local"
-    #   user: "admin"
-    #   pass: "secret"
-    #  # # optional values
-    #  # bindPort: 8086
-    #  # rpcPort: 8088
-    #  # # if existing secret is used 'pass' var is ignored
-    #  # existingSecret: "influxdb-auth"
-    #  # existingSecretKey: "influxdb-password"
   schedule: "* * * * *"
