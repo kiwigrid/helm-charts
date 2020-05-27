@@ -1,0 +1,12 @@
+{{ if .Values.backup.instances }}
+The following InfluxDB Backups are set up: 
+{{ range $instances := .Values.backup.instances }}
+{{ $instances.host }}
+{{- end }}
+
+Cronjob will run at: {{ .Values.backup.schedule }}
+
+{{ else }}
+InfluxDB backup chart installed but no instances defined for backup!
+Without an configured instance housekeeping is still executet with the configured retention of {{ .Values.backup.retentionDays }} days !
+{{ end }}
