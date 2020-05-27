@@ -24,7 +24,7 @@ helm upgrade --install influxdb-backup kiwigrid/influxdb-backup --namespace infl
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `influxdb-backup`:
 
 ```bash
 helm upgrade --install influxdb-backup kiwigrid/influxdb-backup
@@ -34,7 +34,7 @@ The command deploys InfluxDB-backup on the Kubernetes cluster in the default con
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release` deployment:
+To uninstall/delete the `influxdb-backup` cronjob:
 
 ```bash
 helm uninstall influxdb-backup

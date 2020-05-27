@@ -30,7 +30,7 @@ spec:
             {{- if .Values.backup.uploadProviders.google.existingSecret }}
                 secretName: {{ .Values.backup.uploadProviders.google.existingSecret | quote }}
             {{- else }}
-                secretName: {{ include "influxdb-backup.fullname" . }}-gcloud
+                secretName: {{ include "influxdb-backup.fullname" . }}
             {{- end }}
             {{- end }}
             - name: {{ include "influxdb-backup.fullname" . }}
@@ -61,15 +61,6 @@ spec:
                       key: {{ $instances.name }}-admin-password
                       {{- end }}
                 {{- end }}
-                - name: AZURE_STORAGE_CONNECTION_STRING
-                  valueFrom:
-                    secretKeyRef:
-                      {{- if .Values.backup.uploadProviders.azure.existingSecret }}
-                      name: {{ .Values.backup.uploadProviders.azure.existingSecret | quote }}
-                      {{- else }}
-                      name: {{ include "influxdb-backup.fullname" . }}-backup-azure
-                      {{- end }}
-                      key: {{ .Values.backup.uploadProviders.azure.secretKey }}
               command:
                 - "/tmp/backup.sh"
               volumeMounts:
@@ -115,7 +106,7 @@ spec:
                       {{- if .Values.backup.uploadProviders.azure.existingSecret }}
                       name: {{ .Values.backup.uploadProviders.azure.existingSecret | quote }}
                       {{- else }}
-                      name: {{ include "influxdb-backup.fullname" . }}-backup-azure
+                      name: {{ include "influxdb-backup.fullname" . }}
                       {{- end }}
                       key: {{ .Values.backup.uploadProviders.azure.secretKey }}
               volumeMounts:
