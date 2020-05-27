@@ -54,7 +54,7 @@ backup:
   ##
   instances: []
     # - name: "influxdb"
-    #   host: "influxdb.svc.cluster.local"
+    #   host: "influxdb.influxdb.svc.cluster.local"
     #   user: "admin"
     #   pass: "secret"
     #  # # optional values
