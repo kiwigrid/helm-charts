@@ -13,7 +13,7 @@ data:
     DATE="$(date +%Y%m%d_%H%M%S)"
 
     {{ range $instances := .Values.backup.instances -}}
-    for DATABASE in $(influx -username {{ $instances.user }} -password "${{ $instances.name | upper }}_ADMIN_PASSWORD" -host {{ $instances.host }} -port {{ $instances.port | default 8086 }} -execute 'SHOW DATABASES' | sed -e '1,3d'); do
+    for DATABASE in $(influx -username {{ $instances.user }} -password "${{ $instances.name | upper }}_ADMIN_PASSWORD" -host {{ $instances.host }} -port {{ $instances.bindPort | default 8086 }} -execute 'SHOW DATABASES' | sed -e '1,3d'); do
         echo "backuping ${DATABASE} db to {{ $.Values.backup.directory }}/{{ $instances.name }}/${DATABASE}"
         mkdir -p {{ $.Values.backup.directory }}/{{ $instances.name }}/${DATABASE}
         influxd backup -host {{ $instances.host }}:{{ $instances.rpcPort | default 8088 }} -portable -db ${DATABASE} {{ $.Values.backup.directory }}/{{ $instances.name }}/"${DATABASE}/${DATE}"

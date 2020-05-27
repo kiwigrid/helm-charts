@@ -57,8 +57,12 @@ backup:
     #   host: "influxdb.svc.cluster.local"
     #   user: "admin"
     #   pass: "secret"
-    #   existingSecret: "influxdb-auth"
-    #   existingSecretKey: "influxdb-password"
+    #  # # optional values
+    #  # bindPort: 8086
+    #  # rpcPort: 8088
+    #  # # if existing secret is used 'pass' var is ignored
+    #  # existingSecret: "influxdb-auth"
+    #  # existingSecretKey: "influxdb-password"
 
   ## Directory where backups are stored in a PVC in the container
   ##

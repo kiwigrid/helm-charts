@@ -54,14 +54,13 @@ spec:
                       name: {{ $instances.existingSecret }}
                       {{- else }}
                       name: {{ include "influxdb-backup.fullname" $ }}
-                      {{ end }}
+                      {{- end }}
                       {{- if $instances.existingSecretKey }}
                       key: {{ $instances.existingSecretKey }}
                       {{- else }}
                       key: {{ $instances.name }}-admin-password
-                      {{ end }}
+                      {{- end }}
                 {{- end }}
-
                 - name: AZURE_STORAGE_CONNECTION_STRING
                   valueFrom:
                     secretKeyRef:
@@ -71,8 +70,6 @@ spec:
                       name: {{ include "influxdb-backup.fullname" . }}-backup-azure
                       {{- end }}
                       key: {{ .Values.backup.uploadProviders.azure.secretKey }}
-
-
               command:
                 - "/tmp/backup.sh"
               volumeMounts:
