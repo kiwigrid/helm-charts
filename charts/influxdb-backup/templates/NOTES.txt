@@ -1,7 +1,6 @@
 {{ if .Values.backup.instances }}
 The following InfluxDB Backups are set up: 
-
-{{- range $instances := .Values.backup.instances }}
+{{ range $instances := .Values.backup.instances }}
 {{ $instances.host }}
 {{- end }}
 
