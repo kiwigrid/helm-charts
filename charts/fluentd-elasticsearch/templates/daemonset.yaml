@@ -133,6 +133,8 @@ spec:
           value: {{ .Values.elasticsearch.reloadOnFailure | quote }}
         - name: OUTPUT_RELOAD_CONNECTIONS
           value: {{ .Values.elasticsearch.reloadConnections | quote }}
+        - name: OUTPUT_REQUEST_TIMEOUT
+          value: {{ .Values.elasticsearch.requestTimeout | quote }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}
