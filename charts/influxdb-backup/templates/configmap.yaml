@@ -26,7 +26,7 @@ data:
     #!/bin/sh
 
     set -ex
-    {{ if .Values.backup.uploadProviders.google.secret }}
+    {{ if or .Values.backup.uploadProviders.google.secret .Values.backup.uploadProviders.google.existingSecret}}
     gcloud auth activate-service-account --key-file /var/secrets/google/{{ .Values.backup.uploadProviders.google.secretKey }}
     {{- end }}
     gsutil -m rsync -r -d {{ .Values.backup.directory }}/ {{ .Values.backup.uploadProviders.google.bucketName }}
