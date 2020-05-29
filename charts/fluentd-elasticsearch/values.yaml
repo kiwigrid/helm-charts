@@ -78,6 +78,7 @@ elasticsearch:
   reconnectOnError: true
   reloadOnFailure: false
   reloadConnections: false
+  requestTimeout: "5s"
   buffer:
     enabled: true
     type: "file"

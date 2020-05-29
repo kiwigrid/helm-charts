@@ -80,6 +80,7 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.reconnectOnError`                     | Elasticsearch Reconnect on error                                               | `true`                                             |
 | `elasticsearch.reloadOnFailure`                      | Elasticsearch Reload on failure                                                | `false`                                            |
 | `elasticsearch.reloadConnections`                    | Elasticsearch reload connections                                               | `false`                                            |
+| `elasticsearch.requestTimeout`                       | Elasticsearch request timeout                                               | `5s`                                            |
 | `elasticsearch.buffer.enabled`                       | Elasticsearch Buffer enabled                                                   | `true`                                             |
 | `elasticsearch.buffer.type`                          | Elasticsearch Buffer type                                                      | `file`                                             |
 | `elasticsearch.buffer.path`                          | Elasticsearch Buffer path                                                      | `/var/log/fluentd-buffers/kubernetes.system.buffer`|
