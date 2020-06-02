@@ -1,7 +1,7 @@
 {{- if .Values.service }}
 {{- range $port := .Values.service.ports  }}
 {{- $service_type := $port.type | default "ClusterIP" }}
-{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
+{{- $striped_version := (split "-" $.Capabilities.KubeVersion.GitVersion)._0 -}}
 ---
 apiVersion: v1
 kind: Service
