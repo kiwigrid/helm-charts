@@ -126,4 +126,4 @@ When enabled, the [`restore-cronjob`](./templates/cronjob-backup.yaml) runs on t
 kubectl -n influxdb create job --from=cronjobs/influxdb-backup influxdb-restore-$(date +%Y%m%d%H%M%S)
 ```
 
-Be aware that if the restore is enabled the backup is disabled, so you can only restore OR backup. Therefore after a restore you have to redeploy the chart with restore option disabled to get backups again.
+Be aware that if the restore is enabled the backup is disabled, so you can only restore OR backup. Therefore after a restore you have to redeploy the chart with restore option disabled to create backups again.
