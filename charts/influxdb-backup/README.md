@@ -78,6 +78,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | `backup.uploadProviders.azure.image.registry`     | Azure CLI image registry                                                                                                                                                                  | `docker.io`                                             |
 | `backup.uploadProviders.azure.image.repository`   | Azure CLI image name                                                                                                                                                                      | `microsoft/azure-cli`                                     |
 | `backup.uploadProviders.azure.image.tag`          | Azure CLI image tag                                                                                                                                                                       | `2.0.24`                                            |
+| `backup.restore.enabled` | Enables restore (disables backup) | `false` |
+| `backup.restore.download` | Enabled download of backups from configured storage provider  | `false` |
+| `backup.restore.db` | Name of the database which should be restored | `"database"` |
+| `backup.restore.directory` | Directory in the backup container from which the backup is restored  | `"/backups/instancename/dbname/20200530_020027"` |
+| `backup.restore.host` | InfluxDB host to restore to | `"influxdb.influxdb.svc.cluster.local"` |
 
 The [full image documentation](https://hub.docker.com/_/influxdb/) contains more information about running InfluxDB in docker.
 
@@ -92,7 +97,7 @@ The above command enables persistence and changes the size of the requested data
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm upgrade --install influxdb-backup -f values.yaml kiwigrid/influxdb-backup
+helm upgrade --install influxdb-backuOne can create a job from the backup cronjob on demand as follows:p -f values.yaml kiwigrid/influxdb-backup
 ```
 
 ## Persistence
@@ -110,72 +115,17 @@ Before proceeding, please read [Backing up and restoring in InfluxDB OSS](https:
 When enabled, the[`backup-cronjob`](./templates/cronjob-backup.yaml) runs on the configured schedule. One can create a job from the backup cronjob on demand as follows:
 
 ```sh
-kubectl create job --from=cronjobs/influxdb-backup influx-backup-$(date +%Y%m%d%H%M%S)
+kubectl create job --from=cronjobs/influxdb-backup influxdb-backup-$(date +%Y%m%d%H%M%S)
 ```
 
 ### Restores
 
-It is up to the end user to configure their own one-off restore jobs. Below is just an example, which assumes that the backups are stored in GCS and that all dbs in the backup already exist and should be restored. It is to be used as a reference only; configure the init-container and the command and of the `influxdb-restore` container as well as both containers' resources to suit your needs.
+When enabled, the [`restore-cronjob`](./templates/cronjob-backup.yaml) runs on the configured schedule. One can create a job from the backup cronjob on demand as follows:
 
-```yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  generateName: influxdb-restore-
-  namespace: influxdb-backup
-spec:
-  template:
-    spec:
-      volumes:
-        - name: backup
-          emptyDir: {}
-      initContainers:
-        - name: init-gsutil-cp
-          image: google/cloud-sdk:alpine
-          command:
-            - /bin/sh
-          args:
-            - "-c"
-            - |
-              gsutil -m cp -r gs://<PATH TO BACKUP FOLDER>/* /backup
-          volumeMounts:
-            - name: {{ include "influxdb.fullname" . }}-backups
-              mountPath: {{ .Values.backup.directory | quote }}
-          resources:
-            requests:
-              cpu: 1
-              memory: 4Gi
-            limits:
-              cpu: 2
-              memory: 8Gi
-      containers:
-        - name: influxdb-restore
-          image: influxdb:1.7-alpine
-          volumeMounts:
-            - name: {{ include "influxdb.fullname" . }}-backups
-              mountPath: {{ .Values.backup.directory | quote }}
-          command:
-            - /bin/sh
-          args:
-            - "-c"
-            - |
-              #!/bin/sh
-              BACKUP_DIR="/backuop"
-              DB_NAME="foobar"
-              INFLUXDB_HOST="influxdb.monitoring.svc"
-              INFLUXDB_INSTANCE_NAME="influxdb"
-              for db in $(influx -host $INFLUXDB_HOST -execute 'SHOW DATABASES' | tail -n +5); do
-                influxd restore -host $INFLUXDB_HOST:8088 -portable -db "$db" -newdb "$db"_bak ${BACKUP_DIR}/${INFLUXDB_INSTANCE_NAME}/${DB_NAME}
-              done
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-      restartPolicy: OnFailure
+```sh
+kubectl -n influxdb create job --from=cronjobs/influxdb-backup influxdb-restore-$(date +%Y%m%d%H%M%S)
 ```
 
-At which point the data from the new `<db name>_bak` dbs would have to be side loaded into the original dbs.
-Please see [InfluxDB documentation for more restore examples](https://docs.influxdata.com/influxdb/v1.7/administration/backup_and_restore/#restore-examples).
+Be aware that if the restore is enabled the backup is disabled, so you can only restore OR backup. Therefore after a restore you have to redeploy the chart with restore option disabled to create backups again.
+
+The database which you want to restore must not exist otherwise the restore fails.
