@@ -1,4 +1,5 @@
-{{ if .Values.backup.instances }}
+{{- if not .Values.backup.restore.enabled }}
+{{- if .Values.backup.instances}}
 The following InfluxDB Backups are set up: 
 {{ range $instances := .Values.backup.instances }}
 - {{ $instances.host }}
@@ -6,7 +7,24 @@ The following InfluxDB Backups are set up:
 
 Cronjob will run at: {{ .Values.backup.schedule }}
 
+If you want to execute a backup run now use this command:
+
+kubectl -n {{ .Release.Namespace }} create job --from=cronjobs/{{ .Release.Name }} influxdb-backup-$(date +%Y%m%d%H%M%S)
+
 {{ else }}
 InfluxDB backup chart installed but no instances defined for backup!
 Without an configured instance housekeeping is still executet with the configured retention of {{ .Values.backup.retentionDays }} days !
+{{- end }}
+{{- end }}
+
+{{- if .Values.backup.restore.enabled }}
+WARNING! RESTORE IS ENABLED! BACKUPS ARE THEREFORE DISABLED AT THE MOMENT!
+
+The {{ .Values.backup.restore.db }} database will be restored or recreated from {{ .Values.backup.restore.directory }} on next cronjob run which is set to: {{ .Values.backup.schedule }}!
+You can execute the restore now by using the following command:
+
+kubectl -n {{ .Release.Namespace }} create job --from=cronjobs/{{ .Release.Name }} influxdb-restore-$(date +%Y%m%d%H%M%S)
+
+Please disable restore afterwards and redeploy this chart.
+
 {{ end }}

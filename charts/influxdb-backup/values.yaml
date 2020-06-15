@@ -95,7 +95,7 @@ backup:
       image:
         registry: docker.io
         repository: google/cloud-sdk
-        tag: 291.0.0-alpine
+        tag: 296.0.0-alpine
     ## Azure Storage Container configuration
     ##
     azure:
@@ -108,3 +108,10 @@ backup:
         registry: docker.io
         repository: microsoft/azure-cli
         tag: 2.0.24
+  restore:
+    enabled: false
+    download: false
+    db: "database"
+    directory: "/backups/instancename/dbname/20200530_020027"
+    host: "influxdb.influxdb.svc.cluster.local"
+
