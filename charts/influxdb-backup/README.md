@@ -127,3 +127,5 @@ kubectl -n influxdb create job --from=cronjobs/influxdb-backup influxdb-restore-
 ```
 
 Be aware that if the restore is enabled the backup is disabled, so you can only restore OR backup. Therefore after a restore you have to redeploy the chart with restore option disabled to create backups again.
+
+The database which you want to restore must not exist otherwise the restore fails.
