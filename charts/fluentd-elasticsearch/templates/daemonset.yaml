@@ -81,10 +81,14 @@ spec:
           value: {{ .Values.elasticsearch.auth.password | quote }}
 {{- end }}
 {{- end }}
-        - name: LOGSTASH_PREFIX
-          value: {{ .Values.elasticsearch.logstash.prefix | quote }}
         - name: LOGSTASH_FORMAT
           value: {{ .Values.elasticsearch.logstash.enabled | quote }}
+        - name: LOGSTASH_DATEFORMAT
+          value: {{ .Values.elasticsearch.logstash.dateformat | quote }}
+        - name: LOGSTASH_PREFIX
+          value: {{ .Values.elasticsearch.logstash.prefix | quote }}
+        - name: LOGSTASH_PREFIX_SEPARATOR
+          value: {{ .Values.elasticsearch.logstash.prefixSeparator | quote }}
         - name: INDEX_NAME
           value: {{ .Values.elasticsearch.indexName | quote }}
         - name: OUTPUT_SCHEME
