@@ -68,6 +68,8 @@ elasticsearch:
   logstash:
     enabled: true
     prefix: "logstash"
+    # prefixSeparator: "-"
+    # dateformat: "%Y.%V"
   path: ""
   scheme: "http"
   sslVerify: true
