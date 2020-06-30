@@ -513,7 +513,9 @@ data:
 {{- end }}
 {{- if .Values.elasticsearch.logstash.enabled }}
       logstash_format "#{ENV['LOGSTASH_FORMAT']}"
+      logstash_dateformat "#{ENV['LOGSTASH_DATEFORMAT']}"
       logstash_prefix "#{ENV['LOGSTASH_PREFIX']}"
+      logstash_prefix_separator "#{ENV['LOGSTASH_PREFIX_SEPARATOR']}"
 {{- else }}
       logstash_format "#{ENV['LOGSTASH_FORMAT']}"
       index_name "#{ENV['INDEX_NAME']}"
