@@ -3,7 +3,7 @@ image:
 ## Specify an imagePullPolicy (Required)
 ## It's recommended to change this to 'Always' if the image tag is 'latest'
 ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
-  tag: v3.0.1
+  tag: v3.0.2
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -60,10 +60,16 @@ elasticsearch:
     enabled: false
     user: "yourUser"
     password: "yourPass"
-  bufferChunkLimit: "2M"
-  bufferQueueLimit: 8
+  includeTagKey: true
+  setOutputHostEnvVar: true
+  # If setOutputHostEnvVar is false this value is ignored
   hosts: ["elasticsearch-client:9200"]
-  logstashPrefix: "logstash"
+  indexName: "fluentd"
+  logstash:
+    enabled: true
+    prefix: "logstash"
+    prefixSeparator: "-"
+    dateformat: "%Y.%m.%d"
   path: ""
   scheme: "http"
   sslVerify: true
@@ -71,7 +77,23 @@ elasticsearch:
   outputType: "elasticsearch"
   typeName: "_doc"
   logLevel: "info"
-
+  reconnectOnError: true
+  reloadOnFailure: false
+  reloadConnections: false
+  requestTimeout: "5s"
+  buffer:
+    enabled: true
+    type: "file"
+    path: "/var/log/fluentd-buffers/kubernetes.system.buffer"
+    flushMode: "interval"
+    retryType: "exponential_backoff"
+    flushThreadCount: 2
+    flushInterval: "5s"
+    retryForever: true
+    retryMaxInterval: 30
+    chunkLimitSize: "2M"
+    queueLimitLength: 8
+    overflowAction: "block"
 
 # If you want to change args of fluentd process
 # by example you can add -vv to launch with trace log

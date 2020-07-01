@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "influxdb-backup.fullname" . }}
+  labels:
+    {{- include "influxdb-backup.labels" . | nindent 4 }}
+data:
+  backup.sh: |-
+    #!/bin/bash
+
+    set -e
+
+    DATE="$(date +%Y%m%d_%H%M%S)"
+
+    {{ range $instances := .Values.backup.instances -}}
+    for DATABASE in $(influx -username {{ $instances.user }} -password "${{ $instances.name | upper }}_ADMIN_PASSWORD" -host {{ $instances.host }} -port {{ $instances.bindPort | default 8086 }} -execute 'SHOW DATABASES' | sed -e '1,3d'); do
+        echo "backuping ${DATABASE} db to {{ $.Values.backup.directory }}/{{ $instances.name }}/${DATABASE}"
+        mkdir -p {{ $.Values.backup.directory }}/{{ $instances.name }}/${DATABASE}
+        influxd backup -host {{ $instances.host }}:{{ $instances.rpcPort | default 8088 }} -portable -db ${DATABASE} {{ $.Values.backup.directory }}/{{ $instances.name }}/"${DATABASE}/${DATE}"
+    done
+    {{ end }}
+
+    echo "deleting old backups"
+    find {{ .Values.backup.directory }} -not -name ".snapshot" -not -name "lost+found" -mindepth 3 -maxdepth 3 -type d -mtime +{{ .Values.backup.retentionDays }} -exec rm -r {} \;
+  restore.sh: |-
+    #!/bin/bash
+
+    set -e
+
+    echo "restoring or creating {{ .Values.backup.restore.db }} db from directory {{ .Values.backup.restore.directory }}"
+    influxd restore -host {{ .Values.backup.restore.host }}:{{ .Values.backup.restore.rpcPort | default 8088 }} -portable -db {{ .Values.backup.restore.db }} {{ .Values.backup.restore.directory }}
+  upload-azure.sh: |-
+    #!/bin/bash
+
+    set -ex
+
+    az storage blob sync --source {{ .Values.backup.directory }} --container {{ .Values.backup.uploadProviders.azure.containerName }}
+  upload-google.sh: |-
+    #!/bin/bash
+
+    set -ex
+    {{ if or .Values.backup.uploadProviders.google.secret .Values.backup.uploadProviders.google.existingSecret}}
+    gcloud auth activate-service-account --key-file /var/secrets/google/{{ .Values.backup.uploadProviders.google.secretKey }}
+    {{- end }}
+    gsutil -m rsync -d -r {{ .Values.backup.directory }} {{ .Values.backup.uploadProviders.google.bucketName }}
+  download-azure.sh: |-
+    #!/bin/bash
+
+    set -ex
+
+    az storage blob download-batch -d . -s {{ .Values.backup.uploadProviders.azure.containerName }} --pattern {{ .Values.backup.directory }}
+  download-google.sh: |-
+    #!/bin/bash
+
+    set -ex
+
+    {{ if or .Values.backup.uploadProviders.google.secret .Values.backup.uploadProviders.google.existingSecret}}
+    gcloud auth activate-service-account --key-file /var/secrets/google/{{ .Values.backup.uploadProviders.google.secretKey }}
+    {{- end }}
+    gsutil -m rsync -r -d {{ .Values.backup.uploadProviders.google.bucketName }}/ {{ .Values.backup.directory }}
+

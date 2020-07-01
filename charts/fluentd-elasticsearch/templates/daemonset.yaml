@@ -1,10 +1,16 @@
+
+{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
+{{- if semverCompare ">= 1.9" $striped_version -}}
 apiVersion: apps/v1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
 kind: DaemonSet
 metadata:
   name: {{ include "fluentd-elasticsearch.fullname" . }}
   labels:
 {{ include "fluentd-elasticsearch.labels" . | indent 4 }}
-    {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
+    {{- if semverCompare "< 1.6" $striped_version }}
     kubernetes.io/cluster-service: "true"
     {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
@@ -23,11 +29,11 @@ spec:
     metadata:
       labels:
 {{ include "fluentd-elasticsearch.labels" . | indent 8 }}
-        {{- if semverCompare "> 1.6" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "< 1.6" $striped_version }}
         kubernetes.io/cluster-service: "true"
         {{- end }}
       annotations:
-        {{- if semverCompare "< 1.13" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "< 1.13" $striped_version }}
         # This annotation ensures that fluentd does not get evicted if the node
         # supports critical pod annotation based priority scheme.
         # Note that this does not guarantee admission on the nodes (#40573).
@@ -57,12 +63,14 @@ spec:
         env:
         - name: FLUENTD_ARGS
           value: {{ .Values.fluentdArgs | quote }}
+        {{- if .Values.elasticsearch.setOutputHostEnvVar }}
         - name: OUTPUT_HOSTS
           {{- if .Values.awsSigningSidecar.enabled }}
           value: "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"
           {{- else }}
           value: "{{- join "," .Values.elasticsearch.hosts }}"
           {{- end }}
+        {{- end }}
         - name: OUTPUT_PATH
           value: {{ .Values.elasticsearch.path | quote }}
 {{- if .Values.elasticsearch.auth.enabled }}
@@ -73,8 +81,16 @@ spec:
           value: {{ .Values.elasticsearch.auth.password | quote }}
 {{- end }}
 {{- end }}
+        - name: LOGSTASH_FORMAT
+          value: {{ .Values.elasticsearch.logstash.enabled | quote }}
+        - name: LOGSTASH_DATEFORMAT
+          value: {{ .Values.elasticsearch.logstash.dateformat | quote }}
         - name: LOGSTASH_PREFIX
-          value: {{ .Values.elasticsearch.logstashPrefix | quote }}
+          value: {{ .Values.elasticsearch.logstash.prefix | quote }}
+        - name: LOGSTASH_PREFIX_SEPARATOR
+          value: {{ .Values.elasticsearch.logstash.prefixSeparator | quote }}
+        - name: INDEX_NAME
+          value: {{ .Values.elasticsearch.indexName | quote }}
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'
@@ -90,11 +106,39 @@ spec:
         - name: OUTPUT_TYPE_NAME
           value: {{ .Values.elasticsearch.typeName | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
-          value: {{ .Values.elasticsearch.bufferChunkLimit | quote }}
+          value: {{ .Values.elasticsearch.buffer.chunkLimitSize | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT
-          value: {{ .Values.elasticsearch.bufferQueueLimit | quote }}
+          value: {{ .Values.elasticsearch.buffer.queueLimitLength | quote }}
+        - name: OUTPUT_BUFFER_TYPE
+          value: {{ .Values.elasticsearch.buffer.type | quote }}
+        - name: OUTPUT_BUFFER_PATH
+          value: {{ .Values.elasticsearch.buffer.path | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_MODE
+          value: {{ .Values.elasticsearch.buffer.flushMode | quote }}
+        - name: OUTPUT_BUFFER_RETRY_TYPE
+          value: {{ .Values.elasticsearch.buffer.retryType | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_THREAD_TYPE
+          value: {{ .Values.elasticsearch.buffer.flushThreadCount | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.flushInterval | quote }}
+        - name: OUTPUT_BUFFER_RETRY_FOREVER
+          value: {{ .Values.elasticsearch.buffer.retryForever | quote }}
+        - name: OUTPUT_BUFFER_RETRY_MAX_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.retryMaxInterval | quote }}
+        - name: OUTPUT_BUFFER_OVERFLOW_ACTION
+          value: {{ .Values.elasticsearch.buffer.overflowAction | quote }}
         - name: OUTPUT_LOG_LEVEL
           value: {{ .Values.elasticsearch.logLevel | quote }}
+        - name: OUTPUT_INCLUDE_TAG_KEY
+          value: {{ .Values.elasticsearch.includeTagKey | quote }}
+        - name: OUTPUT_RECONNECT_ON_ERROR
+          value: {{ .Values.elasticsearch.reconnectOnError | quote }}
+        - name: OUTPUT_RELOAD_ON_FAILURE
+          value: {{ .Values.elasticsearch.reloadOnFailure | quote }}
+        - name: OUTPUT_RELOAD_CONNECTIONS
+          value: {{ .Values.elasticsearch.reloadConnections | quote }}
+        - name: OUTPUT_REQUEST_TIMEOUT
+          value: {{ .Values.elasticsearch.requestTimeout | quote }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}
@@ -113,6 +157,9 @@ spec:
         - name: K8S_NODE_NAME
           valueFrom:
             fieldRef:
+              {{- if semverCompare ">= 1.9" $striped_version }}
+              apiVersion: v1
+              {{- end }}
               fieldPath: spec.nodeName
         resources:
 {{ toYaml .Values.resources | indent 10 }}
