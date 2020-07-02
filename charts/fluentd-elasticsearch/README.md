@@ -282,6 +282,8 @@ elasticsearch:
     - "elasticsearch-node-2:9200"
 ```
 
+If were using `--set elasticsearch.host=elasticsearch-client --set elasticsearch.port=9200` previously, you will need to pass those values as an array as in `--set elasticsearch.host="{elasticsearch-client:9200}"`. The quotes around the curly brackets are important in order to make sure your shell passes the string through without processing it.
+
 Note:
 > If you are using the AWS Sidecar, only the first host in the array is used. [Aws-es-proxy](https://github.com/abutaha/aws-es-proxy) is limited to one endpoint.
 
