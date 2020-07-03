@@ -42,6 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.bucketWebInterface.image.pullPolicy }}
           image: "{{ .Values.bucketWebInterface.image.repository }}:{{ .Values.bucketWebInterface.image.tag }}"
           args:
+          - tools
           - bucket
           - web
           - --log.level={{ .Values.bucketWebInterface.logLevel }}
