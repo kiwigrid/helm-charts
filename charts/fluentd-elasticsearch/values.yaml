@@ -70,6 +70,12 @@ elasticsearch:
     prefix: "logstash"
     prefixSeparator: "-"
     dateformat: "%Y.%m.%d"
+  ilm:
+    enabled: false 
+    policy_id: logstash-policy
+    policy: {}
+    policies: {}
+    policy_overwrite: false 
   path: ""
   scheme: "http"
   sslVerify: true
