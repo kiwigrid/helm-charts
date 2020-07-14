@@ -71,11 +71,11 @@ elasticsearch:
     prefixSeparator: "-"
     dateformat: "%Y.%m.%d"
   ilm:
-    enabled: false 
+    enabled: false
     policy_id: logstash-policy
     policy: {}
     policies: {}
-    policy_overwrite: false 
+    policy_overwrite: false
   path: ""
   scheme: "http"
   sslVerify: true
