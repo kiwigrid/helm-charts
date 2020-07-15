@@ -74,12 +74,12 @@ elasticsearch:
     enabled: false
     policy_id: logstash-policy
     policy: {}
-    # policy: 
+    # policy:
     #   phases:
     #     hot:
     #       min_age: 0ms
-    #       actions: 
-    #         rollover: 
+    #       actions:
+    #         rollover:
     #            max_age: 30d
     #            max_size: 20gb
     #         set_priority:
