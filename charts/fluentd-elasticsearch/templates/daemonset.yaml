@@ -91,6 +91,16 @@ spec:
           value: {{ .Values.elasticsearch.logstash.prefixSeparator | quote }}
         - name: INDEX_NAME
           value: {{ .Values.elasticsearch.indexName | quote }}
+        - name: ENABLE_ILM
+          value: {{ .Values.elasticsearch.ilm.enabled | quote }}
+        - name: ILM_POLICY_ID
+          value: {{ .Values.elasticsearch.ilm.policy_id | quote }}
+        - name: ILM_POLICY 
+          value: {{ .Values.elasticsearch.ilm.policy | quote }}
+        - name: ILM_POLICIES
+          value: {{ .Values.elasticsearch.ilm.policies | quote }}
+        - name: ILM_POLICY_OVERWRITE
+          value: {{ .Values.elasticsearch.ilm.policy_overwrite | quote }}
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'

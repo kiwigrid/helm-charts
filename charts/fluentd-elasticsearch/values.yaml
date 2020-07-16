@@ -70,6 +70,28 @@ elasticsearch:
     prefix: "logstash"
     prefixSeparator: "-"
     dateformat: "%Y.%m.%d"
+  ilm:
+    enabled: false
+    policy_id: logstash-policy
+    policy: {}
+    # policy:
+    #   phases:
+    #     hot:
+    #       min_age: 0ms
+    #       actions:
+    #         rollover:
+    #            max_age: 30d
+    #            max_size: 20gb
+    #         set_priority:
+    #             priority: 100
+    #     delete:
+    #       min_age: 60d
+    #       actions:
+    #         delete:
+    policies: {}
+    #  ilm_policy_id1: {}
+    #  ilm_policy_id2: {}
+    policy_overwrite: false
   path: ""
   scheme: "http"
   sslVerify: true
