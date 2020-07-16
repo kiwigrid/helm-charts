@@ -151,6 +151,10 @@ spec:
           value: {{ .Values.elasticsearch.reloadConnections | quote }}
         - name: OUTPUT_REQUEST_TIMEOUT
           value: {{ .Values.elasticsearch.requestTimeout | quote }}
+{{- if .Values.elasticsearch.suppressTypeName }}
+        - name: OUTPUT_SUPPRESS_TYPE_NAME
+          value: {{ .Values.elasticsearch.suppressTypeName | quote }}
+{{- end }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}
