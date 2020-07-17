@@ -43,7 +43,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.13.0
+    tag: v0.14.0
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -100,7 +100,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.13.0
+    tag: v0.14.0
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -116,7 +116,6 @@ storeGateway:
     config:
       max_size: 500MB
   chunkPoolSize: 500MB
-  disableIndexHeader: false
 
   objStoreType: GCS  # WARNING: this is default to null in other sections
   additionalFlags: {}
@@ -185,7 +184,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.13.0
+    tag: v0.14.0
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -239,7 +238,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.13.0
+    tag: v0.14.0
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
@@ -322,7 +321,7 @@ bucketWebInterface:
   httpServerPort: 10902
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.13.0
+    tag: v0.14.0
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
