@@ -71,6 +71,11 @@ The following table lists the configurable parameters of the Fluentd elasticsear
 | `elasticsearch.logstash.prefix`                      | Elasticsearch Logstash prefix                                                  | `logstash`                                         |
 | `elasticsearch.logstash.prefixSeparator`             | Elasticsearch Logstash prefix separator                                        | `-`                                                |
 | `elasticsearch.logstash.dateformat`                  | Elasticsearch Logstash strftime format to generate index target index name     | `%Y.%m.%d`                                         |
+| `elasticsearch.ilm.enabled`                      |   | Elasticsearch Index Lifecycle Management enabled                               | `false`
+| `elasticsearch.ilm.policy_id`                    |   | Elasticsearch ILM policy ID                                                    | `logstash-policy`
+| `elasticsearch.ilm.policy`                       |   | Elasticsearch ILM policy to create                                       | `{}`
+| `elasticsearch.ilm.policies`                     |   | Elasticsearch ILM policies to create, map of policy IDs and policies                                        | `{}`
+| `elasticsearch.ilm.policy_overwrite`             |   | Elastichsarch ILM policy overwrite                                             | `false`
 | `elasticsearch.indexName`                            | Elasticsearch Index Name                                                       | `fluentd`                                          |
 | `elasticsearch.path`                                 | Elasticsearch Path                                                             | `""`                                               |
 | `elasticsearch.scheme`                               | Elasticsearch scheme setting                                                   | `http`                                             |

@@ -520,6 +520,13 @@ data:
       logstash_format "#{ENV['LOGSTASH_FORMAT']}"
       index_name "#{ENV['INDEX_NAME']}"
 {{- end }}
+{{- if .Values.elasticsearch.ilm.enabled }}
+      enable_ilm "#{ENV['ENABLE_ILM']}'"
+      ilm_policy_id "#{ENV['ILM_POLICY_ID']}"
+      ilm_policy "#{ENV['ILM_POLICY']}"
+      ilm_policies "#{ENV['ILM_POLICIES']}"
+      ilm_policy_overwrite "#{ENV['ILM_POLICY_OVERWRITE']}"
+{{- end }}
       reconnect_on_error "#{ENV['OUTPUT_RECONNECT_ON_ERROR']}"
       reload_on_failure "#{ENV['OUTPUT_RELOAD_ON_FAILURE']}"
       reload_connections "#{ENV['OUTPUT_RELOAD_CONNECTIONS']}"
