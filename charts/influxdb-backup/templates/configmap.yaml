@@ -34,7 +34,11 @@ data:
 
     set -ex
 
+    {{ if .Values.backup.uploadProviders.azure.useCopyInsteadSync }}
+    az storage blob upload-batch --source {{ .Values.backup.directory }} --destination {{ .Values.backup.uploadProviders.azure.containerName }}
+    {{ else }}
     az storage blob sync --source {{ .Values.backup.directory }} --container {{ .Values.backup.uploadProviders.azure.containerName }}
+    {{ end }}
   upload-google.sh: |-
     #!/bin/bash
 

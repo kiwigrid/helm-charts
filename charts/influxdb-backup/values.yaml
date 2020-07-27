@@ -104,6 +104,8 @@ backup:
       secretKey: "connection-string"
       existingSecret: ""
       containerName: "influxdb-container"
+      ## copy instead of sync may prevent undesired deletion of backups on blob storage
+      useCopyInsteadSync: false
       image:
         registry: mcr.microsoft.com
         repository: azure-cli
