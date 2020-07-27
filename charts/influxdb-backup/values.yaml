@@ -105,9 +105,9 @@ backup:
       existingSecret: ""
       containerName: "influxdb-container"
       image:
-        registry: docker.io
-        repository: microsoft/azure-cli
-        tag: 2.0.24
+        registry: mcr.microsoft.com
+        repository: azure-cli
+        tag: 2.8.0
   restore:
     enabled: false
     download: false
