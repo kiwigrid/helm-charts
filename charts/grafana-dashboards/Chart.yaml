@@ -6,3 +6,6 @@ icon: https://grafana.com/blog/assets/img/blog/timeshift/grafana_release_icon.pn
 home: https://github.com/kiwigrid/helm-charts
 sources:
   - https://github.com/kiwigrid/helm-charts/tree/master/charts/grafana-dashboards
+maintainers:
+- name: monotek
+  email: andre.bauer@kiwigrid.com
