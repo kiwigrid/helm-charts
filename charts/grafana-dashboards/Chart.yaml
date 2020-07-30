@@ -1,0 +1,7 @@
+apiVersion: v1
+name: grafana-dashboards
+description: A Helm chart to import Grafana Dashboards
+version: 0.1.0
+icon: https://grafana.com/blog/assets/img/blog/timeshift/grafana_release_icon.png
+sources:
+  - https://github.com/kiwigrid/helm-charts/tree/master/charts/grafana-dashboards
