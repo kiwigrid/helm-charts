@@ -3,3 +3,9 @@ labels:
   ## grafana_dashboard Enables dashboard import via Grafana sidecar
   ## ref: https://github.com/helm/charts/tree/master/stable/grafana#sidecar-for-dashboards
   grafana_dashboard: "1"
+
+importFromValue:
+  # dashboardName: |-
+  #   {
+  #     dashboard json
+  #   }

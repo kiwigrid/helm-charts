@@ -4,6 +4,7 @@ This charts will convert all Grafana dashboards saved as json file in the dashbo
 
 See: <https://github.com/helm/charts/tree/master/stable/grafana#sidecar-for-dashboards>
 
-| Parameter                  | Description                 | Default |
-|----------------------------|-----------------------------|---------|
-| `labels.grafana_dashboard` | set grafana_dashboard label | `"1"`   |
+| Parameter                  | Description                                                          | Default |
+|----------------------------|----------------------------------------------------------------------|---------|
+| `labels.grafana_dashboard` | set grafana_dashboard label                                          | `"1"`   |
+| `importFromValue`          | import dashboard form value string instead from dashboards directory | `{}`    |
