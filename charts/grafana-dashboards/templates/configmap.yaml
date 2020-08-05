@@ -14,7 +14,6 @@ data:
 ---
 {{- end -}}
 {{- end -}}
-
 {{- range $key, $value := .Values.importFromValue }}
 apiVersion: v1
 kind: ConfigMap
@@ -28,5 +27,4 @@ data:
     {{ $value }}
 ---
 {{- end }}
-
 
