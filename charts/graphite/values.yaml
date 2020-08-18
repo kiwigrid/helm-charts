@@ -24,6 +24,10 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+env: {}
+# - name: example-name
+#   value: example-value
+
 persistence:
   ## Enable storage persistence using Persistent Volume Claims.
   ##
