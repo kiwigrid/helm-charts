@@ -2,7 +2,7 @@
 
 image:
   repository: graphiteapp/graphite-statsd
-  tag: 1.1.5-4
+  tag: 1.1.7-6
   pullPolicy: IfNotPresent
 
 service:
@@ -23,6 +23,10 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+env: {}
+# - name: example-name
+#   value: example-value
 
 persistence:
   ## Enable storage persistence using Persistent Volume Claims.

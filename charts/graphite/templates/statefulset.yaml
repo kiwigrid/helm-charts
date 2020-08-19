@@ -52,6 +52,12 @@ spec:
           value: {{ .Values.statsd.interface | lower }}
         - name: "GRAPHITE_TIME_ZONE"
           value: {{ .Values.timeZone }}
+        {{- if .Values.env }}
+        {{- range $key, $value := .Values.env }}
+        - name: {{ $value.name }}
+          value: {{ $value.value | quote }}
+        {{- end }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /
