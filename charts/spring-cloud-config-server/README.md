@@ -63,7 +63,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```bash
 $ helm install --name spring-cloud-config-server --set ingress.enabled=false kiwigrid/spring-cloud-config-server
 ```
-secrets.gitUsername and secrets.Password can be given in plain text which will be converted to base64 while installing the helm chart. These parameters are mandatory while installing this chart.
+secrets.gitUsername and secrets.Password can be given in plain text which will be converted to base64 while installing the helm chart.
 
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart.
