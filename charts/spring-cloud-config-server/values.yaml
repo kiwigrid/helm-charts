@@ -58,5 +58,5 @@ config:
   gitSearchpath: "{application}"
 
 secrets:
-  gitUsername: test
-  gitPassword: test
+  gitUsername: 
+  gitPassword: 
