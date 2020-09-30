@@ -54,9 +54,10 @@ podTemplate:
 
 extraEnv: []
 config:
-  gitUri:
+  gitUri: ""
   gitSearchpath: "{application}"
 
 secrets:
-  gitUsername: 
-  gitPassword: 
+  gitUsername: ""
+  gitPassword: ""
+
