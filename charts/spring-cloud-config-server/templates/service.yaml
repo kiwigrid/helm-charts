@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "spring-cloud-config-server.fullname" . }}
   labels:
-{{ include "spring-cloud-config-server.labels" . | indent 4 }}
+    {{- include "spring-cloud-config-server.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,5 +12,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "spring-cloud-config-server.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "spring-cloud-config-server.selectorLabels" . | nindent 4 }}
+
