@@ -9,7 +9,7 @@ any-resource:
         name: test-minio-init
         labels:
           app: minio
-          chart: minio-2.4.10
+          chart: minio-7.0.2
           release: test
           heritage: Tiller
       data:
@@ -98,7 +98,7 @@ any-resource:
         name: test-minio-make-bucket-job
         labels:
           app: minio
-          chart: minio-2.4.10
+          chart: minio-7.0.2
           release: test
           heritage: Tiller
       spec:
