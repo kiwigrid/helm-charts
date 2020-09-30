@@ -1,6 +1,7 @@
 # !DEPRECATED! - Fluentd Elasticsearch
 
-* Chart has been deprecated and moved to <https://github.com/kokuwaio/helm-charts/tree/main/charts/fluentd-elasticsearch> *
+**!! Chart has been deprecated and moved to <https://github.com/kokuwaio/helm-charts/tree/main/charts/fluentd-elasticsearch> !!**
+
 
 - Installs [Fluentd](https://www.fluentd.org/) log forwarder.
 
