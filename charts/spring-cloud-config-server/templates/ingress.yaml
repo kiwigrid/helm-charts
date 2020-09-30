@@ -1,11 +1,11 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "spring-cloud-config-server.fullname" . -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-{{ include "spring-cloud-config-server.labels" . | indent 4 }}
+    {{- include "spring-cloud-config-server.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
