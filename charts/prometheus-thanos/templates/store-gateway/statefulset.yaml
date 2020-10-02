@@ -1,0 +1,149 @@
+{{- if .Values.storeGateway.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.storeGateway.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.storeGateway.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        prometheus-thanos-peer: "true"
+        {{- with .Values.storeGateway.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+        {{- with .Values.storeGateway.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.storeGateway.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-store-gateway
+          imagePullPolicy: {{ .Values.storeGateway.image.pullPolicy }}
+          image: "{{ .Values.storeGateway.image.repository }}:{{ .Values.storeGateway.image.tag }}"
+          args:
+          - store
+          - --data-dir=/data
+          - --log.level={{ .Values.storeGateway.logLevel }}
+          - |
+            --index-cache.config=type: {{ .Values.storeGateway.indexCache.type }}
+            config:
+            {{- toYaml .Values.storeGateway.indexCache.config | nindent 14 }}
+          - --chunk-pool-size={{ .Values.storeGateway.chunkPoolSize }}
+          {{- range $key, $value := .Values.storeGateway.additionalFlags }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          {{- end }}
+          {{- if .Values.storeGateway.objStoreType }}
+          - |
+            --objstore.config=type: {{ .Values.storeGateway.objStoreType }}
+            config:
+            {{- toYaml .Values.storeGateway.objStoreConfig | nindent 14 }}
+          {{ else if .Values.storeGateway.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 10902
+              protocol: TCP
+            - name: grpc
+              containerPort: 10901
+              protocol: TCP
+          {{- if .Values.storeGateway.extraEnv }}
+          env:
+            {{- toYaml .Values.storeGateway.extraEnv | nindent 12 }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.storeGateway.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.storeGateway.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.storeGateway.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.storeGateway.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.storeGateway.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.storeGateway.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.storeGateway.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.storeGateway.readinessProbe.timeoutSeconds }}
+          resources:
+            {{- toYaml .Values.storeGateway.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /data
+              name: storage-volume
+          {{- with .Values.storeGateway.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.storeGateway.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.storeGateway.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.storeGateway.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- with .Values.storeGateway.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if not .Values.storeGateway.persistentVolume.enabled }}
+        - name: storage-volume
+          emptyDir: {}
+        {{- else if .Values.storeGateway.persistentVolume.existingClaim }}
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.storeGateway.persistentVolume.existingClaim }}
+        {{- end }}
+      {{- if .Values.storeGateway.podNumericalPriorityEnabled }}
+      priority: {{ .Values.storeGateway.podPriority }}
+      {{- else if .Values.storeGateway.podPriorityClassName }}
+      priorityClassName: {{ .Values.storeGateway.podPriorityClassName }}
+      {{- end }}
+  {{- if and .Values.storeGateway.persistentVolume.enabled (not .Values.storeGateway.persistentVolume.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.storeGateway.persistentVolume.annotations }}
+        annotations:
+        {{- toYaml .Values.storeGateway.persistentVolume.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+        {{- toYaml .Values.storeGateway.persistentVolume.accessModes | nindent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.storeGateway.persistentVolume.size }}"
+        {{- if .Values.storeGateway.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.storeGateway.persistentVolume.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ .Values.storeGateway.persistentVolume.storageClass }}"
+        {{- end }}
+        {{- end }}
+  {{- end }}
+{{- end }}

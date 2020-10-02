@@ -1,0 +1,15 @@
+{{- if and .Values.connectivity.podDisruptionBudget.enabled (gt .Values.connectivity.replicaCount 1.0) -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "ditto-digital-twins.fullname" . }}-connectivity
+  labels:
+    app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-connectivity
+{{ include "ditto-digital-twins.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-connectivity
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  minAvailable: {{ .Values.connectivity.podDisruptionBudget.minAvailable }}
+{{- end }}

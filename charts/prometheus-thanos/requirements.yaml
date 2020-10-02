@@ -1,7 +1,7 @@
 dependencies:
 - name: minio
-  version: 2.4.10
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 7.0.2
+  repository: https://helm.min.io/
   condition: minio.enabled
 - name: any-resource
   version: 0.1.0

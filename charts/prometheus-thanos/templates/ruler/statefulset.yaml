@@ -1,0 +1,194 @@
+{{- if .Values.ruler.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.ruler.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.ruler.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.fullname" . }}-ruler
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        prometheus-thanos-peer: "true"
+        {{- with .Values.ruler.additionalLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+        checksum/config: {{ include (print $.Template.BasePath "/ruler/configmap.yaml") . | sha256sum }}
+        {{- with .Values.ruler.additionalAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-ruler
+      containers:
+        - name: {{ .Chart.Name }}-ruler
+          imagePullPolicy: {{ .Values.ruler.image.pullPolicy }}
+          image: "{{ .Values.ruler.image.repository }}:{{ .Values.ruler.image.tag }}"
+          args:
+          - rule
+          - --data-dir=/data
+          - --log.level={{ .Values.ruler.logLevel }}
+          - --eval-interval={{ .Values.ruler.evalInterval }}
+          - --rule-file={{ .Values.ruler.ruleFile }}
+          - --alertmanagers.url={{ .Values.ruler.alertmanagerUrl }}
+          - --query={{ include "prometheus-thanos.fullname" . }}-querier:{{ .Values.service.querier.http.port }}
+          {{- range .Values.ruler.queries }}
+          - --query={{ . }}
+          {{- end }}
+          {{- if .Values.ruler.objStoreType }}
+          - |
+            --objstore.config=type: {{ .Values.ruler.objStoreType }}
+            config:
+            {{- toYaml .Values.ruler.objStoreConfig | nindent 14 }}
+          {{ else if .Values.ruler.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.ruler.objStoreConfigFile }}
+          {{- end }}
+          {{- range $key, $value := .Values.ruler.additionalFlags }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          {{- end }}
+
+          - --label=ruler_cluster="{{ .Values.ruler.clusterName }}"
+          - --label=replica="$(POD_NAME)"
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          {{- if .Values.ruler.extraEnv }}
+            {{- toYaml .Values.ruler.extraEnv | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 10902
+              protocol: TCP
+            - name: grpc
+              containerPort: 10901
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.ruler.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.ruler.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.ruler.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}
+          resources:
+            {{- toYaml .Values.ruler.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /etc/thanos-ruler
+            name: config
+          - mountPath: /etc/thanos-ruler/external
+            name: external-config-volume
+          - mountPath: /data
+            name: storage-volume
+          {{- with .Values.ruler.volumeMounts }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+        {{- if .Values.ruler.sidecar.enabled }}
+        - env:
+          - name: LABEL
+            value: {{ .Values.ruler.sidecar.watchLabel }}
+          - name: FOLDER
+            value: /etc/config
+          - name: NAMESPACE
+            value: ALL
+          - name: REQ_URL
+            value: http://127.0.0.1:10902/-/reload
+          - name: REQ_METHOD
+            value: POST
+          imagePullPolicy: {{ .Values.ruler.sidecar.image.pullPolicy }}
+          image: "{{ .Values.ruler.sidecar.image.repository }}:{{ .Values.ruler.sidecar.image.tag }}"
+          name: k8s-configmap-watcher
+          resources:
+            limits:
+              cpu: 20m
+              memory: 64Mi
+            requests:
+              cpu: 10m
+              memory: 32Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/config
+            name: external-config-volume
+        {{- end }}
+      {{- with .Values.ruler.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ruler.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ruler.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      volumes:
+      - name: external-config-volume
+        emptyDir: {}
+      - configMap:
+          name: {{ include "prometheus-thanos.fullname" . }}-ruler
+        name: config
+      {{- with .Values.ruler.volumes }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if not .Values.ruler.persistentVolume.enabled }}
+      - name: storage-volume
+        emptyDir: {}
+      {{- else if .Values.ruler.persistentVolume.existingClaim }}
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: {{ .Values.ruler.persistentVolume.existingClaim }}
+      {{- end }}
+      {{- if .Values.ruler.podNumericalPriorityEnabled }}
+      priority: {{ .Values.ruler.podPriority }}
+      {{- else if .Values.ruler.podPriorityClassName }}
+      priorityClassName: {{ .Values.ruler.podPriorityClassName }}
+      {{- end }}
+  {{- if and .Values.ruler.persistentVolume.enabled (not .Values.ruler.persistentVolume.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.ruler.persistentVolume.annotations }}
+        annotations:
+          {{- toYaml .Values.ruler.persistentVolume.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          {{- toYaml .Values.ruler.persistentVolume.accessModes | nindent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.ruler.persistentVolume.size }}"
+        {{- if .Values.ruler.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.ruler.persistentVolume.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ .Values.ruler.persistentVolume.storageClass }}"
+        {{- end }}
+        {{- end }}
+  {{- end }}
+{{- end }}

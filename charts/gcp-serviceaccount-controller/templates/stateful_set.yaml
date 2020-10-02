@@ -43,9 +43,14 @@ spec:
           name: webhook-server
           protocol: TCP
         volumeMounts:
-        - mountPath: /var/secrets
-          name: secrets
+        - name: secrets
           readOnly: true
+        {{- if not .Values.existingSecret }}
+          mountPath: /var/secrets
+        {{- else }}
+          mountPath: /var/secrets/{{ .Values.existingSecretKey }}
+          subPath: {{ .Values.existingSecretKey }}
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
     {{- with .Values.nodeSelector }}
@@ -65,4 +70,8 @@ spec:
       - name: secrets
         secret:
           defaultMode: 420
+          {{- if not .Values.existingSecret }}
           secretName: {{ include "gcp-serviceaccount-controller.fullname" . }}
+          {{- else }}
+          secretName: {{ .Values.existingSecret }}
+          {{- end }}

@@ -1,0 +1,28 @@
+name: deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy-chart:
+    name: deploy-chart
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Fetch history
+        run: git fetch --prune --unshallow  
+      - name: Lint Bash scripts
+        uses: docker://koalaman/shellcheck-alpine:v0.7.0
+        with:
+          args: /github/workspace/.github/lint-scripts.sh        
+      - name: Set user permissions
+        run: chmod -R 777 /home/runner/work
+      - name: Deploy Helm chart
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_KIWIGRID_GITHUB_IO }}
+        uses: docker://kiwigrid/gcloud-kubectl-helm:2.16.1-272.0.0-184
+        with:
+          args: /github/workspace/.github/deploy-chart.sh
+

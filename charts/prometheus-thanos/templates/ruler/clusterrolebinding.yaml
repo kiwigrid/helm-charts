@@ -1,0 +1,19 @@
+{{- if .Values.ruler.sidecar.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+subjects:
+- kind: ServiceAccount
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+  namespace: {{ .Release.Namespace }}
+{{- end }}

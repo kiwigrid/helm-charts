@@ -1,0 +1,104 @@
+{{- if .Values.querier.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-querier
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.querier.replicaCount }}
+  strategy:
+  {{- with .Values.querier.updateStrategy }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-querier
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        prometheus-thanos-peer: "true"
+        {{- with .Values.querier.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+        {{- with .Values.querier.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.querier.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-querier
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-querier
+          imagePullPolicy: {{ .Values.querier.image.pullPolicy }}
+          image: "{{ .Values.querier.image.repository }}:{{ .Values.querier.image.tag }}"
+          args:
+          - query
+          - --log.level={{ .Values.querier.logLevel }}
+          - --query.replica-label={{ .Values.querier.replicaLabel }}
+          {{- range .Values.querier.stores }}
+          - --store={{ . }}
+          {{- end }}
+          {{- range $key, $value := .Values.querier.additionalFlags }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 10902
+              protocol: TCP
+            - name: grpc
+              containerPort: 10901
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.querier.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.querier.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.querier.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.querier.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.querier.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.querier.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.querier.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.querier.readinessProbe.timeoutSeconds }}
+          resources:
+            {{- toYaml .Values.querier.resources | nindent 12 }}
+          {{- with .Values.querier.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+      {{- with .Values.querier.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.querier.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.querier.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.querier.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.querier.podNumericalPriorityEnabled }}
+      priority: {{ .Values.querier.podPriority }}
+    {{- else if .Values.querier.podPriorityClassName }}
+      priorityClassName: {{ .Values.querier.podPriorityClassName }}
+    {{- end }}
+{{- end }}

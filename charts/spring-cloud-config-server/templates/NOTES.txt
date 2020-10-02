@@ -1,0 +1,1 @@
+Spring cloud config server is now running

@@ -1,0 +1,11 @@
+{{- if .Values.swaggerui.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ditto-digital-twins.fullname" . }}-swaggerui
+  labels:
+    app.kubernetes.io/name: {{ include "ditto-digital-twins.name" . }}-swaggerui
+{{ include "ditto-digital-twins.labels" . | indent 4 }}
+data:
+{{ (.Files.Glob "openapi/*").AsConfig | indent 2 }}
+{{- end }}

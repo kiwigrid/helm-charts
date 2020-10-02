@@ -1,14 +1,14 @@
 {{- if .Values.prometheusRule.enabled }}
+{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: {{ template "fluentd-elasticsearch.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "fluentd-elasticsearch.name" . }}
-    helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "fluentd-elasticsearch.labels" . | indent 4 }}
+    {{- if semverCompare "< 1.6" $striped_version }}
     kubernetes.io/cluster-service: "true"
+    {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
     {{- if .Values.prometheusRule.labels }}
     {{- toYaml .Values.prometheusRule.labels | nindent 4 }}
@@ -19,7 +19,7 @@ spec:
   - name: fluentd
     rules:
     - alert: FluentdNodeDown
-      expr: up{job="{{ .Release.Name }}"} == 0
+      expr: up{job="{{ include "fluentd-elasticsearch.fullname" . }}"} == 0
       for: 10m
       labels:
         service: fluentd
@@ -29,7 +29,7 @@ spec:
         description: Prometheus could not scrape {{ "{{ $labels.job }}" }} for more than 10 minutes
   
     - alert: FluentdNodeDown
-      expr: up{job="{{ .Release.Name }}"} == 0
+      expr: up{job="{{ include "fluentd-elasticsearch.fullname" . }}"} == 0
       for: 30m
       labels:
         service: fluentd
@@ -59,7 +59,7 @@ spec:
         description: In the last 5 minutes, fluentd queues increased 50%. Current value is {{ "{{ $value }}" }}
 
     - alert: FluentdRecordsCountsHigh
-      expr: sum(rate(fluentd_record_counts{job="{{ .Release.Name }}"}[5m])) BY (instance) >  (3 * sum(rate(fluentd_record_counts{job="{{ .Release.Name }}"}[15m])) BY (instance))
+      expr: sum(rate(fluentd_output_status_emit_records{job="{{ .Release.Name }}"}[5m])) BY (instance) >  (3 * sum(rate(fluentd_output_status_emit_records{job="{{ .Release.Name }}"}[15m])) BY (instance))
       for: 1m
       labels:
         service: fluentd

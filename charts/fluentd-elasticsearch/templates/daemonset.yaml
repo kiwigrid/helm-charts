@@ -1,13 +1,18 @@
+
+{{- $striped_version := (split "-" .Capabilities.KubeVersion.GitVersion)._0 -}}
+{{- if semverCompare ">= 1.9" $striped_version -}}
 apiVersion: apps/v1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
 kind: DaemonSet
 metadata:
   name: {{ include "fluentd-elasticsearch.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "fluentd-elasticsearch.name" . }}
-    helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "fluentd-elasticsearch.labels" . | indent 4 }}
+    {{- if semverCompare "< 1.6" $striped_version }}
     kubernetes.io/cluster-service: "true"
+    {{- end }}
     addonmanager.kubernetes.io/mode: Reconcile
 {{- if .Values.annotations }}
   annotations:
@@ -23,13 +28,12 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "fluentd-elasticsearch.name" . }}
-        helm.sh/chart: {{ include "fluentd-elasticsearch.chart" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "fluentd-elasticsearch.labels" . | indent 8 }}
+        {{- if semverCompare "< 1.6" $striped_version }}
         kubernetes.io/cluster-service: "true"
+        {{- end }}
       annotations:
-        {{- if semverCompare "< 1.13" .Capabilities.KubeVersion.GitVersion }}
+        {{- if semverCompare "< 1.13" $striped_version }}
         # This annotation ensures that fluentd does not get evicted if the node
         # supports critical pod annotation based priority scheme.
         # Note that this does not guarantee admission on the nodes (#40573).
@@ -37,7 +41,7 @@ spec:
         # ref: https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/
         scheduler.alpha.kubernetes.io/critical-pod: ''
         {{- end }}
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmaps.yaml") . | sha256sum }}
 {{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
@@ -58,37 +62,99 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         env:
         - name: FLUENTD_ARGS
-          value: --no-supervisor -q
-        - name: OUTPUT_HOST
+          value: {{ .Values.fluentdArgs | quote }}
+        {{- if .Values.elasticsearch.setOutputHostEnvVar }}
+        - name: OUTPUT_HOSTS
           {{- if .Values.awsSigningSidecar.enabled }}
-          value: 'localhost'
+          value: "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}"
           {{- else }}
-          value: {{ .Values.elasticsearch.host | quote }}
+          value: "{{- join "," .Values.elasticsearch.hosts }}"
           {{- end }}
-        - name: OUTPUT_PORT
-          {{- if .Values.awsSigningSidecar.enabled }}
-          value: '8080'
-          {{- else }}
-          value: {{ .Values.elasticsearch.port | quote }}
-          {{- end }}
+        {{- end }}
+        - name: OUTPUT_PATH
+          value: {{ .Values.elasticsearch.path | quote }}
+{{- if .Values.elasticsearch.auth.enabled }}
         - name: OUTPUT_USER
-          value: {{ .Values.elasticsearch.user | quote }}
+          value: {{ .Values.elasticsearch.auth.user | quote }}
+{{- if .Values.elasticsearch.auth.password }}
         - name: OUTPUT_PASSWORD
-          value: {{ .Values.elasticsearch.password | quote }}
+          value: {{ .Values.elasticsearch.auth.password | quote }}
+{{- end }}
+{{- end }}
+        - name: LOGSTASH_FORMAT
+          value: {{ .Values.elasticsearch.logstash.enabled | quote }}
+        - name: LOGSTASH_DATEFORMAT
+          value: {{ .Values.elasticsearch.logstash.dateformat | quote }}
         - name: LOGSTASH_PREFIX
-          value: {{ .Values.elasticsearch.logstash_prefix | quote }}
+          value: {{ .Values.elasticsearch.logstash.prefix | quote }}
+        - name: LOGSTASH_PREFIX_SEPARATOR
+          value: {{ .Values.elasticsearch.logstash.prefixSeparator | quote }}
+        - name: INDEX_NAME
+          value: {{ .Values.elasticsearch.indexName | quote }}
+{{- if .Values.elasticsearch.ilm.enabled }}          
+        - name: ENABLE_ILM
+          value: {{ .Values.elasticsearch.ilm.enabled | quote }}
+        - name: ILM_POLICY_ID
+          value: {{ .Values.elasticsearch.ilm.policy_id | quote }}
+        - name: ILM_POLICY 
+          value: {{ toJson .Values.elasticsearch.ilm.policy | quote }}
+        - name: ILM_POLICIES
+          value: {{ toJson .Values.elasticsearch.ilm.policies | quote }}
+        - name: ILM_POLICY_OVERWRITE
+          value: {{ .Values.elasticsearch.ilm.policy_overwrite | quote }}
+{{- end }}          
         - name: OUTPUT_SCHEME
           {{- if .Values.awsSigningSidecar.enabled }}
           value: 'http'
           {{- else }}
           value: {{ .Values.elasticsearch.scheme | quote }}
           {{- end }}
+        - name: OUTPUT_TYPE
+          value: {{ .Values.elasticsearch.outputType | quote }}
+        - name: OUTPUT_SSL_VERIFY
+          value: {{ .Values.elasticsearch.sslVerify | quote }}
         - name: OUTPUT_SSL_VERSION
-          value: {{ .Values.elasticsearch.ssl_version | quote }}
+          value: {{ .Values.elasticsearch.sslVersion | quote }}
+        - name: OUTPUT_TYPE_NAME
+          value: {{ .Values.elasticsearch.typeName | quote }}
         - name: OUTPUT_BUFFER_CHUNK_LIMIT
-          value: {{ .Values.elasticsearch.buffer_chunk_limit | quote }}
+          value: {{ .Values.elasticsearch.buffer.chunkLimitSize | quote }}
         - name: OUTPUT_BUFFER_QUEUE_LIMIT
-          value: {{ .Values.elasticsearch.buffer_queue_limit | quote }}
+          value: {{ .Values.elasticsearch.buffer.queueLimitLength | quote }}
+        - name: OUTPUT_BUFFER_TYPE
+          value: {{ .Values.elasticsearch.buffer.type | quote }}
+        - name: OUTPUT_BUFFER_PATH
+          value: {{ .Values.elasticsearch.buffer.path | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_MODE
+          value: {{ .Values.elasticsearch.buffer.flushMode | quote }}
+        - name: OUTPUT_BUFFER_RETRY_TYPE
+          value: {{ .Values.elasticsearch.buffer.retryType | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_THREAD_TYPE
+          value: {{ .Values.elasticsearch.buffer.flushThreadCount | quote }}
+        - name: OUTPUT_BUFFER_FLUSH_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.flushInterval | quote }}
+        - name: OUTPUT_BUFFER_RETRY_FOREVER
+          value: {{ .Values.elasticsearch.buffer.retryForever | quote }}
+        - name: OUTPUT_BUFFER_RETRY_MAX_INTERVAL
+          value: {{ .Values.elasticsearch.buffer.retryMaxInterval | quote }}
+        - name: OUTPUT_BUFFER_OVERFLOW_ACTION
+          value: {{ .Values.elasticsearch.buffer.overflowAction | quote }}
+        - name: OUTPUT_LOG_LEVEL
+          value: {{ .Values.elasticsearch.logLevel | quote }}
+        - name: OUTPUT_INCLUDE_TAG_KEY
+          value: {{ .Values.elasticsearch.includeTagKey | quote }}
+        - name: OUTPUT_RECONNECT_ON_ERROR
+          value: {{ .Values.elasticsearch.reconnectOnError | quote }}
+        - name: OUTPUT_RELOAD_ON_FAILURE
+          value: {{ .Values.elasticsearch.reloadOnFailure | quote }}
+        - name: OUTPUT_RELOAD_CONNECTIONS
+          value: {{ .Values.elasticsearch.reloadConnections | quote }}
+        - name: OUTPUT_REQUEST_TIMEOUT
+          value: {{ .Values.elasticsearch.requestTimeout | quote }}
+{{- if .Values.elasticsearch.suppressTypeName }}
+        - name: OUTPUT_SUPPRESS_TYPE_NAME
+          value: {{ .Values.elasticsearch.suppressTypeName | quote }}
+{{- end }}
         {{- if .Values.env }}
         {{- range $key, $value := .Values.env }}
         - name: {{ $key }}
@@ -107,66 +173,31 @@ spec:
         - name: K8S_NODE_NAME
           valueFrom:
             fieldRef:
+              {{- if semverCompare ">= 1.9" $striped_version }}
+              apiVersion: v1
+              {{- end }}
               fieldPath: spec.nodeName
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: varlog
-          mountPath: /var/log
+          mountPath: {{ .Values.hostLogDir.varLog }}
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: {{ .Values.hostLogDir.dockerContainers }}
           readOnly: true
         - name: libsystemddir
-          mountPath: /host/lib
+          mountPath: {{ .Values.hostLogDir.libSystemdDir }}
           readOnly: true
         - name: config-volume
           mountPath: /etc/fluent/config.d
-{{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile 
-        # Liveness probe is aimed to help in situarions where fluentd
-        # silently hangs for no apparent reasons until manual restart.
-        # The idea of this probe is that if fluentd is not queueing or
-        # flushing chunks for 5 minutes, something is not right. If
-        # you want to change the fluentd configuration, reducing amount of
-        # logs fluentd collects, consider changing the threshold or turning
-        # liveness probe off completely.
-        livenessProbe:
-          initialDelaySeconds: 600
-          periodSeconds: 60
-          exec:
-            command:
-            - '/bin/sh'
-            - '-c'
-            - >
-              LIVENESS_THRESHOLD_SECONDS=${LIVENESS_THRESHOLD_SECONDS:-300};
-              STUCK_THRESHOLD_SECONDS=${STUCK_THRESHOLD_SECONDS:-900};
-              if [ ! -e /var/log/fluentd-buffers ];
-              then
-                exit 1;
-              fi;
-              touch -d "${STUCK_THRESHOLD_SECONDS} seconds ago" /tmp/marker-stuck;
-              if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-stuck -print -quit)" ];
-              then
-                rm -rf /var/log/fluentd-buffers;
-                exit 1;
-              fi;
-              touch -d "${LIVENESS_THRESHOLD_SECONDS} seconds ago" /tmp/marker-liveness;
-              if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-liveness -print -quit)" ];
-              then
-                exit 1;
-              fi;
-{{- end }}
-      {{- if .Values.awsSigningSidecar.enabled }}
-      - name: {{ include "fluentd-elasticsearch.fullname" . }}-aws-es-proxy
-        image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ .Values.elasticsearch.host }}:{{ .Values.elasticsearch.port }}",
-               "-listen",   "127.0.0.1:8080"]
-        env:
-        - name: PORT_NUM
-          value: "{{ .Values.elasticsearch.port }}"
-      {{- end }}
 {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | indent 8 }}
+{{- end }}
+      {{- if .Values.livenessProbe.enabled }}  #pointing to fluentd Dockerfile
+        livenessProbe:
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+{{ toYaml .Values.livenessProbe.kind | indent 10 }}
 {{- end }}
         ports:
 {{- range $port := .Values.service.ports }}
@@ -176,19 +207,32 @@ spec:
             protocol: {{ $port.protocol }}
 {{- end }}
 {{- end }}
-
+      {{- if .Values.awsSigningSidecar.enabled }}
+      - name: {{ include "fluentd-elasticsearch.fullname" . }}-aws-es-proxy
+        image: {{ .Values.awsSigningSidecar.image.repository }}:{{ .Values.awsSigningSidecar.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        args: ["-endpoint", "{{ .Values.elasticsearch.scheme }}://{{ index .Values.elasticsearch.hosts 0 }}",
+               "-listen",   "{{ .Values.awsSigningSidecar.network.address }}:{{ .Values.awsSigningSidecar.network.port }}",
+               "-timeout",  "{{ .Values.awsSigningSidecar.network.remoteReadTimeoutSeconds }}"]
+        env:
+        - name: PORT_NUM
+          value: {{ .Values.awsSigningSidecar.network.port | quote }}
+        resources:
+{{ toYaml .Values.awsSigningSidecar.resources | indent 10 }}
+        volumeMounts:
+      {{- end }}
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
         hostPath:
-          path: /var/log
+          path: {{ .Values.hostLogDir.varLog }}
       - name: varlibdockercontainers
         hostPath:
-          path: /var/lib/docker/containers
+          path: {{ .Values.hostLogDir.dockerContainers }}
       # It is needed to copy systemd library to decompress journals
       - name: libsystemddir
         hostPath:
-          path: /usr/lib64
+          path: {{ .Values.hostLogDir.libSystemdDir }}
       - name: config-volume
         configMap:
           name: {{ include "fluentd-elasticsearch.fullname" . }}

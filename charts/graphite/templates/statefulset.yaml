@@ -21,6 +21,10 @@ spec:
         app.kubernetes.io/name: {{ include "graphite.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+{{- if .Values.initContainers }}
+      initContainers:
+{{ toYaml .Values.initContainers | indent 8 }}
+{{- end }}
       containers:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         name: {{ .Chart.Name }}
@@ -29,6 +33,9 @@ spec:
           containerPort: {{ .Values.service.port }}
         - name: graphite-plain
           containerPort: 2003
+        - name: graphite-udp
+          containerPort: 2003
+          protocol: UDP
         - name: graphite-pickle
           containerPort: 2004
         - name: aggregate-plain
@@ -43,6 +50,14 @@ spec:
         env:
         - name: "STATSD_INTERFACE"
           value: {{ .Values.statsd.interface | lower }}
+        - name: "GRAPHITE_TIME_ZONE"
+          value: {{ .Values.timeZone }}
+        {{- if .Values.env }}
+        {{- range $key, $value := .Values.env }}
+        - name: {{ $value.name }}
+          value: {{ $value.value | quote }}
+        {{- end }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /
@@ -58,10 +73,10 @@ spec:
             mountPath: /opt/graphite/conf/
           - name: {{ template "graphite.fullname" . }}-statsd-configmap
             subPath: config_tcp.js
-            mountPath: /opt/statsd/config_tcp.js
+            mountPath: /opt/statsd/config/tcp.js
           - name: {{ template "graphite.fullname" . }}-statsd-configmap
             subPath: config_udp.js
-            mountPath: /opt/statsd/config_udp.js
+            mountPath: /opt/statsd/config/udp.js
           - name: {{ template "graphite.fullname" . }}-pvc
             mountPath: /opt/graphite/storage/
       volumes:

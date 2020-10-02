@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "0.6.0"
 description: A Helm chart for exporting stackdriver metrics to prometheus
 name: stackdriver-exporter
-version: 0.1.2
+version: 0.2.0
 home: https://github.com/frodenas/stackdriver_exporter
 sources:
 - https://github.com/frodenas/stackdriver_exporter

@@ -1,0 +1,95 @@
+{{- if .Values.bucketWebInterface.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-bucket-web-interface
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-bucket-web-interface
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.bucketWebInterface.replicaCount }}
+  strategy:
+  {{- with .Values.bucketWebInterface.updateStrategy }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-bucket-web-interface
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-bucket-web-interface
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        prometheus-thanos-peer: "true"
+        {{- with .Values.bucketWebInterface.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    {{- if .Values.bucketWebInterface.additionalAnnotations }}
+      annotations:
+        {{- with .Values.bucketWebInterface.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    {{- end }}
+    spec:
+      {{- if .Values.bucketWebInterface.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-bucket-web-interface
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-bucket-web-interface
+          imagePullPolicy: {{ .Values.bucketWebInterface.image.pullPolicy }}
+          image: "{{ .Values.bucketWebInterface.image.repository }}:{{ .Values.bucketWebInterface.image.tag }}"
+          args:
+          - tools
+          - bucket
+          - web
+          - --log.level={{ .Values.bucketWebInterface.logLevel }}
+          {{- if .Values.bucketWebInterface.objStoreType }}
+          - |
+            --objstore.config=type: {{ .Values.bucketWebInterface.objStoreType }}
+            config:
+            {{- toYaml .Values.bucketWebInterface.objStoreConfig | nindent 14 }}
+          {{ else if .Values.bucketWebInterface.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.bucketWebInterface.objStoreConfigFile }}
+          {{- end }}
+          {{- range $key, $value := .Values.bucketWebInterface.additionalFlags }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.bucketWebInterface.httpServerPort }}
+              protocol: TCP
+          {{- if .Values.bucketWebInterface.extraEnv }}
+          env:
+            {{- toYaml .Values.bucketWebInterface.extraEnv | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.bucketWebInterface.resources | nindent 12 }}
+          {{- with .Values.bucketWebInterface.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+      {{- with .Values.bucketWebInterface.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.bucketWebInterface.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.bucketWebInterface.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.bucketWebInterface.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.bucketWebInterface.podNumericalPriorityEnabled }}
+      priority: {{ .Values.bucketWebInterface.podPriority }}
+    {{- else if .Values.bucketWebInterface.podPriorityClassName }}
+      priorityClassName: {{ .Values.bucketWebInterface.podPriorityClassName }}
+    {{- end }}
+{{- end }}

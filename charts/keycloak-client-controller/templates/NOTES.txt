@@ -1,7 +1,0 @@
-keycloak-client-controller installed.
-Will manage clients in Keycloak instance: {{ .Values.keycloak.url }}
-
-It can be used by creating resources of type 'keycloakclientregistrations.k8s.kiwigrid.com'.
-
-More details about the CRD be retrieved with following command:
-  kubectl describe crd keycloakclientregistrations.k8s.kiwigrid.com

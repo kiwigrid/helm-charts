@@ -21,9 +21,13 @@ gcp:
 #  keyfileSecretName: ""
 #  metricsOffset: 0s
 #  metricsInterval: 5m
-#  metricsTypePrefixes:
-#    - dataproc.googleapis.com/
-#    - compute.googleapis.com/instance/cpu
+  metricsTypePrefixes:
+  - logging.googleapis.com/
+  # - pubsub.googleapis.com/
+  # - cloudsql.googleapis.com/
+  # - container.googleapis.com/
+  # - dataproc.googleapis.com/
+  # - compute.googleapis.com/instance/cpu
 
 usingGCPController: false
 # has to bae base64 encoded
@@ -46,3 +50,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+prometheusScrapeSlow: false

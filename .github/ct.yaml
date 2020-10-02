@@ -1,0 +1,6 @@
+helm-extra-args: --timeout 1200s
+check-version-increment: true
+debug: true
+chart-repos:
+  - kiwigrid=https://kiwigrid.github.io/
+  - minio=https://helm.min.io

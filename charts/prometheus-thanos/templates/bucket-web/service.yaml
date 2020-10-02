@@ -1,0 +1,25 @@
+{{- if .Values.bucketWebInterface.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-bucket-web-interface
+{{- if .Values.service.bucketWebInterface.annotations }}
+  annotations:
+{{ toYaml .Values.service.bucketWebInterface.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-bucket-web-interface
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.bucketWebInterface.type }}
+  ports:
+    - port: {{ .Values.service.bucketWebInterface.http.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-bucket-web-interface
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

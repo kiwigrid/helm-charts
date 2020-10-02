@@ -4,10 +4,6 @@
 
 nameOverride: ""
 fullnameOverride: ""
-cluster:
-  enabled: false
-  port: 10900
-  address: 0.0.0.0
 
 service:
   querier:
@@ -16,14 +12,29 @@ service:
       port: 9090
     grpc:
       port: 10901
+    annotations: {}
   storeGateway:
     type: ClusterIP
     http:
       port: 9090
     grpc:
       port: 10901
+    annotations: {}
+  ruler:
+    type: ClusterIP
+    http:
+      port: 9090
+    grpc:
+      port: 10901
+    annotations: {}
+  bucketWebInterface:
+    type: ClusterIP
+    http:
+      port: 9090
+    annotations: {}
 
 querier:
+  enabled: true
   replicaCount: 1
   updateStrategy:
     type: RollingUpdate
@@ -31,15 +42,25 @@ querier:
       maxSurge: 1
       maxUnavailable: 0
   image:
-    repository: improbable/thanos
-    tag: v0.4.0
+    repository: quay.io/thanos/thanos
+    tag: v0.14.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  #  annotations: eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
+  ## See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+  ## for IAM Role for your Service Account usage
+  additionalLabels: {}
+  additionalAnnotations: {}
   replicaLabel: replica
   logLevel: info
   stores: []
   additionalFlags: {}
   resources: {}
   nodeSelector: {}
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
   tolerations: []
   affinity: {}
   livenessProbe:
@@ -52,27 +73,53 @@ querier:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 30
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    # List of MetricSpecs to decide whether to scale
+    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
 storeGateway:
+  enabled: true
   replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  updateStrategy: RollingUpdate
   image:
-    repository: improbable/thanos
-    tag: v0.4.0
+    repository: quay.io/thanos/thanos
+    tag: v0.14.0
     pullPolicy: IfNotPresent
-  extraEnv:
+  serviceAccount:
+    create: false
+  additionalLabels: {}
+  additionalAnnotations: {}
+  extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
   logLevel: info
-  indexCacheSize: 500MB
+  # IndexCache configuraiton. See https://thanos.io/components/store.md/#index-cache for available options
+  indexCache:
+    type: IN-MEMORY
+    config:
+      max_size: 500MB
   chunkPoolSize: 500MB
 
-  objStoreType: GCS
+  objStoreType: GCS  # WARNING: this is default to null in other sections
   additionalFlags: {}
-  objStoreConfig:
+  objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
 
@@ -82,6 +129,11 @@ storeGateway:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
+  objStoreConfigFile: null
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
+
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -98,25 +150,55 @@ storeGateway:
     timeoutSeconds: 30
   volumeMounts:
   volumes:
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 10Gi
+    storageClass: ""
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    # List of MetricSpecs to decide whether to scale
+    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 compact:
-  replicaCount: 1
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  enabled: true
+  updateStrategy: RollingUpdate
   image:
-    repository: improbable/thanos
-    tag: v0.4.0
+    repository: quay.io/thanos/thanos
+    tag: v0.14.0
     pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  additionalLabels: {}
+  additionalAnnotations: {}
   logLevel: info
   retentionResolutionRaw: 30d
   retentionResolution5m: 30d
   retentionResolution1h: 10y
   consistencyDelay: 30m
   additionalFlags: {}
-  objStoreConfig:
+
+  objStoreType: null
+  objStoreConfig: {}
   ## GCS example
   #  bucket: demo-bucket
 
@@ -126,13 +208,151 @@ compact:
   #  secret_key: Need8Chars
   #  endpoint: a
   #  insecure: true
-  extraEnv:
+  objStoreConfigFile: null
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
+
+  extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
   resources: {}
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  volumeMounts:
+  volumes:
+  persistentVolume:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 10Gi
+
+
+ruler:
+  enabled: true
+  replicaCount: 1
+  updateStrategy: RollingUpdate
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.14.0
+    pullPolicy: IfNotPresent
+  sidecar:
+    enabled: false
+    watchLabel: thanos_alert_config
+    image:
+      repository: kiwigrid/k8s-configmap-watcher
+      tag: 0.1.1
+      pullPolicy: IfNotPresent
+  serviceAccount: {}
+  replicaLabel: replica
+  logLevel: info
+  ## Ruler configuration
+  ## ref: https://thanos.io/components/rule.md/#flags
+  queries: []
+  clusterName:
+  alertmanagerUrl: http://localhost
+  evalInterval: 1m
+  ruleFile: /etc/thanos-ruler/**/*-rules.yaml
+
+  objStoreType: null
+  objStoreConfig: {}
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  objStoreConfigFile: null
+
+  config: {}
+  #  groups:
+  #  - name: metamonitoring
+  #    rules:
+  #    - alert: PrometheusReplicaDown
+  #      annotations:
+  #        message: Prometheus replica in cluster {{ $labels.cluster }} has disappeared from Prometheus target discovery.
+  #        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusdown
+  #      expr: absent(up{job="prometheus"})
+  #      for: 15s # for demo purposes
+  #      labels:
+  #        severity: critical
+  additionalFlags: {}
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 10Gi
+    storageClass: ""
+  podNumericalPriorityEnabled: true
+  podPriority: 0
+  podPriorityClassName: ""
+
+bucketWebInterface:
+  enabled: false
+  additionalAnnotations: {}
+  additionalFlags: {}
+  additionalLabels: {}
+  affinity: {}
+  extraEnv: []
+  httpServerPort: 10902
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.14.0
+    pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  logLevel: info
+  objStoreType: null
+  objStoreConfig: {}
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  objStoreConfigFile: null
+  nodeSelector: {}
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
+  replicaCount: 1
+  resources: {}
+  tolerations: []
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  volumeMounts:
+  volumes:
+
 ## this is only for test support dont use this in production
 minio:
   enabled: false

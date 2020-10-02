@@ -1,0 +1,127 @@
+{{- if .Values.compact.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-compact
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  updateStrategy:
+    type: {{ .Values.compact.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.name" . }}-compact
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.compact.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+        {{- with .Values.compact.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.compact.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-compact
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-compact
+          imagePullPolicy: {{ .Values.compact.image.pullPolicy }}
+          image: "{{ .Values.compact.image.repository }}:{{ .Values.compact.image.tag }}"
+          args:
+          - compact
+          - --log.level={{ .Values.compact.logLevel }}
+          - --retention.resolution-raw={{ .Values.compact.retentionResolutionRaw }}
+          - --retention.resolution-5m={{ .Values.compact.retentionResolution5m }}
+          - --retention.resolution-1h={{ .Values.compact.retentionResolution1h }}
+          - --consistency-delay={{ .Values.compact.consistencyDelay }}
+          {{- range $key, $value := .Values.compact.additionalFlags }}
+          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          {{- end }}
+          {{- if .Values.compact.objStoreType }}
+          - |
+            --objstore.config=type: {{ .Values.compact.objStoreType }}
+            config:
+            {{- toYaml .Values.compact.objStoreConfig | nindent 14 }}
+          {{ else if .Values.compact.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.compact.objStoreConfigFile }}
+          {{- end }}
+          - --wait
+          ports:
+          - name: monitoring
+            containerPort: 10902
+          {{- if .Values.compact.extraEnv }}
+          env:
+            {{- toYaml .Values.compact.extraEnv | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.compact.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /data
+              name: storage-volume
+          {{- with .Values.compact.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.compact.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.compact.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.compact.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- with .Values.compact.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if not .Values.compact.persistentVolume.enabled }}
+        - name: storage-volume
+          emptyDir: {}
+        {{- else if .Values.compact.persistentVolume.existingClaim }}
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.compact.persistentVolume.existingClaim }}
+        {{- end }}
+      {{- if .Values.compact.podNumericalPriorityEnabled }}
+      priority: {{ .Values.compact.podPriority }}
+      {{- else if .Values.compact.podPriorityClassName }}
+      priorityClassName: {{ .Values.compact.podPriorityClassName }}
+      {{- end }}
+  {{- if and .Values.compact.persistentVolume.enabled (not .Values.compact.persistentVolume.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.compact.persistentVolume.annotations }}
+        annotations:
+        {{- toYaml .Values.compact.persistentVolume.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+        {{- toYaml .Values.compact.persistentVolume.accessModes | nindent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.compact.persistentVolume.size }}"
+        {{- if .Values.compact.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.compact.persistentVolume.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ .Values.compact.persistentVolume.storageClass }}"
+        {{- end }}
+        {{- end }}
+  {{- end }}
+{{- end }}

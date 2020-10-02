@@ -3,12 +3,13 @@ kind: Deployment
 metadata:
   name: {{ include "hawkbit-update-server.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
-    helm.sh/chart: {{ include "hawkbit-update-server.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "hawkbit-update-server.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    {{- with .Values.updateStrategy }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
@@ -20,23 +21,32 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
         checksum/config: {{ include (print .Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- with .Values.podTemplate.annotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
+    {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "{{ .Values.spring.profiles }}"
+            - name: MANAGEMENT_SERVER_PORT
+              value: "9090"
             - name: "SPRING_DATASOURCE_URL"
-              value: "jdbc:mysql://{{ if .Values.useMysql }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
-            - name: "SPRING_DATASOURCE_USERNAME"
-              value: "{{ .Values.env.springDatasourceUsername }}"
-            - name: "SPRING_DATASOURCE_PASSWORD"
+              value: "jdbc:mysql://{{ if .Values.mysql.enabled }}{{ .Release.Name }}-mysql{{ else }}{{ .Values.env.springDatasourceHost }}{{ end }}:3306/{{ .Values.env.springDatasourceDb }}"
+            - name: "SPRING_APPLICATION_JSON"
               valueFrom:
                 secretKeyRef:
-                  name: "{{ template "hawkbit-update-server.fullname" . }}-mysql-pass"
-                  key: "mysql-pass"
+                  name: {{ include "hawkbit-update-server.fullname" . }}
+                  key: "SPRING_APPLICATION_JSON"
             - name: "SPRING_RABBITMQ_HOST"
-              value: "{{ if .Values.useRabbitmq }}{{ .Release.Name }}-rabbitmq{{ else }}{{ .Values.env.springRabbitmqHost }}{{ end }}"
+              value: "{{ if .Values.rabbitmq.enabled }}{{ .Release.Name }}-rabbitmq{{ else }}{{ .Values.env.springRabbitmqHost }}{{ end }}"
             - name: "SPRING_RABBITMQ_USERNAME"
               value: "{{ .Values.env.springRabbitmqUsername }}"
             - name: "SPRING_RABBITMQ_PASSWORD"
@@ -44,13 +54,6 @@ spec:
                 secretKeyRef:
                   name: "{{ template "hawkbit-update-server.fullname" . }}-rabbitmq-pass"
                   key: "rabbitmq-pass"
-            - name: "SECURITY_USER_NAME"
-              value: "{{ .Values.env.securityUserName}}"
-            - name: "SECURITY_USER_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ template "hawkbit-update-server.fullname" . }}-hawkbit-pass"
-                  key: "hawkbit-pass"
             {{- range $key, $value := .Values.extraEnv }}
             - name: "{{ $key }}"
               value: "{{ $value }}"
@@ -59,20 +62,39 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: management
+              containerPort: 9090
+              protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              {{- if .Values.useActuatorCheck }}
+              path: /actuator/health
+              port: management
+              {{- else }}
+              path: /VAADIN/themes/hawkbit/favicon.ico
               port: http
+              {{- end }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
-              path: /
+              {{- if .Values.useActuatorCheck }}
+              path: /actuator/health
+              port: management
+              {{- else }}
+              path: /VAADIN/themes/hawkbit/favicon.ico
               port: http
+              {{- end }}  
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          volumeMounts:
+            - name: configmap
+              mountPath: {{ .Values.configMap.mountPath }}
+            {{- if .Values.extraVolumeMounts }}
+            {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
+            {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+{{ toYaml .Values.resources | indent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -85,3 +107,10 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      volumes:
+      - name: configmap
+        configMap:
+          name: {{ include "hawkbit-update-server.fullname" . }}
+      {{- if .Values.extraVolumes }}
+      {{ toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}

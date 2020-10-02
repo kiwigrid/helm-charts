@@ -1,0 +1,16 @@
+{{- if .Values.ruler.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  default.rules.yaml: |
+  {{- if .Values.ruler.config }}
+    {{- .Values.ruler.config | toYaml | nindent 4 }}
+  {{- end }}
+{{- end }}

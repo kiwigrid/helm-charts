@@ -1,6 +1,6 @@
 # Kiwigrid Helm charts
 
-[![CircleCI](https://img.shields.io/circleci/project/github/kiwigrid/helm-charts/master.svg?style=plastic)](https://circleci.com/gh/kiwigrid/helm-charts)
+[![Github Action](https://github.com/kiwigrid/helm-charts/workflows/deploy/badge.svg)](https://github.com/kiwigrid/helm-charts/actions)
 
 ## Add repo
 

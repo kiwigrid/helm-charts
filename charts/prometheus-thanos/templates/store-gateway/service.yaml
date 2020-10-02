@@ -1,0 +1,29 @@
+{{- if .Values.storeGateway.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-store-gateway
+{{- if .Values.service.storeGateway.annotations }}
+  annotations:
+{{ toYaml .Values.service.storeGateway.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.storeGateway.type }}
+  ports:
+    - port: {{ .Values.service.storeGateway.http.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ .Values.service.storeGateway.grpc.port }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-store-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

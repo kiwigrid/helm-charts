@@ -1,0 +1,29 @@
+{{- if .Values.ruler.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-ruler
+{{- if .Values.service.ruler.annotations }}
+  annotations:
+{{ toYaml .Values.service.ruler.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.ruler.type }}
+  ports:
+    - port: {{ .Values.service.ruler.http.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ .Values.service.ruler.grpc.port }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-ruler
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

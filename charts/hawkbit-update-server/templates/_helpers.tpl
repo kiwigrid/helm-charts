@@ -30,3 +30,16 @@ Create chart name and version as used by the chart label.
 {{- define "hawkbit-update-server.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "hawkbit-update-server.labels" -}}
+app.kubernetes.io/name: {{ include "hawkbit-update-server.name" . }}
+helm.sh/chart: {{ include "hawkbit-update-server.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
