@@ -1,5 +1,5 @@
 {{- if and .Values.querier.enabled .Values.querier.autoscaling.enabled -}}
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "prometheus-thanos.fullname" . }}-querier
