@@ -1,6 +1,6 @@
 apiVersion: v1
 name: fluentd-elasticsearch
-version: 9.6.1
+version: 9.6.2
 appVersion: 3.0.4
 home: https://www.fluentd.org/
 description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
@@ -16,9 +16,5 @@ sources:
 - https://github.com/fluent/fluentd-kubernetes-daemonset
 - https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions
 - https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch/fluentd-es-image
-maintainers:
-- name: monotek
-  email: andre.bauer@kiwigrid.com
-- name: axdotl
-  email: axel.koehler@kiwigrid.com
 engine: gotpl
+deprecated: true
