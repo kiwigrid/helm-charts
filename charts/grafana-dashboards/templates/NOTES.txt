@@ -1,0 +1,6 @@
+Following dahsboards will be imported to Grafana (if sidecar import enabled):
+
+{{- $root := . }}
+{{ range $path, $bytes := .Files.Glob "dashboards/**.json" }}
+* {{ $path | replace "dashboards/" ""}}
+{{- end }}

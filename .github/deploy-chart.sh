@@ -58,6 +58,7 @@ if ! helm repo list | grep -q "^stable"; then
   helm repo add stable https://kubernetes-charts.storage.googleapis.com
 fi
 helm repo add kiwigrid https://kiwigrid.github.io
+helm repo add minio https://helm.min.io
 helm repo update
 
 # build helm dependencies for all charts
