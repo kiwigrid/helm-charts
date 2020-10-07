@@ -1,5 +1,7 @@
 # Prometheus Pingdom Exporter
 
+**CHART HAS BEEN DEPRECATED AND MOVED TO <https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-pingdom-exporter>**
+
 - **Source:** https://github.com/giantswarm/prometheus-pingdom-exporter
 
 [prometheus-pingdom-exporter](https://github.com/giantswarm/prometheus-pingdom-exporter) the prometheus-pingdom-exporter cares about preprocessing the pingdom uptime check results for consumption of by prometheus.
