@@ -1,3 +1,5 @@
+!! CHART HAS BEEN DEPRECATED AND MOVED TO https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-pingdom-exporter> !!
+
 {{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
