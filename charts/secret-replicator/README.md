@@ -28,18 +28,21 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of the chart and their default values.
 
-| Parameter                         | Description                             | Default                                                                                     |
-| --------------------------------- | --------------------------------------  | ---------------------------------------------------------                                   |
-| `image.repository`                           | image name                        | `kiwigrid/secret-replicator`                                                        |
-| `image.tag`                        | image tag                      | `0.1.1`                                                                                      |
-| `image.pullPolicy`                 | Image pull policy                       | `IfNotPresent`                                                                              |
-| `image.pullSecrets`                  | Image pull secrets                              | `nil`                                                      |
-| `secretList`                           | list of pull secrets                          | empty string                                                        |
-| `ignoreNamespaces`             | namespaces which should be excluded from sync                                     | `kube-system,kube-pulic`               |
-| `resources`                    | Resource limits for pod             | `{}`                                   |
-| `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
-| `tolerations`                  | Tolerations                                  | `[]`                                   |
-| `affinity`                     | Affinity                                     | `{}`                                   |
+| Parameter                  | Description                                   | Default                      |
+|----------------------------|-----------------------------------------------|------------------------------|
+| `image.repository`         | image name                                    | `kiwigrid/secret-replicator` |
+| `image.tag`                | image tag                                     | `0.1.1`                      |
+| `image.pullPolicy`         | Image pull policy                             | `IfNotPresent`               |
+| `image.pullSecrets`        | Image pull secrets                            | `nil`                        |
+| `secretList`               | list of pull secrets                          | empty string                 |
+| `ignoreNamespaces`         | namespaces which should be excluded from sync | `kube-system,kube-pulic`     |
+| `secretNamespace`          | namespaces where the secrets can be found     | `<release namespace>`        |
+| `resources`                | Resource limits for pod                       | `{}`                         |
+| `nodeSelector`             | NodeSelector                                  | `{}`                         |
+| `tolerations`              | Tolerations                                   | `[]`                         |
+| `affinity`                 | Affinity                                      | `{}`                         |
+| `podSecurityContext`       | SecurityContext at pod level                  | `{}`                         |
+| `containerSecurityContext` | SecurityContext at container level            | `{}`                         |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.

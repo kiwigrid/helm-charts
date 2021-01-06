@@ -15,6 +15,10 @@ secretList: ""
 # secretList: "secret1,secret2
 
 ignoreNamespaces: "kube-system,kube-public"
+
+# If defined, allow secret-replicator to watch for secrets in _another_ namespace
+secretNamespace:
+
 rbac:
   enabled: true
 
