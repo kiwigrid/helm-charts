@@ -20,6 +20,8 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ template "secret-replicator.fullname" . }}-sa
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}      
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -29,8 +31,12 @@ spec:
             value: {{ .Values.secretList }}
           - name: IGNORE_NAMESPACES
             value: {{ .Values.ignoreNamespaces }}
+          - name: SECRET_NAMESPACE
+            value: {{ .Values.secretNamespace | default .Release.Namespace }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+          securityContext:
+{{ toYaml .Values.containerSecurityContext | indent 12 }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
       - name: {{ .Values.image.pullSecrets }}
