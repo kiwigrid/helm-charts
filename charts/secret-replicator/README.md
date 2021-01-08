@@ -31,7 +31,7 @@ The following table lists the configurable parameters of the chart and their def
 | Parameter                  | Description                                   | Default                      |
 |----------------------------|-----------------------------------------------|------------------------------|
 | `image.repository`         | image name                                    | `kiwigrid/secret-replicator` |
-| `image.tag`                | image tag                                     | `0.1.1`                      |
+| `image.tag`                | image tag                                     | `0.2.0`                      |
 | `image.pullPolicy`         | Image pull policy                             | `IfNotPresent`               |
 | `image.pullSecrets`        | Image pull secrets                            | `nil`                        |
 | `secretList`               | list of pull secrets                          | empty string                 |
