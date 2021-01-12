@@ -59,7 +59,7 @@ spec:
           - --objstore.config-file={{ .Values.ruler.objStoreConfigFile }}
           {{- end }}
           {{- range $key, $value := .Values.ruler.additionalFlags }}
-          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
 
           - --label=ruler_cluster="{{ .Values.ruler.clusterName }}"

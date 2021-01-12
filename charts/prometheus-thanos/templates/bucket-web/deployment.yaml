@@ -55,7 +55,7 @@ spec:
           - --objstore.config-file={{ .Values.bucketWebInterface.objStoreConfigFile }}
           {{- end }}
           {{- range $key, $value := .Values.bucketWebInterface.additionalFlags }}
-          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
           ports:
             - name: http
