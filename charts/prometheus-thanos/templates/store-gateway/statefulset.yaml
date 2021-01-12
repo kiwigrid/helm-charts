@@ -50,7 +50,7 @@ spec:
             {{- toYaml .Values.storeGateway.indexCache.config | nindent 14 }}
           - --chunk-pool-size={{ .Values.storeGateway.chunkPoolSize }}
           {{- range $key, $value := .Values.storeGateway.additionalFlags }}
-          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
           {{- if .Values.storeGateway.objStoreType }}
           - |

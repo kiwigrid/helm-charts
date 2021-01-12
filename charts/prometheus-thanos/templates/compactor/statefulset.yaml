@@ -47,7 +47,7 @@ spec:
           - --retention.resolution-1h={{ .Values.compact.retentionResolution1h }}
           - --consistency-delay={{ .Values.compact.consistencyDelay }}
           {{- range $key, $value := .Values.compact.additionalFlags }}
-          - --{{ $key }}{{if $value }}={{ $value }}{{end}}
+          - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
           {{- if .Values.compact.objStoreType }}
           - |
