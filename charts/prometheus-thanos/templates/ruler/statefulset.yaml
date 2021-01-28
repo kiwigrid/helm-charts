@@ -64,6 +64,12 @@ spec:
 
           - --label=ruler_cluster="{{ .Values.ruler.clusterName }}"
           - --label=replica="$(POD_NAME)"
+          {{- if .Values.tracingType }}
+          - |
+            --tracing.config=type: {{ .Values.tracingType }}
+            config:
+              {{- toYaml .Values.tracingConfig | nindent 14 }}
+          {{- end }}
           env:
             - name: POD_NAME
               valueFrom:

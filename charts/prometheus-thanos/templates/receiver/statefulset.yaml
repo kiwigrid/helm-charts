@@ -1,0 +1,194 @@
+{{- /*
+Receivers must currently be behind a headless services since they form a hashring and communicate directly with each 
+other. This means that port mappings at the service level won't be respected, so unlike other components the port 
+overrides are defined here, rather than within the service.  In an attempt to keep some consistency (and perhaps future 
+proof for the case where it may some day be possible to map ports in headless services) the path for port values is of 
+the form '.Values.service.receiver.PORT_NAME.port'
+
+At this moment in time using the HPA to scale Receivers is not a good idea so no template has been provided.
+See https://youtu.be/5MJqdJq41Ms
+*/}}
+
+{{- if .Values.receiver.enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-receiver
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.receiver.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.receiver.updateStrategy }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  serviceName: {{ include "prometheus-thanos.fullname" . }}-receiver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        prometheus-thanos-peer: "true"
+        {{- with .Values.receiver.additionalLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+        {{- with .Values.receiver.additionalAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.receiver.serviceAccount.create }}
+      serviceAccount: {{ include "prometheus-thanos.fullname" . }}-receiver
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-receiver
+          imagePullPolicy: {{ .Values.receiver.image.pullPolicy }}
+          image: "{{ .Values.receiver.image.repository }}:{{ .Values.receiver.image.tag }}"
+          args:
+          - receive
+          - --tsdb.path=/data
+          - --log.level={{ .Values.receiver.logLevel }}
+          - --receive.replication-factor={{ .Values.receiver.replicationFactor }}
+          - --label=receive_replica="$(K8S_POD)"
+          - --tsdb.retention={{ .Values.receiver.tsdbRetention }}
+          - --grpc-address=0.0.0.0:{{ .Values.service.receiver.grpc.port }}
+          - --http-address=0.0.0.0:{{ .Values.service.receiver.http.port }}
+          - --remote-write.address=0.0.0.0:{{ .Values.service.receiver.httpRemoteWrite.port }}
+          - --receive.local-endpoint=$(K8S_POD).$(K8S_SERVICE).$(K8S_NAMESPACE).svc.cluster.local:{{ .Values.service.receiver.grpc.port }}
+          - --receive.hashrings-file=/var/lib/thanos-receive/hashrings.json
+
+          {{- if .Values.tracingType }}
+          - |
+            --tracing.config=type: {{ .Values.tracingType }}
+            config:
+              {{- toYaml .Values.tracingConfig | nindent 14 }}
+          {{- end }}
+
+          {{- range $key, $value := .Values.receiver.additionalFlags }}
+          - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
+          {{- end }}
+          {{- if .Values.receiver.objStoreType }}
+          - |
+            --objstore.config=type: {{ .Values.receiver.objStoreType }}
+            config:
+            {{- toYaml .Values.receiver.objStoreConfig | nindent 14 }}
+          {{ else if .Values.receiver.objStoreConfigFile }}
+          - --objstore.config-file={{ .Values.receiver.objStoreConfigFile }}
+          {{- end }}
+          
+          ports:
+            - name: grpc
+              containerPort: {{ .Values.service.receiver.grpc.port }}
+              protocol: TCP
+            - name: http
+              containerPort: {{ .Values.service.receiver.http.port }}
+              protocol: TCP
+            - name: http-rw
+              containerPort: {{ .Values.service.receiver.httpRemoteWrite.port }}
+              protocol: TCP
+          
+          env:
+            - name: K8S_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: K8S_POD
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_SERVICE
+              value: {{ include "prometheus-thanos.fullname" . }}-receiver
+
+            {{- if .Values.receiver.extraEnv }}
+            {{- toYaml .Values.receiver.extraEnv | nindent 12 }}
+            {{- end }}
+
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+            initialDelaySeconds: {{ .Values.receiver.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.receiver.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.receiver.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.receiver.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+            initialDelaySeconds: {{ .Values.receiver.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.receiver.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.receiver.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.receiver.readinessProbe.timeoutSeconds }}
+          
+          resources:
+            {{- toYaml .Values.receiver.resources | nindent 12 }}
+
+          volumeMounts:
+          - mountPath: /data
+            name: storage-volume
+            readOnly: false
+          - mountPath: /var/lib/thanos-receive
+            name: hashring-config
+      
+      {{- with .Values.receiver.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.receiver.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.receiver.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- with .Values.receiver.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if not .Values.receiver.persistentVolume.enabled }}
+        - name: storage-volume
+          emptyDir: {}
+        {{- else if .Values.receiver.persistentVolume.existingClaim }}
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.receiver.persistentVolume.existingClaim }}
+        {{- end }}
+        - name: hashring-config 
+          configMap:
+            name: thanos-receive-hashring-config
+      {{- if .Values.receiver.podNumericalPriorityEnabled }}
+      priority: {{ .Values.receiver.podPriority }}
+      {{- else if .Values.receiver.podPriorityClassName }}
+      priorityClassName: {{ .Values.receiver.podPriorityClassName }}
+      {{- end }}
+  {{- if and .Values.receiver.persistentVolume.enabled (not .Values.receiver.persistentVolume.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+        {{- if .Values.receiver.persistentVolume.annotations }}
+        annotations:
+        {{- toYaml .Values.receiver.persistentVolume.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+        {{- toYaml .Values.receiver.persistentVolume.accessModes | nindent 10 }}
+        resources:
+          requests:
+            storage: "{{ .Values.receiver.persistentVolume.size }}"
+        {{- if .Values.receiver.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.receiver.persistentVolume.storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ .Values.receiver.persistentVolume.storageClass }}"
+        {{- end }}
+        {{- end }}
+  {{- end }}
+{{- end }}

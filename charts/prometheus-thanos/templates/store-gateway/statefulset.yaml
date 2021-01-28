@@ -60,6 +60,12 @@ spec:
           {{ else if .Values.storeGateway.objStoreConfigFile }}
           - --objstore.config-file={{ .Values.storeGateway.objStoreConfigFile }}
           {{- end }}
+          {{- if .Values.tracingType }}
+          - |
+            --tracing.config=type: {{ .Values.tracingType }}
+            config:
+              {{- toYaml .Values.tracingConfig | nindent 14 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 10902

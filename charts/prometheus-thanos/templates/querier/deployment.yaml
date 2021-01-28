@@ -51,6 +51,12 @@ spec:
           {{- range $key, $value := .Values.querier.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
+          {{- if .Values.tracingType }}
+          - |
+            --tracing.config=type: {{ .Values.tracingType }}
+            config:
+              {{- toYaml .Values.tracingConfig | nindent 14 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 10902
