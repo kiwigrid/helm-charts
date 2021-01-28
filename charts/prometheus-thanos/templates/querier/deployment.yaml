@@ -51,11 +51,11 @@ spec:
           {{- range $key, $value := .Values.querier.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
-          {{- if .Values.tracingType }}
+          {{- if .Values.tracing.enabled }}
           - |
-            --tracing.config=type: {{ .Values.tracingType }}
+            --tracing.config=type: {{ .Values.tracing.type }}
             config:
-              {{- toYaml .Values.tracingConfig | nindent 14 }}
+              {{- toYaml .Values.tracing.config | nindent 14 }}
           {{- end }}
           ports:
             - name: http

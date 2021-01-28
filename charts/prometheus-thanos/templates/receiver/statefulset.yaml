@@ -63,14 +63,12 @@ spec:
           - --remote-write.address=0.0.0.0:{{ .Values.service.receiver.httpRemoteWrite.port }}
           - --receive.local-endpoint=$(K8S_POD).$(K8S_SERVICE).$(K8S_NAMESPACE).svc.cluster.local:{{ .Values.service.receiver.grpc.port }}
           - --receive.hashrings-file=/var/lib/thanos-receive/hashrings.json
-
-          {{- if .Values.tracingType }}
+          {{- if .Values.tracing.enabled }}
           - |
-            --tracing.config=type: {{ .Values.tracingType }}
+            --tracing.config=type: {{ .Values.tracing.type }}
             config:
-              {{- toYaml .Values.tracingConfig | nindent 14 }}
+              {{- toYaml .Values.tracing.config | nindent 14 }}
           {{- end }}
-
           {{- range $key, $value := .Values.receiver.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
@@ -82,7 +80,6 @@ spec:
           {{ else if .Values.receiver.objStoreConfigFile }}
           - --objstore.config-file={{ .Values.receiver.objStoreConfigFile }}
           {{- end }}
-          
           ports:
             - name: grpc
               containerPort: {{ .Values.service.receiver.grpc.port }}

@@ -5,6 +5,11 @@
 nameOverride: ""
 fullnameOverride: ""
 
+tracing:
+  enabled: false
+  type: ""
+  config: {}
+
 service:
   queryFrontend:
     type: ClusterIP

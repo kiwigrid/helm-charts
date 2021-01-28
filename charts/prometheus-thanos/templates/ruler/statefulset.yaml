@@ -61,14 +61,13 @@ spec:
           {{- range $key, $value := .Values.ruler.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
-
           - --label=ruler_cluster="{{ .Values.ruler.clusterName }}"
           - --label=replica="$(POD_NAME)"
-          {{- if .Values.tracingType }}
+          {{- if .Values.tracing.enabled }}
           - |
-            --tracing.config=type: {{ .Values.tracingType }}
+            --tracing.config=type: {{ .Values.tracing.type }}
             config:
-              {{- toYaml .Values.tracingConfig | nindent 14 }}
+              {{- toYaml .Values.tracing.config | nindent 14 }}
           {{- end }}
           env:
             - name: POD_NAME

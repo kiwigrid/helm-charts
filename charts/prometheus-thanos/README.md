@@ -88,8 +88,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 
 | Parameter                                  | Description                               | Default                            |
 | ------------------------------------------ | ----------------------------------------- | ---------------------------------- |
-| `tracingType` | The tracer [type](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this  | `nil` |
-| `tracingConfig` | Config for the [tracer](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this | `{}` |
+| `tracing.enabled` | Controls whether [tracing](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md) is required across all components | `false` |
+| `tracing.type` | The tracer [type](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this  | `` |
+| `tracing.config` | Config for the [tracer](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this | `{}` |
 | `bucketWebInterface.enabled` | Controls whether bucket web interface related resources should be created | `false` |
 | `bucketWebInterface.additionalAnnotations` | Additional annotations on bucket web interface pods| `{}` |
 | `bucketWebInterface.additionalFlags` | Additional command line flags | `{}` |
