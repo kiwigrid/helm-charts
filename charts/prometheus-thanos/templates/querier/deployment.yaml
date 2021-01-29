@@ -44,7 +44,9 @@ spec:
           args:
           - query
           - --log.level={{ .Values.querier.logLevel }}
-          - --query.replica-label={{ .Values.querier.replicaLabel }}
+          {{- range .Values.querier.replicaLabels }}
+          - --query.replica-label={{ . }}
+          {{- end }}
           {{- range .Values.querier.stores }}
           - --store={{ . }}
           {{- end }}

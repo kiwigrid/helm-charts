@@ -131,7 +131,7 @@ querier:
   ## for IAM Role for your Service Account usage
   additionalLabels: {}
   additionalAnnotations: {}
-  replicaLabel: replica
+  replicaLabels: []
   logLevel: info
   stores: []
   additionalFlags: {}

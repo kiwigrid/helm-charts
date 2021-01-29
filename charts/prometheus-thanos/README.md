@@ -179,6 +179,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
 | `querier.readinessProbe.timeoutSeconds` | Readiness probe timeoutSeconds | `30` |
 | `querier.replicaCount` | Replica count for querier | `1` |
+| `querier.replicaLabels` | Replica reference labels which are used for query response deduplication | `[]` |
 | `querier.resources` | Resources | `{}` |
 | `querier.stores` | List of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `querier.tolerations` | Tolerations | `[]` |
