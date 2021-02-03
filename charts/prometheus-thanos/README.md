@@ -88,6 +88,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 
 | Parameter                                  | Description                               | Default                            |
 | ------------------------------------------ | ----------------------------------------- | ---------------------------------- |
+| `tracing.enabled` | Controls whether [tracing](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md) is required across all components | `false` |
+| `tracing.type` | The tracer [type](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this  | `` |
+| `tracing.config` | Config for the [tracer](https://github.com/thanos-io/thanos/blob/master/docs/tracing.md).  All components which support tracing will use this | `{}` |
 | `bucketWebInterface.enabled` | Controls whether bucket web interface related resources should be created | `false` |
 | `bucketWebInterface.additionalAnnotations` | Additional annotations on bucket web interface pods| `{}` |
 | `bucketWebInterface.additionalFlags` | Additional command line flags | `{}` |
@@ -96,7 +99,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.extraEnv` | Extra env vars | `nil` |
 | `bucketWebInterface.httpServerPort` | The port to expose from the bucket web interface container | `10902` |
 | `bucketWebInterface.image.repository` | Docker image repo for bucket web interface | `quay.io/thanos/thanos` |
-| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.14.0` |
+| `bucketWebInterface.image.tag` | Docker image tag for bucket web interface | `v0.17.2` |
 | `bucketWebInterface.image.pullPolicy` | Docker image pull policy for bucket web interface| `IfNotPresent` |
 | `bucketWebInterface.serviceAccount.create` | Create service account | `true` |
 | `bucketWebInterface.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -121,8 +124,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.affinity` | Affinity | `{}` |
 | `compact.consistencyDelay` | Consistency delay | `30m` |
 | `compact.extraEnv` | Extra env vars | `nil` |
-| `compact.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `compact.image.tag` | Docker image tag for store gateway | `v0.14.0` |
+| `compact.image.repository` | Docker image repo for compactor | `quay.io/thanos/thanos` |
+| `compact.image.tag` | Docker image tag for compactor | `v0.17.2` |
 | `compact.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `compact.serviceAccount.create` | Create service account | `true` |
 | `compact.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -158,7 +161,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
 | `querier.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
 | `querier.image.repository` | Docker image repo for querier | `quay.io/thanos/thanos` |
-| `querier.image.tag` | Docker image tag for querier | `v0.14.0` |
+| `querier.image.tag` | Docker image tag for querier | `v0.17.2` |
 | `querier.image.pullPolicy` | Docker image pull policy for querier| `IfNotPresent` |
 | `querier.serviceAccount.create` | Create service account | `true` |
 | `querier.serviceAccount.annotations` | Service account annotations | `nil` |
@@ -176,12 +179,91 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
 | `querier.readinessProbe.timeoutSeconds` | Readiness probe timeoutSeconds | `30` |
 | `querier.replicaCount` | Replica count for querier | `1` |
+| `querier.replicaLabels` | Replica reference labels which are used for query response deduplication | `[]` |
 | `querier.resources` | Resources | `{}` |
 | `querier.stores` | List of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `querier.tolerations` | Tolerations | `[]` |
 | `querier.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `querier.volumeMounts` | Additional volume mounts | `nil` |
 | `querier.volumes` | Additional volumes | `nil` |
+| `queryFrontend.enabled` | Controls whether query-frontend related resources should be created | `true` |
+| `queryFrontend.additionalAnnotations` | Additional annotations on query-frontend pods| `{}` |
+| `queryFrontend.additionalFlags` | Additional command line flags | `{}` |
+| `queryFrontend.additionalLabels` | Additional labels on query-frontend pods| `{}` |
+| `queryFrontend.affinity` | Affinity | `{}` |
+| `queryFrontend.autoscaling.enabled` | Controls whether query-frontend autoscaling is enabled | `false` |
+| `queryFrontend.autoscaling.maxReplicas` | Maximum number of replicas to scale to | `10` |
+| `queryFrontend.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
+| `queryFrontend.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
+| `queryFrontend.downstreamUrl` | The URL of the querier service | `the default URL of the querier service` |
+| `queryFrontend.image.repository` | Docker image repo for query-frontend | `quay.io/thanos/thanos` |
+| `queryFrontend.image.tag` | Docker image tag for query-frontend | `v0.17.2` |
+| `queryFrontend.image.pullPolicy` | Docker image pull policy for query-frontend| `IfNotPresent` |
+| `queryFrontend.serviceAccount.create` | Create service account | `true` |
+| `queryFrontend.serviceAccount.annotations` | Service account annotations | `nil` |
+| `queryFrontend.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
+| `queryFrontend.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
+| `queryFrontend.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
+| `queryFrontend.livenessProbe.timeoutSeconds` | Liveness probe timeoutSeconds | `30` |
+| `queryFrontend.logLevel` | Query-frontend log level | `info` |
+| `queryFrontend.logQueriesLongerThan` | Log queries that are slower than the specified duration. | `0` |
+| `queryFrontend.nodeSelector` | NodeSelector | `{}` |
+| `queryFrontend.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `queryFrontend.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `queryFrontend.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
+| `queryFrontend.querySplitInterval` |  Split query range requests by an interval and execute in parallel | `24h` |
+| `queryFrontend.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
+| `queryFrontend.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
+| `queryFrontend.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
+| `queryFrontend.readinessProbe.timeoutSeconds` | Readiness probe timeoutSeconds | `30` |
+| `queryFrontend.replicaCount` | Replica count for query-frontend | `1` |
+| `queryFrontend.resources` | Resources | `{}` |
+| `queryFrontend.stores` | List of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
+| `queryFrontend.tolerations` | Tolerations | `[]` |
+| `queryFrontend.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
+| `queryFrontend.volumeMounts` | Additional volume mounts | `nil` |
+| `queryFrontend.volumes` | Additional volumes | `nil` |
+| `receiver.enabled` | Controls whether receiver related resources should be created | `true` |
+| `receiver.affinity` | Affinity | `{}` |
+| `receiver.additionalAnnotations` | Additional annotations on receiver pods| `{}` |
+| `receiver.additionalFlags` | Additional command line flags | `{}` |
+| `receiver.additionalLabels` | Additional labels on receiver pods| `{}` |
+| `receiver.extraEnv` | Extra env vars | `nil` |
+| `receiver.image.repository` | Docker image repo for receiver | `quay.io/thanos/thanos` |
+| `receiver.image.tag` | Docker image tag for receiver | `v0.17.2` |
+| `receiver.image.pullPolicy` | Docker image pull policy for receiver | `IfNotPresent` |
+| `receiver.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
+| `receiver.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
+| `receiver.livenessProbe.successThreshold` | Liveness probe successThreshold | `1` |
+| `receiver.livenessProbe.timeoutSeconds` | Liveness probe timeoutSeconds | `30` |
+| `receiver.logLevel` | Receiver log level | `info` |
+| `receiver.nodeSelector` | NodeSelector | `{}` |
+| `receiver.objStoreConfig` | Config for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `{}` |
+| `receiver.objStoreConfigFile` | Path to config file for the [bucket store](https://github.com/thanos-io/thanos/blob/master/docs/storage.md). Either this or `objStoreType` + `objStoreConfig`. | `nil` |
+| `receiver.objStoreType` | Object store [type](https://github.com/thanos-io/thanos/blob/master/docs/storage.md) | `GCS` |
+| `receiver.persistentVolume.enabled` | Persistent volume enabled | `true` |
+| `receiver.persistentVolume.accessModes` | Persistent volume accessModes | `[ReadWriteOnce]` |
+| `receiver.persistentVolume.annotations` | Persistent volume annotations | `{}` |
+| `receiver.persistentVolume.existingClaim` | Persistent volume existingClaim | `""` |
+| `receiver.persistentVolume.size` | Persistent volume size | `2Gi` |
+| `receiver.persistentVolume.storageClass` | Persistent volume storage class name | `""` |
+| `receiver.podNumericalPriorityEnabled` | Enables use of the `podPriority`. Either this or `podPriorityClassName`. | `false` |
+| `receiver.podPriority` | Numerical value of the pod priority. Enabled by `podNumericalPriorityEnabled` | `0` |
+| `receiver.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
+| `receiver.readinessProbe.initialDelaySeconds` | Readiness probe initialDelaySeconds | `30` |
+| `receiver.readinessProbe.periodSeconds` | Readiness probe periodSeconds | `10` |
+| `receiver.readinessProbe.successThreshold` | Readiness probe successThreshold | `1` |
+| `receiver.readinessProbe.timeoutSeconds` |Readiness probe timeoutSeconds | `30` |
+| `receiver.replicaCount` | Replica count for receiver | `1` |
+| `receiver.replicationFactor` | Number of times to replicate incoming write requests | `1` |
+| `receiver.resources` | Resources | `{}` |
+| `receiver.serviceAccount.create` | Create service account | `true` |
+| `receiver.serviceAccount.annotations` | Service account annotations | `nil` |
+| `receiver.tolerations` | Tolerations | `[]` |
+| `receiver.tsdbRetention` | The period to retain TSDB blocks in the receiver | `1d` |
+| `receiver.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
+| `receiver.volumeMounts` | Additional volume mounts | `nil` |
+| `receiver.volumes` |Additional volumes | `nil` |
 | `ruler.enabled` | controls whether ruler related resources should be created | `true` |
 | `ruler.additionalAnnotations` | Additional annotations on ruler pod| `{}` |
 | `ruler.additionalFlags` | Additional command line flags | `{}` |
@@ -193,7 +275,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.evalInterval` | Ruler evaluation interval | `1m` |
 | `ruler.extraEnv` | Extra env vars | `nil` |
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
-| `ruler.image.tag` | Docker image tag for ruler | `v0.14.0` |
+| `ruler.image.tag` | Docker image tag for ruler | `v0.17.2` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
 | `ruler.serviceAccount.annotations` | Service account annotations | `nil` |
 | `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
@@ -258,7 +340,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.chunkPoolSize` | Chunk pool size | `500MB` |
 | `storeGateway.extraEnv` | Extra env vars | `nil` |
 | `storeGateway.image.repository` | Docker image repo for store gateway | `quay.io/thanos/thanos` |
-| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.14.0` |
+| `storeGateway.image.tag` | Docker image tag for store gateway | `v0.17.2` |
 | `storeGateway.image.pullPolicy` | Docker image pull policy for store gateway | `IfNotPresent` |
 | `storeGateway.indexCache.config` | Config for the index cache, see [the docs](https://thanos.io/components/store.md/#index-cache) | `max_size: 500MB` |
 | `storeGateway.indexCache.type` | Type of the index cache, either `IN-MEMORY` or `MEMCACHED` | `IN-MEMORY` |
