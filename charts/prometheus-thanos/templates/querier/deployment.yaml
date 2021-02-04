@@ -44,12 +44,20 @@ spec:
           args:
           - query
           - --log.level={{ .Values.querier.logLevel }}
-          - --query.replica-label={{ .Values.querier.replicaLabel }}
+          {{- range .Values.querier.replicaLabels }}
+          - --query.replica-label={{ . }}
+          {{- end }}
           {{- range .Values.querier.stores }}
           - --store={{ . }}
           {{- end }}
           {{- range $key, $value := .Values.querier.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
+          {{- end }}
+          {{- if .Values.tracing.enabled }}
+          - |
+            --tracing.config=type: {{ .Values.tracing.type }}
+            config:
+              {{- toYaml .Values.tracing.config | nindent 14 }}
           {{- end }}
           ports:
             - name: http

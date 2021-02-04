@@ -5,7 +5,17 @@
 nameOverride: ""
 fullnameOverride: ""
 
+tracing:
+  enabled: false
+  type: ""
+  config: {}
+
 service:
+  queryFrontend:
+    type: ClusterIP
+    http:
+      port: 9090
+    annotations: {}
   querier:
     type: ClusterIP
     http:
@@ -27,11 +37,80 @@ service:
     grpc:
       port: 10901
     annotations: {}
+  receiver:
+    http:
+      port: 9090
+    httpRemoteWrite:
+      port: 9091
+    grpc:
+      port: 10901
+    annotations: {}
   bucketWebInterface:
     type: ClusterIP
     http:
       port: 9090
     annotations: {}
+
+queryFrontend:
+  enabled: true
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.17.2
+    pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  #  annotations: eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
+  ## See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+  ## for IAM Role for your Service Account usage
+  additionalLabels: {}
+  additionalAnnotations: {}
+  logLevel: info
+  logQueriesLongerThan: 0
+  querySplitInterval: 24h
+  additionalFlags: {}
+  resources: {}
+  nodeSelector: {}
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    metrics:
+    # List of MetricSpecs to decide whether to scale
+    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 querier:
   enabled: true
@@ -43,7 +122,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.14.0
+    tag: v0.17.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -52,7 +131,7 @@ querier:
   ## for IAM Role for your Service Account usage
   additionalLabels: {}
   additionalAnnotations: {}
-  replicaLabel: replica
+  replicaLabels: []
   logLevel: info
   stores: []
   additionalFlags: {}
@@ -100,7 +179,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.14.0
+    tag: v0.17.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -184,7 +263,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.14.0
+    tag: v0.17.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -238,7 +317,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.14.0
+    tag: v0.17.2
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
@@ -311,6 +390,65 @@ ruler:
   podPriority: 0
   podPriorityClassName: ""
 
+receiver:
+  enabled: true
+  replicaCount: 1
+  updateStrategy: RollingUpdate
+  image:
+    repository: quay.io/thanos/thanos
+    tag: v0.17.2
+    pullPolicy: IfNotPresent
+  serviceAccount:
+    create: false
+  additionalLabels: {}
+  additionalAnnotations: {}
+  extraEnv: []
+  logLevel: info
+  tsdbRetention: 1d
+  replicationFactor: 1
+
+  objStoreType: GCS  # WARNING: this is default to null in other sections
+  additionalFlags: {}
+  objStoreConfig: {}
+  ## GCS example
+  #  bucket: demo-bucket
+
+  ## S3 example
+  #  bucket: demo-bucket
+  #  access_key: smth
+  #  secret_key: Need8Chars
+  #  endpoint: a
+  #  insecure: true
+  objStoreConfigFile: null
+  podNumericalPriorityEnabled: false
+  podPriority: 0
+  podPriorityClassName: ""
+
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 30
+  volumeMounts:
+  volumes:
+  persistentVolume:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 8Gi
+    storageClass: ""
+
 bucketWebInterface:
   enabled: false
   additionalAnnotations: {}
@@ -321,7 +459,7 @@ bucketWebInterface:
   httpServerPort: 10902
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.14.0
+    tag: v0.17.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false

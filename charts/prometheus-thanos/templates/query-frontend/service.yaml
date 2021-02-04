@@ -1,0 +1,25 @@
+{{- if .Values.queryFrontend.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-query-frontend
+{{- if .Values.service.queryFrontend.annotations }}
+  annotations:
+{{ toYaml .Values.service.queryFrontend.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-query-frontend
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.queryFrontend.type }}
+  ports:
+    - port: {{ .Values.service.queryFrontend.http.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-query-frontend
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

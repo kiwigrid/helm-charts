@@ -57,6 +57,12 @@ spec:
           {{ else if .Values.compact.objStoreConfigFile }}
           - --objstore.config-file={{ .Values.compact.objStoreConfigFile }}
           {{- end }}
+          {{- if .Values.tracing.enabled }}
+          - |
+            --tracing.config=type: {{ .Values.tracing.type }}
+            config:
+              {{- toYaml .Values.tracing.config | nindent 14 }}
+          {{- end }}
           - --wait
           ports:
           - name: monitoring

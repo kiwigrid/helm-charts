@@ -1,0 +1,24 @@
+{{- /*
+See comments in ./statefulset.yaml about why this is headless
+*/}}
+
+{{- if .Values.receiver.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-receiver
+{{- if .Values.service.receiver.annotations }}
+  annotations:
+{{ toYaml .Values.service.receiver.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
