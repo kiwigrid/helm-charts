@@ -1,0 +1,25 @@
+{{- if .Values.compact.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prometheus-thanos.fullname" . }}-compact
+{{- if .Values.service.compact.annotations }}
+  annotations:
+{{ toYaml .Values.service.compact.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
+    helm.sh/chart: {{ include "prometheus-thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.compact.type }}
+  ports:
+    - port: {{ .Values.service.compact.http.port }}
+      targetPort: monitoring
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-compact
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

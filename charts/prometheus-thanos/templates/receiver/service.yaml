@@ -18,6 +18,11 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   clusterIP: None
+  ports:
+    - port: {{ .Values.service.receiver.http.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
     app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
     app.kubernetes.io/instance: {{ .Release.Name }}
