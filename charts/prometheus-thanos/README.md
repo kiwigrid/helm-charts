@@ -316,6 +316,13 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `service.bucketWebInterface.type` | Service type for the bucket web interface | `ClusterIP` |
 | `service.bucketWebInterface.http.port` | Service http port for the bucket web interface  | `9090` |
 | `service.bucketWebInterface.annotations` | Service annotations for the bucket web interface  | `{}` |
+| `service.compact.type` | Service type for the compactor | `ClusterIP` |
+| `service.compact.http.port` | Service http port for the compactor | `9090` |
+| `service.compact.annotations` | Service annotations for the compactor | `{}` |
+| `service.receiver.http.port` | Service http port for the receiver | `9090` |
+| `service.receiver.httpRemoteWrite.port` | Service http port for the receiver remote write endpoint | `9091` |
+| `service.receiver.grpc.port` | Service grpc port for the receiver | `10901` |
+| `service.receiver.annotations` | Service annotations for the receiver | `{}` |
 | `service.querier.type` | Service type for the querier | `ClusterIP` |
 | `service.querier.http.port` | Service http port for the querier  | `9090` |
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901` |

@@ -50,6 +50,11 @@ service:
     http:
       port: 9090
     annotations: {}
+  compact:
+    type: ClusterIP
+    http:
+      port: 9090
+    annotations: {}
 
 queryFrontend:
   enabled: true
