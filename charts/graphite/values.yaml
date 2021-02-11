@@ -5,6 +5,8 @@ image:
   tag: 1.1.7-6
   pullPolicy: IfNotPresent
 
+#pullSecret: some-deploy-secret
+
 service:
   type: ClusterIP
   port: 8080

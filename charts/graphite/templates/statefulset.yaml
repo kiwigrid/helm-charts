@@ -93,6 +93,10 @@ spec:
 {{- else }}
           emptyDir: {}
 {{- end }}
+{{- if .Values.pullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.pullSecret }}
+{{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
