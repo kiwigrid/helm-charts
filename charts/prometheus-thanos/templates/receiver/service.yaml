@@ -23,6 +23,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.receiver.grpc.port }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
   selector:
     app.kubernetes.io/name: {{ include "prometheus-thanos.name" . }}-receiver
     app.kubernetes.io/instance: {{ .Release.Name }}
