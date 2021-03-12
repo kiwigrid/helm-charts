@@ -5,7 +5,7 @@ image:
   tag: 1.1.7-6
   pullPolicy: IfNotPresent
 
-#pullSecret: some-deploy-secret
+imagePullSecrets: []
 
 service:
   type: ClusterIP

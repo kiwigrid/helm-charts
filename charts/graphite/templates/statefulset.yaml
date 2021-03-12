@@ -93,9 +93,9 @@ spec:
 {{- else }}
           emptyDir: {}
 {{- end }}
-{{- if .Values.pullSecret }}
+{{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.pullSecret }}
+{{- toYaml . | nindent 8 }}
 {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
