@@ -5,11 +5,11 @@ name: prometheus-thanos
 version: 4.8.2
 home: https://github.com/thanos-io/thanos
 sources:
-  - https://github.com/thanos-io/thanos
-  - https://github.com/kiwigrid/helm-charts/tree/master/charts/prometheus-thanos
+- https://github.com/thanos-io/thanos
+- https://github.com/kiwigrid/helm-charts/tree/master/charts/prometheus-thanos
 icon: https://raw.githubusercontent.com/thanos-io/thanos/master/docs/img/Thanos-logo_fullmedium.png
 maintainers:
-  - name: rpahli
-    email: rico.pahlisch@kiwigrid.com
-  - name: axdotl
-    email: axel.koehler@kiwigrid.com
+- name: rpahli
+  email: rico.pahlisch@kiwigrid.com
+- name: axdotl
+  email: axel.koehler@kiwigrid.com
