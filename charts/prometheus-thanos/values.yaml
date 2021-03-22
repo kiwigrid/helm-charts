@@ -102,20 +102,20 @@ queryFrontend:
     minReplicas: 1
     maxReplicas: 10
     metrics:
-    # List of MetricSpecs to decide whether to scale
-    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 80
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 80
+      # List of MetricSpecs to decide whether to scale
+      # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 80
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 80
 
 querier:
   enabled: true
@@ -163,20 +163,20 @@ querier:
     minReplicas: 1
     maxReplicas: 10
     metrics:
-    # List of MetricSpecs to decide whether to scale
-    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 80
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 80
+      # List of MetricSpecs to decide whether to scale
+      # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 80
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 80
 
 storeGateway:
   enabled: true
@@ -201,7 +201,7 @@ storeGateway:
       max_size: 500MB
   chunkPoolSize: 500MB
 
-  objStoreType: GCS  # WARNING: this is default to null in other sections
+  objStoreType: GCS # WARNING: this is default to null in other sections
   additionalFlags: {}
   objStoreConfig: {}
   ## GCS example
@@ -248,20 +248,20 @@ storeGateway:
     minReplicas: 1
     maxReplicas: 10
     metrics:
-    # List of MetricSpecs to decide whether to scale
-    # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 80
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 80
+      # List of MetricSpecs to decide whether to scale
+      # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#metricspec-v2beta2-autoscaling
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 80
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 80
 
 compact:
   enabled: true
@@ -315,7 +315,6 @@ compact:
     existingClaim: ""
     size: 10Gi
 
-
 ruler:
   enabled: true
   replicaCount: 1
@@ -332,6 +331,7 @@ ruler:
       tag: 0.1.1
       pullPolicy: IfNotPresent
   serviceAccount: {}
+  imagePullSecrets: []
   replicaLabel: replica
   logLevel: info
   ## Ruler configuration
@@ -412,7 +412,7 @@ receiver:
   tsdbRetention: 1d
   replicationFactor: 1
 
-  objStoreType: GCS  # WARNING: this is default to null in other sections
+  objStoreType: GCS # WARNING: this is default to null in other sections
   additionalFlags: {}
   objStoreConfig: {}
   ## GCS example
