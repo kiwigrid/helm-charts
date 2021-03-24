@@ -277,6 +277,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.image.repository` | Docker image repo for ruler | `quay.io/thanos/thanos` |
 | `ruler.image.tag` | Docker image tag for ruler | `v0.18.0` |
 | `ruler.image.pullPolicy` | Docker image pull policy for ruler | `IfNotPresent` |
+| `ruler.imagePullSecrets` | Docker image pull secrets for ruler | `[]` |
 | `ruler.serviceAccount.annotations` | Service account annotations | `nil` |
 | `ruler.livenessProbe.initialDelaySeconds` | Liveness probe initialDelaySeconds | `30` |
 | `ruler.livenessProbe.periodSeconds` | Liveness probe periodSeconds | `10` |
