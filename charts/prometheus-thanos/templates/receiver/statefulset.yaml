@@ -133,7 +133,9 @@ spec:
             readOnly: false
           - mountPath: /var/lib/thanos-receive
             name: hashring-config
-      
+          {{- with .Values.receiver.volumeMounts }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
       {{- with .Values.receiver.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
