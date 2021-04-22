@@ -160,9 +160,9 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.receiver.persistentVolume.existingClaim }}
         {{- end }}
-        - name: hashring-config 
+        - name: hashring-config
           configMap:
-            name: thanos-receive-hashring-config
+            name: {{ include "prometheus-thanos.fullname" . }}-receiver-hashring
       {{- if .Values.receiver.podNumericalPriorityEnabled }}
       priority: {{ .Values.receiver.podPriority }}
       {{- else if .Values.receiver.podPriorityClassName }}
