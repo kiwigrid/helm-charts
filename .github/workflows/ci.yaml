@@ -1,6 +1,6 @@
 name: ci
 
-on: 
+on:
   pull_request:
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Fetch history
         run: git fetch --prune --unshallow
       - name: Run chart-testing (lint)
-        uses: helm/chart-testing-action@master
+        uses: helm/chart-testing-action@main
         with:
           command: lint
           config: .github/ct.yaml
@@ -55,17 +55,17 @@ jobs:
       - name: Run kubeval
         env:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: .github/kubeval.sh 
+        run: .github/kubeval.sh
 
   install-chart:
     name: install-chart
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - lint-chart
       - kubeval-chart
     strategy:
       matrix:
-        k8s: 
+        k8s:
           - v1.16.15
           - v1.17.11
           - v1.18.6
@@ -81,7 +81,7 @@ jobs:
           config: .github/kind-config.yaml
           node_image: kindest/node:${{ matrix.k8s }}
       - name: Run chart-testing (install)
-        uses: helm/chart-testing-action@master
+        uses: helm/chart-testing-action@main
         with:
           command: install
           config: .github/ct.yaml
