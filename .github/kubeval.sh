@@ -3,6 +3,7 @@
 # use kubeval to validate helm generated kubernetes manifest
 #
 
+set -x
 set -o errexit
 set -o pipefail
 
@@ -10,7 +11,7 @@ CHART_DIRS="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref 
 HELM_VERSION="v3.1.2"
 KUBEVAL_VERSION="0.15.0"
 SCHEMA_LOCATION="https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/"
-
+exit
 # install helm
 curl --silent --show-error --fail --location --output get_helm.sh https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get
 chmod 700 get_helm.sh

@@ -3,6 +3,7 @@
 # deploy kiwigrid charts to kiwigrid.github.io
 #
 
+set -x
 set -o errexit
 set -o pipefail
 

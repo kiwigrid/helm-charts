@@ -3,6 +3,7 @@
 # lint bash scripts
 #
 
+set -x
 set -o errexit
 
 CONFIG_DIR=".github"
@@ -15,4 +16,3 @@ while read -r FILE; do
   echo lint "${FILE}"
   shellcheck -x "${FILE}"
 done < "${TMP_FILE}"
-
