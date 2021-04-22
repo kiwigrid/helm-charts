@@ -3,6 +3,7 @@
 # check for chart changes to speedup ci
 #
 
+set -x
 set -o errexit
 set -o pipefail
 
