@@ -23,9 +23,11 @@ spec:
     - name: graphite-plain
       port: 2003
       protocol: TCP
+      {{- if .Values.service.enableCarbonUdpPort }}
     - name: graphite-udp
       port: 2003
       protocol: UDP
+      {{- end }}
     - name: graphite-gui
       port: {{ .Values.service.port }}
       protocol: TCP

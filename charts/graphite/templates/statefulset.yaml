@@ -33,9 +33,11 @@ spec:
           containerPort: {{ .Values.service.port }}
         - name: graphite-plain
           containerPort: 2003
+          {{- if .Values.service.enableCarbonUdpPort }}
         - name: graphite-udp
           containerPort: 2003
           protocol: UDP
+          {{- end }}
         - name: graphite-pickle
           containerPort: 2004
         - name: aggregate-plain

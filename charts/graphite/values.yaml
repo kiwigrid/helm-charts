@@ -10,6 +10,7 @@ service:
   port: 8080
   annotations: {}
   labels: {}
+  enableCarbonUdpPort: false
 
 ingress:
   enabled: false
