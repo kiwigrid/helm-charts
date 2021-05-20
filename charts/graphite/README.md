@@ -43,6 +43,7 @@ The following table lists the configurable parameters of the Graphite chart and 
 | `service.port`                 | Service port of Graphite UI                  | `8080`                                 |
 | `service.annotations`          | Service annotations                          | `{}`                                   |
 | `service.labels`               | Service labels                               | `{}`                                   |
+| `service.enableCarbonUdpPort`  | Service Carbon UDP port enabled              | `true`                                 |
 | `persistence.enabled`          | Enable config persistence using PVC          | `true`                                 |
 | `persistence.storageClass`     | PVC Storage Class for config volume          | `nil`                                  |
 | `persistence.existingClaim`    | Name of an existing PVC to use for config    | `nil`                                  |
