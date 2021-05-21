@@ -66,7 +66,7 @@ queryFrontend:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -127,7 +127,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -184,7 +184,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -268,7 +268,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -322,7 +322,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
@@ -402,7 +402,7 @@ receiver:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -465,7 +465,7 @@ bucketWebInterface:
   httpServerPort: 10902
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.18.0
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
