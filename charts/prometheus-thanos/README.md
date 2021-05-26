@@ -145,7 +145,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.podPriorityClassName` | Name of the pod priority class to use. Either this or `podNumericalPriorityEnabled` | `""` |
 | `compact.resources` | Resources | `{}` |
 | `compact.retentionResolutionRaw` | Retention for raw buckets | `30d` |
-| `compact.retentionResolution5m` | Retention for 5m buckets | `120d` |
+| `compact.retentionResolution5m` | Retention for 5m buckets | `30d` |
 | `compact.retentionResolution1h` | Retention for 1h buckets | `10y` |
 | `compact.tolerations` | Tolerations | `[]` |
 | `compact.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
