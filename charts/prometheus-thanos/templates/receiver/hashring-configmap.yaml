@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: thanos-receive-hashring-config
+  name: {{ include "prometheus-thanos.fullname" . }}-receiver-hashring
 data:
   hashrings.json: |
     [

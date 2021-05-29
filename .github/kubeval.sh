@@ -3,6 +3,7 @@
 # use kubeval to validate helm generated kubernetes manifest
 #
 
+set -x
 set -o errexit
 set -o pipefail
 

@@ -35,6 +35,10 @@ spec:
         {{- end }}
     spec:
       serviceAccount: {{ include "prometheus-thanos.fullname" . }}-ruler
+    {{- with .Values.ruler.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
         - name: {{ .Chart.Name }}-ruler
           imagePullPolicy: {{ .Values.ruler.image.pullPolicy }}
