@@ -324,6 +324,7 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `service.receiver.httpRemoteWrite.port` | Service http port for the receiver remote write endpoint | `9091` |
 | `service.receiver.grpc.port` | Service grpc port for the receiver | `10901` |
 | `service.receiver.annotations` | Service annotations for the receiver | `{}` |
+| `service.receiver.isHeadless` | Controls whether the service above the receivers is headless  | `true` |
 | `service.querier.type` | Service type for the querier | `ClusterIP` |
 | `service.querier.http.port` | Service http port for the querier  | `9090` |
 | `service.querier.grpc.port` | Service grpc port for the querier  | `10901` |

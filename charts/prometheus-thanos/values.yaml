@@ -45,6 +45,7 @@ service:
     grpc:
       port: 10901
     annotations: {}
+    isHeadless: true
   bucketWebInterface:
     type: ClusterIP
     http:

@@ -1,9 +1,9 @@
 {{- /*
-Receivers must currently be behind a headless services since they form a hashring and communicate directly with each 
-other. This means that port mappings at the service level won't be respected, so unlike other components the port 
-overrides are defined here, rather than within the service.  In an attempt to keep some consistency (and perhaps future 
-proof for the case where it may some day be possible to map ports in headless services) the path for port values is of 
-the form '.Values.service.receiver.PORT_NAME.port'
+Receivers can typically be behind a headless services since they form a hashring and communicate directly with each 
+other. Having a headless service means that port mappings at the service level won't be respected, so unlike other 
+components the port overrides are defined here, rather than within the service.  In an attempt to keep some consistency 
+(and perhaps future proof for the case where it may some day be possible to map ports in headless services) the path for 
+port values is of the form '.Values.service.receiver.PORT_NAME.port'
 
 At this moment in time using the HPA to scale Receivers is not a good idea so no template has been provided.
 See https://youtu.be/5MJqdJq41Ms

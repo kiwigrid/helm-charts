@@ -1,5 +1,9 @@
 {{- /*
-See comments in ./statefulset.yaml about why this is headless
+See comments in ./statefulset.yaml about configuring this as a headless service.  
+
+N.B. Some systems  (e.g. old versions of Istio) do not play well with headless services 
+so it's possible to configure this to be a standard service, rather than a headless one.
+See `service.receiver.isHeadless`
 */}}
 
 {{- if .Values.receiver.enabled -}}
@@ -17,7 +21,9 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  {{- if .Values.service.receiver.isHeadless }}
   clusterIP: None
+  {{- end }}
   ports:
     - port: {{ .Values.service.receiver.http.port }}
       targetPort: http
