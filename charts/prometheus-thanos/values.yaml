@@ -70,6 +70,8 @@ queryFrontend:
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
+  cache:
+    enabled: false
   #  annotations: eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
   ## See https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
   ## for IAM Role for your Service Account usage
