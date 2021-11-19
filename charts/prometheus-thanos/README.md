@@ -195,6 +195,9 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `queryFrontend.autoscaling.maxReplicas` | Maximum number of replicas to scale to | `10` |
 | `queryFrontend.autoscaling.minReplicas` | Minimum number of replicas to scale to | `1` |
 | `queryFrontend.autoscaling.metrics` | Array of MetricSpecs that will decide whether to scale in or out | `target of 80% for both CPU and memory resources` |
+| `queryFrontend.cache.config` | Caching configuration | `nil` |
+| `queryFrontend.cache.enabled` | Controls whether caching should be used | `false` |
+| `queryFrontend.cache.type` | Type of caching [see](https://thanos.io/tip/components/query-frontend.md/#caching) | `nil` |
 | `queryFrontend.downstreamUrl` | The URL of the querier service | `the default URL of the querier service` |
 | `queryFrontend.image.repository` | Docker image repo for query-frontend | `quay.io/thanos/thanos` |
 | `queryFrontend.image.tag` | Docker image tag for query-frontend | `v0.20.2` |

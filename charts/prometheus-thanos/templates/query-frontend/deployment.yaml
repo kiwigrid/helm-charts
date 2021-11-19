@@ -54,6 +54,12 @@ spec:
           {{- range .Values.queryFrontend.orgIdHeaders }}
           - --query-frontend.org-id-header={{ . }}
           {{- end }}
+          {{- if .Values.queryFrontend.cache.enabled }}
+          - |
+            --query-range.response-cache-config="config":
+              {{- toYaml .Values.queryFrontend.cache.config | nindent 14 }}
+            "type": {{ .Values.queryFrontend.cache.type }}
+          {{- end }}
           {{- range $key, $value := .Values.queryFrontend.additionalFlags }}
           - "--{{ $key }}{{if $value }}={{ $value }}{{end}}"
           {{- end }}
