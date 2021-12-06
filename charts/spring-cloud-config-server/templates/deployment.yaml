@@ -21,10 +21,23 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.secrets.githubPrivateKey }}
+      volumes:
+        - name: {{ include "spring-cloud-config-server.fullname" . }}-githubprivatekey
+          secret:
+            secretName: {{ include "spring-cloud-config-server.fullname" . }}-githubprivatekey
+            defaultMode: 0600
+    {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.secrets.githubPrivateKey }}
+          volumeMounts:
+            - name: {{ include "spring-cloud-config-server.fullname" . }}-githubprivatekey
+              readOnly: true
+              mountPath: "/root/.ssh/"
+          {{- end }}
           ports:
             - name: http
               containerPort: 8888

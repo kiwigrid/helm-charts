@@ -60,3 +60,7 @@ config:
 secrets:
   gitUsername: ""
   gitPassword: ""
+# Github deploy key auth method. Base64 coded known_hosts and private key.
+# githubKnownHosts: ""
+# githubPrivateKey: ""
+
