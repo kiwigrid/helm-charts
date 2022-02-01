@@ -51,7 +51,7 @@ The following table lists the configurable parameters of the Graphite chart and 
 | `resources`                    | Resource limits for Graphite pod             | `{}`                                   |
 | `ingress.enabled`              | Ingress enabled                              | `false`                                |
 | `ingress.annotations`          | Ingress annotations                          | `{}`                                   |
-| `ingress.path`                 | Ingress path                                 | `/`                                    |
+| `ingress.className`            | Ingress class                                | `nil`                               |
 | `ingress.hosts`                | Ingress hosts                                | `[]`                                   |
 | `ingress.tls`                  | Ingress TLS                                  | `[]`                                   |
 | `resources`                    | Resources                                    | `{}`                                   |
