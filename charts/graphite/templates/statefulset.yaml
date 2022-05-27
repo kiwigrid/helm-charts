@@ -21,6 +21,9 @@ spec:
         app.kubernetes.io/name: {{ include "graphite.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+{{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ include "graphite.serviceAccount.name" . }}
+{{- end }}
 {{- if .Values.initContainers }}
       initContainers:
 {{ toYaml .Values.initContainers | indent 8 }}

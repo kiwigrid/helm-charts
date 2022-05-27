@@ -30,3 +30,10 @@ Create chart name and version as used by the chart label.
 {{- define "graphite.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Define the service Account name
+*/}}
+{{- define "graphite.serviceAccount.name" -}}
+{{ default "graphite" .Values.serviceAccount.accountName }}
+{{- end -}}

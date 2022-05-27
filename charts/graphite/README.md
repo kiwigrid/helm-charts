@@ -64,7 +64,14 @@ The following table lists the configurable parameters of the Graphite chart and 
 | `configMaps`                   | Graphite Config files                        | see values.yaml                        |
 | `statsdConfigMaps`             | StatsD Config files                          | see values.yaml                        |
 | `statsd.interface`             | StatsD server interface, `TCP` or `UDP`      | `UDP`                                  |
-
+| `configMaps`                   | Graphite Config files                        | see values.yaml                        |
+| `statsdConfigMaps`             | StatsD Config files                          | see values.yaml                        |
+| `statsd.interface`             | StatsD server interface, `TCP` or `UDP`      | `UDP`                                  |
+| `serviceAccount.accountName`   | Define the service account name              | `graphite`                             |
+| `serviceAccount.enabled`| Enable service account (Note: Service Account will only be automatically created if `serviceAccount.create` is not set.  |`false`|
+| `serviceAccount.create`| create service account with the template |`false`|
+| `rbac.create`| Enable RBAC rules |`false`|
+| `psp.create`| Whether to create a PodSecurityPolicy. WARNING: PodSecurityPolicy is deprecated in Kubernetes v1.21 or later, unavailable in v1. |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 

@@ -64,6 +64,14 @@ affinity: {}
 
 timeZone: Etc/UTC
 
+serviceAccount:
+  accountName: "graphite"
+  enabled: false
+  create: false
+
+rbac:
+  create: false
+
 initContainers: []
 #  - name: init-sysctl
 #    image: busybox
