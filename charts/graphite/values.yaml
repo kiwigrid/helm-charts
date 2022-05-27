@@ -64,6 +64,13 @@ affinity: {}
 
 timeZone: Etc/UTC
 
+serviceAccount:
+  enabled: false
+  create: false
+
+rbac:
+  create: false
+
 initContainers: []
 #  - name: init-sysctl
 #    image: busybox
