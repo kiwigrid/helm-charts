@@ -20,6 +20,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "graphite.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        container.audit.kubernetes.io/{{ .Chart.Name }}.allow-run-as-root: ""
+        container.audit.kubernetes.io/{{ .Chart.Name }}.allow-privilege-escalation: ""
+        container.audit.kubernetes.io/{{ .Chart.Name }}.allow-privileged: ""
+        container.audit.kubernetes.io/{{ .Chart.Name }}.allow-read-only-root-filesystem-false: "" 
     spec:
 {{- if .Values.initContainers }}
       initContainers:
