@@ -3,6 +3,10 @@ name: ci
 on:
   pull_request:
 
+env:
+  helm-version: "v3.9.0"
+  kubeval-version: "v0.16.1"
+
 jobs:
   lint-bash-scripts:
     runs-on: ubuntu-latest
@@ -39,22 +43,28 @@ jobs:
           config: .github/ct.yaml
 
   kubeval-chart:
-    runs-on: ubuntu-latest
-    needs: lint-chart
+    runs-on: ubuntu-20.04
+    needs:
+      - lint-chart
     strategy:
       matrix:
         k8s:
-          - v1.16.4
-          - v1.17.4
-          - v1.18.1
+          - v1.21.10
+          - v1.22.7
+          - v1.23.5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Fetch history
-        run: git fetch --prune --unshallow
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Helm
+        uses: azure/setup-helm@v3.1
+        with:
+          version: "${{ env.helm-version }}"
       - name: Run kubeval
         env:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
+          KUBEVAL_VERSION: "${{ env.kubeval-version }}"
         run: .github/kubeval.sh
 
   install-chart:
@@ -66,22 +76,35 @@ jobs:
     strategy:
       matrix:
         k8s:
-          - v1.16.15
-          - v1.17.11
-          - v1.18.6
-          - v1.19.1
+          - v1.21.10
+          - v1.22.7
+          - v1.23.5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Fetch history
-        run: git fetch --prune --unshallow
-      - name: Create kind ${{ matrix.k8s }} cluster
-        uses: helm/kind-action@main
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Helm
+        uses: azure/setup-helm@v3.1
+        with:
+          version: "${{ env.helm-version }}"
+      - uses: actions/setup-python@v4.1.0
+        with:
+          python-version: 3.7
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.2.1
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config .github/ct.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.3.0
+        if: steps.list-changed.outputs.changed == 'true'
         with:
           config: .github/kind-config.yaml
           node_image: kindest/node:${{ matrix.k8s }}
       - name: Run chart-testing (install)
-        uses: helm/chart-testing-action@main
-        with:
-          command: install
-          config: .github/ct.yaml
+        run: ct install --config .github/ct.yaml
