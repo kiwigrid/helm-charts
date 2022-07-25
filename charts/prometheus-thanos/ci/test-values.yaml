@@ -165,3 +165,12 @@ ruler:
     secret_key: TESTDEMO
     endpoint: test-minio:9000
     insecure: true
+
+receiver:
+  objStoreType: S3
+  objStoreConfig:
+    bucket: demo-bucket
+    access_key: TESTKEY
+    secret_key: TESTDEMO
+    endpoint: test-minio:9000
+    insecure: true
