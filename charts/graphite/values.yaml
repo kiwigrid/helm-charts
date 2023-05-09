@@ -7,6 +7,8 @@ image:
 
 service:
   type: ClusterIP
+  # In case of service type LoadBalancer, you can specify reserved static IP
+  # loadBalancerIP: 10.11.12.13
   port: 8080
   annotations: {}
   labels: {}
