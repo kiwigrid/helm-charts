@@ -66,7 +66,7 @@ queryFrontend:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -85,6 +85,17 @@ queryFrontend:
   nodeSelector: {}
   podNumericalPriorityEnabled: false
   podPriority: 0
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   podPriorityClassName: ""
   tolerations: []
   affinity: {}
@@ -129,7 +140,7 @@ querier:
       maxUnavailable: 0
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -147,6 +158,17 @@ querier:
   podNumericalPriorityEnabled: false
   podPriority: 0
   podPriorityClassName: ""
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   tolerations: []
   affinity: {}
   livenessProbe:
@@ -186,7 +208,7 @@ storeGateway:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -219,7 +241,17 @@ storeGateway:
   podNumericalPriorityEnabled: false
   podPriority: 0
   podPriorityClassName: ""
-
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -270,7 +302,7 @@ compact:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -298,7 +330,17 @@ compact:
   podNumericalPriorityEnabled: false
   podPriority: 0
   podPriorityClassName: ""
-
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   extraEnv: []
   # - name: GOOGLE_APPLICATION_CREDENTIALS
   #   value: /etc/gcp/secrets/credentials.json
@@ -324,7 +366,7 @@ ruler:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   sidecar:
     enabled: false
@@ -397,6 +439,17 @@ ruler:
   podNumericalPriorityEnabled: true
   podPriority: 0
   podPriorityClassName: ""
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
 
 receiver:
   enabled: true
@@ -404,7 +457,7 @@ receiver:
   updateStrategy: RollingUpdate
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -431,7 +484,17 @@ receiver:
   podNumericalPriorityEnabled: false
   podPriority: 0
   podPriorityClassName: ""
-
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   resources: {}
   nodeSelector: {}
   tolerations: []
@@ -467,7 +530,7 @@ bucketWebInterface:
   httpServerPort: 10902
   image:
     repository: quay.io/thanos/thanos
-    tag: v0.27.0
+    tag: v0.32.4
     pullPolicy: IfNotPresent
   serviceAccount:
     create: false
@@ -488,6 +551,17 @@ bucketWebInterface:
   podNumericalPriorityEnabled: false
   podPriority: 0
   podPriorityClassName: ""
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
+  containerSecurityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
   replicaCount: 1
   resources: {}
   tolerations: []

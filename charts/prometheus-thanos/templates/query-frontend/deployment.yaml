@@ -91,6 +91,8 @@ spec:
             timeoutSeconds: {{ .Values.queryFrontend.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.queryFrontend.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.queryFrontend.containerSecurityContext | nindent 12 }}
           {{- with .Values.queryFrontend.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 14 }}
@@ -105,6 +107,10 @@ spec:
     {{- end }}
     {{- with .Values.queryFrontend.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.queryFrontend.podSecurityContext }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.queryFrontend.volumes }}

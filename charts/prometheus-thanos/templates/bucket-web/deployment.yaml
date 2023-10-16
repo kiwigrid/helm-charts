@@ -67,6 +67,8 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.bucketWebInterface.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.bucketWebInterface.containerSecurityContext | nindent 12 }}
           {{- with .Values.bucketWebInterface.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 14 }}
@@ -81,6 +83,10 @@ spec:
     {{- end }}
     {{- with .Values.bucketWebInterface.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.bucketWebInterface.podSecurityContext }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.bucketWebInterface.volumes }}

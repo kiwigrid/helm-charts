@@ -90,7 +90,6 @@ spec:
             - name: http-rw
               containerPort: {{ .Values.service.receiver.httpRemoteWrite.port }}
               protocol: TCP
-          
           env:
             - name: K8S_NAMESPACE
               valueFrom:
@@ -102,11 +101,9 @@ spec:
                   fieldPath: metadata.name
             - name: K8S_SERVICE
               value: {{ include "prometheus-thanos.fullname" . }}-receiver
-
             {{- if .Values.receiver.extraEnv }}
             {{- toYaml .Values.receiver.extraEnv | nindent 12 }}
             {{- end }}
-
           livenessProbe:
             httpGet:
               path: /-/healthy
@@ -123,10 +120,10 @@ spec:
             periodSeconds: {{ .Values.receiver.readinessProbe.periodSeconds }}
             successThreshold: {{ .Values.receiver.readinessProbe.successThreshold }}
             timeoutSeconds: {{ .Values.receiver.readinessProbe.timeoutSeconds }}
-          
           resources:
             {{- toYaml .Values.receiver.resources | nindent 12 }}
-
+          securityContext:
+            {{- toYaml .Values.receiver.containerSecurityContext | nindent 12 }}
           volumeMounts:
           - mountPath: /data
             name: storage-volume
@@ -146,6 +143,10 @@ spec:
       {{- end }}
       {{- with .Values.receiver.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.receiver.podSecurityContext }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
