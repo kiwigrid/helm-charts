@@ -24,6 +24,10 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+statefulset:
+  labels: {}
+  annotations: {}
+
 env: {}
 # - name: example-name
 #   value: example-value

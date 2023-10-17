@@ -7,6 +7,13 @@ metadata:
     helm.sh/chart: {{ include "graphite.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.statefulset.labels }}
+{{ toYaml .Values.statefulset.labels | indent 4 }}
+{{- end }}
+{{- with .Values.statefulset.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   updateStrategy:
     type: RollingUpdate
