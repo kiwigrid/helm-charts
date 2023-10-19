@@ -54,6 +54,8 @@ The following table lists the configurable parameters of the Graphite chart and 
 | `ingress.path`                 | Ingress path                                 | `/`                                    |
 | `ingress.hosts`                | Ingress hosts                                | `[]`                                   |
 | `ingress.tls`                  | Ingress TLS                                  | `[]`                                   |
+| `statefulset.annotations`      | Statefulset annotations                      | `{}`                                   |
+| `statefulset.labels`           | Statefulset labels                           | `{}`                                   |
 | `resources`                    | Resources                                    | `{}`                                   |
 | `nodeSelector`                 | NodeSelector                                 | `{}`                                   |
 | `tolerations`                  | Tolerations                                  | `[]`                                   |
