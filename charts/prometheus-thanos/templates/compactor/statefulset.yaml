@@ -73,6 +73,8 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.compact.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.compact.containerSecurityContext | nindent 12 }}
           volumeMounts:
             - mountPath: /data
               name: storage-volume
@@ -89,6 +91,10 @@ spec:
       {{- end }}
       {{- with .Values.compact.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.compact.podSecurityContext }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:

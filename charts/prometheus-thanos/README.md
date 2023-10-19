@@ -114,6 +114,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `bucketWebInterface.replicaCount` | Replica count for bucket web interface | `1` |
 | `bucketWebInterface.resources` | Resources | `{}` |
 | `bucketWebInterface.tolerations` | Tolerations | `[]` |
+| `bucketWebInterface.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `bucketWebInterface.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `bucketWebInterface.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `bucketWebInterface.volumeMounts` | Additional volume mounts | `nil` |
 | `bucketWebInterface.volumes` |Additional volumes | `nil` |
@@ -148,6 +150,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `compact.retentionResolution5m` | Retention for 5m buckets | `30d` |
 | `compact.retentionResolution1h` | Retention for 1h buckets | `10y` |
 | `compact.tolerations` | Tolerations | `[]` |
+| `compact.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `compact.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `compact.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `compact.volumeMounts` | Additional volume mounts | `nil` |
 | `compact.volumes` | Additional volumes | `nil` |
@@ -183,6 +187,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `querier.resources` | Resources | `{}` |
 | `querier.stores` | List of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `querier.tolerations` | Tolerations | `[]` |
+| `querier.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `querier.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `querier.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `querier.volumeMounts` | Additional volume mounts | `nil` |
 | `querier.volumes` | Additional volumes | `nil` |
@@ -223,6 +229,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `queryFrontend.resources` | Resources | `{}` |
 | `queryFrontend.stores` | List of stores [see](https://github.com/thanos-io/thanos/blob/master/docs/components/query.md) | `[]` |
 | `queryFrontend.tolerations` | Tolerations | `[]` |
+| `queryFrontend.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `queryFrontend.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `queryFrontend.updateStrategy` | Deployment update strategy | `type: RollingUpdate` |
 | `queryFrontend.volumeMounts` | Additional volume mounts | `nil` |
 | `queryFrontend.volumes` | Additional volumes | `nil` |
@@ -263,6 +271,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `receiver.serviceAccount.create` | Create service account | `true` |
 | `receiver.serviceAccount.annotations` | Service account annotations | `nil` |
 | `receiver.tolerations` | Tolerations | `[]` |
+| `receiver.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `receiver.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `receiver.tsdbRetention` | The period to retain TSDB blocks in the receiver | `1d` |
 | `receiver.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `receiver.volumeMounts` | Additional volume mounts | `nil` |
@@ -314,6 +324,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `ruler.sidecar.enabled` | Enable configmap watcher sidecar | `false` |
 | `ruler.sidecar.watchLabel` | Label for configmaps to watch | `thanos_alert_config` |
 | `ruler.tolerations` | Tolerations | `[]` |
+| `ruler.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `ruler.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `ruler.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `ruler.volumeMounts` | Additional volume mounts | `nil` |
 | `ruler.volumes` | Additional volumes | `nil` |
@@ -382,6 +394,8 @@ The following table lists the configurable parameters of the prometheus-thanos c
 | `storeGateway.serviceAccount.create` | Create service account | `true` |
 | `storeGateway.serviceAccount.annotations` | Service account annotations | `nil` |
 | `storeGateway.tolerations` | Tolerations | `[]` |
+| `storeGateway.podSecurityContext` | [Pod Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) | <br> `runAsUser: 1001` <br> `runAsGroup: 1001` <br> `fsGroup: 1001` |
+| `storeGateway.containerSecurityContext` | [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) | <br> `runAsNonRoot: true` <br> `allowPrivilegeEscalation: false` <br> `capabilities:` <br> `drop:` <br> `- ALL` <br> `privileged: false` |
 | `storeGateway.updateStrategy` | StatefulSet update strategy | `type: RollingUpdate` |
 | `storeGateway.volumeMounts` | Additional volume mounts | `nil` |
 | `storeGateway.volumes` |Additional volumes | `nil` |

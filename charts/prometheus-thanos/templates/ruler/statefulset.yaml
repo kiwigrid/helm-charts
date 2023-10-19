@@ -106,6 +106,8 @@ spec:
             timeoutSeconds: {{ .Values.ruler.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.ruler.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.ruler.containerSecurityContext | nindent 12 }}
           volumeMounts:
           - mountPath: /etc/thanos-ruler
             name: config
@@ -155,6 +157,10 @@ spec:
       {{- with .Values.ruler.tolerations }}
       tolerations:
       {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- with .Values.ruler.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
       - name: external-config-volume

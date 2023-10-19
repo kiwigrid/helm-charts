@@ -95,6 +95,8 @@ spec:
             timeoutSeconds: {{ .Values.storeGateway.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.storeGateway.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.storeGateway.containerSecurityContext | nindent 12 }}
           volumeMounts:
             - mountPath: /data
               name: storage-volume
@@ -111,6 +113,10 @@ spec:
       {{- end }}
       {{- with .Values.storeGateway.tolerations }}
       tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.storeGateway.podSecurityContext }}
+      securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
