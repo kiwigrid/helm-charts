@@ -82,6 +82,8 @@ spec:
             mountPath: /opt/statsd/config/udp.js
           - name: {{ template "graphite.fullname" . }}-pvc
             mountPath: /opt/graphite/storage/
+        securityContext:
+{{ toYaml .Values.securityContext | indent 10 }}
       volumes:
         - name: {{ template "graphite.fullname" . }}-configmap
           configMap:
